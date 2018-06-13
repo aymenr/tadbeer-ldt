@@ -5,34 +5,17 @@ import config from '../config';
 export default class extends Phaser.State {
   init() {
     this.stage.backgroundColor = '#EDEEC9'
-    this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
   }
 
   preload() {
-    if (config.webfonts.length) {
-      WebFont.load({
-        google: {
-          families: config.webfonts
-        },
-        active: this.fontsLoaded
-      })
-    }
-
-    let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
-    text.anchor.setTo(0.5, 0.5)
-
-    this.load.image('loaderBg', './assets/images/loader-bg.png')
-    this.load.image('loaderBar', './assets/images/loader-bar.png')
+    FBInstant.setLoadingProgress(50);
+    //load any assets here 
+    this.load.image('mushroom', 'assets/images/mushroom2.png')
+    FBInstant.setLoadingProgress(100);
   }
 
-  render() {
-    if ((config.webfonts.length && this.fontsReady) || !config.webfonts.length) {
-      this.state.start('Splash')
-    }
-  }
-
-  fontsLoaded() {
-    this.fontsReady = true
+  create() {
+    FBInstant.startGameAsync()
+      .then(() => this.state.start('Game'))
   }
 }
