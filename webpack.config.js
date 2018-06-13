@@ -9,10 +9,14 @@ var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
 var pixi = path.join(phaserModule, 'build/custom/pixi.js')
 var p2 = path.join(phaserModule, 'build/custom/p2.js')
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+var config = require('./config')
 
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
 })
+
+const host = process.env.IP || 'localhost'
+const port = process.env.PORT || 3000
 
 module.exports = {
   entry: {
@@ -53,16 +57,19 @@ module.exports = {
     new HtmlWebpackExternalsPlugin({
       externals: [{
         module: 'fbinstant',
-        entry: 'https://connect.facebook.net/en_US/fbinstant.6.0.js',
+        entry: 'https://connect.facebook.net/en_US/fbinstant.6.2.js',
         global: 'FBInstant'
       }]
     }),
     new BrowserSyncPlugin({
-      host: process.env.IP || 'localhost',
-      port: process.env.PORT || 3000,
+      host: host,
+      port: port,
       server: {
         baseDir: ['./', './build']
-      }
+      },
+      https: true,
+      open: 'external',
+      host: 'www.facebook.com/embed/instantgames/' + config.FB_APP_ID + '/player?game_url=https://' + host
     })
   ],
   module: {
