@@ -7,6 +7,10 @@ import GameState from './states/Game'
 
 import config from './config'
 
+if (__DEV__) {
+  //include mock API
+  require("expose-loader?FBInstant!./services/MockFb")
+}
 class Game extends Phaser.Game {
   constructor () {
     const docElement = document.documentElement
