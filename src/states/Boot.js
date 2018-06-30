@@ -7,7 +7,9 @@ export default class extends Phaser.State {
 
   preload() {
     FBInstant.setLoadingProgress(50);
-    //load any assets here 
+    //load any assets here
+    this.load.image('dude', 'assets/images/phaser-dude.png')
+
     FBInstant.setLoadingProgress(100);
   }
 
