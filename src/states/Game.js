@@ -26,26 +26,14 @@ export default class extends Phaser.State {
   preload() { }
 
   create() {
-    let container = document.createElement('div');
-    container.id = 'game_container';
-    document.body.appendChild(container);
-    container.appendChild(this.editor.container);
-    container.appendChild(this.getButton());
-    container.appendChild(this.getAnswerContainer())
-    container.style = 'position:absolute; top:0; left: 0; width: 100%';
-   	
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    let board = document.getElementById('content')
-   	container.appendChild(board)
-
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    var grid = new Grid(6, 6, 100)
+    var grid = new Grid(6, 6, 100, this.game)
     grid.show()
 
     //Initialize sprite
-    var player = game.add.sprite(0, 0, 'dude')
-    game.physics.arcade.enable(player);
+    var player = this.game.add.sprite(0, 0, 'dude')
+    this.game.physics.arcade.enable(player);
     player.anchor.setTo(0.5, 0.5);
     player.body.collideWorldBounds = true;
     player.body.bounce.setTo(0, 0);
@@ -55,25 +43,9 @@ export default class extends Phaser.State {
 
    	//Move a certain number of paces along the grid
     grid.moveObject(3,2,player)
-
-
-
   }
 
-  getButton() {
-    let button = document.createElement('button');
-    button.id = 'run_code';
-    button.innerHTML = "Run";
-    button.onclick = this.buttonClick;
-    return button;
-  }
-
-  getAnswerContainer() {
-    let div = document.createElement('div');
-    div.id = 'answer'
-    return div
-  }
-
+  /*
   buttonClick = () => {
     let code = this.editor.getValue()
     let temp = new NodeLoader('./')
@@ -86,4 +58,5 @@ export default class extends Phaser.State {
             document.querySelector('#answer').innerHTML += data.answer
     })
   }
+  */
 }
