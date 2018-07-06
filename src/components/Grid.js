@@ -1,5 +1,5 @@
 export default class Grid extends Phaser.Group {
-    constructor(cols = 3, rows = 3, cw = 100) {
+    constructor(cols = 3, rows = 3, cw = 100, game) {
         super(game);
         //promote to a class variable
         this.cellWidth = cw
@@ -47,7 +47,7 @@ export default class Grid extends Phaser.Group {
     //mostly for planning and debugging this will
     //create a visual representation of the grid
     show() {
-        this.graphics = game.add.graphics();
+        this.graphics = this.game.add.graphics();
         this.graphics.lineStyle(1, 0x000000, 1);
 
         for (var i = 0; i <= this.rows*this.cellWidth; i += this.cellWidth) {
