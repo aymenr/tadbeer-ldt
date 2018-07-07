@@ -9,13 +9,21 @@ class Keyboard extends Component {
   }
 
   render = () => {
-    return this.props.data.map((button,ind) => getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb }))
+    return (
+      <div>
+        <button onClick={this.props.runCodeCb} >Run</button>
+        {
+        this.props.data.map((button,ind) => getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb }))
+        }
+      </div>
+      )
   }
 }
 
 Keyboard.propTypes = {
   buttonCb: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  runCodeCb: PropTypes.func.isRequired
 }
 
 export default Keyboard;

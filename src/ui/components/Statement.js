@@ -6,8 +6,19 @@ export default class Statement extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
   setFocus = (focus) => {
-    this.setState({ focus })
+    if (this._isMounted)
+      return this.setState({ focus })
+    else
+      return new Promise(resolve => resolve())
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

@@ -8,6 +8,9 @@ const makeButtons = () => {
     type: 'func_call_button',
     name: 'uper',
     numArgs: 1
+  },
+    {
+    type: 'number_button' 
   }]
   return buttons;
 }
