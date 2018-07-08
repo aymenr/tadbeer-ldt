@@ -15,24 +15,20 @@ const makeButtons = () => {
   return buttons;
 }
 
-const makeEditorData = () => {
-  return [{
-    type: 'blank'
-  }]
-}
 
-export function connect(parentId, width, height) {
+export function connect(parentId, buttons, codeCb, editorDefault) {
 
     const parentElem = document.getElementById(parentId)
+    const width = window.innerWidth * window.devicePixelRatio
+    const height = window.innerHeight * window.devicePixelRatio
+ 
     parentElem.style.width=width + 'px'
     parentElem.style.height=height + 'px'
 
     const guiContainer = document.createElement('div')
     parentElem.appendChild(guiContainer)
-    let buttons = makeButtons()
-    let editorData = makeEditorData()
     render(
-        <UI buttons={buttons} initialEditorData={editorData} />,
+        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} />,
         guiContainer
     );
 }

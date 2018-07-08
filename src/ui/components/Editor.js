@@ -22,7 +22,7 @@ export default class Editor extends Component {
   initializeBlank = () => {
     //add default blank at end
     return {
-      name: 'blank'
+      type: 'blank'
     }
   }
 
@@ -40,21 +40,21 @@ export default class Editor extends Component {
       return
 
     this.state.focused.updateData(data);
-    console.log(this.getCode())
   }
 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
-    let newStatements = update(this.state.statements, {[key]: { $set: data }})
-    //add blank too
-    let newState = update(newStatements, {$push: [this.initializeBlank()]})
+    let newState = update(this.state.statements, {[key]: { $set: data }})
+    if (key == newState.length - 1)
+      newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too
     this.setState({statements: newState })
   }
 
   //hacky way right now. Can be done in a much better way
   getCode = () => {
     let html = this.container.innerHTML
-    return html.replace(/<[^>]*>/g, "");
+    html = html.replace(/<[^>]*>/g, "");
+    return html.replace("__", ""); //remove blanks
   }
 
   render() {

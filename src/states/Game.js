@@ -9,38 +9,15 @@ import NodeLoader from '@sweet-js/core/dist/node-loader'
 import Urdu from '../services/Urdu.sjs'
 import Grid from '../components/IsoGrid'
 
-export default class extends Phaser.State {
+export default class Game extends Phaser.State {
   init() { 
-    this.container = document.querySelector('#content');
-    //this.compiler = new Compile()
   }
 
   preload() { }
 
   create() {
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    var grid = new Grid(6, 6, 'grass')
-
-    grid.modify(4,3,'water')
-    grid.modify(4,4,'water')
-    for (var i=0; i<6; i++){
-      grid.modify(1,i,'road1')
-    }
-
-    grid.display()
-
-    // //Initialize sprite
-    var rickshaw = game.add.sprite(0, 0, 'rickshaw1')
-
-    var wall = game.add.sprite(0, 0, 'wall2')
-
-    //Place at particular coordinates
-   	grid.placeObject(1,0,rickshaw)
-    grid.placeObject(4,5, wall)
-   	// //Move a certain number of paces along the grid
-    grid.moveObject(1,4,rickshaw)
-
+    //do any preliminary work here
+    this.state.start('Level1')
   }
 }
 

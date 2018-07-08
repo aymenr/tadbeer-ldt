@@ -73,6 +73,11 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        loader: 'raw-loader',
+        include: path.join(__dirname, './src/wrappers')
+      },
       { test: /\.sjs$/,
         loader: 'raw-loader',
       },
@@ -82,7 +87,8 @@ module.exports = {
         include: path.join(__dirname, './src'),
 		query : {
 			plugins: ['transform-class-properties']
-		}
+        },
+        exclude: /wrappers/
 	  },
       { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
       { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },

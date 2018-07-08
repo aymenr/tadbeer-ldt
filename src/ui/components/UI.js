@@ -20,18 +20,15 @@ export default class UI extends Component {
   getCode = () => this.editor.getCode()
 
   runCode = () => {
-    let urdu = compile(Urdu + " " + this.getCode())
-    Eval(urdu.code, (err,data) => {
-      console.log(err)
-      console.log(data)
-    })
+    let code = this.getCode()
+    this.props.runCode(code)
   }
 
   render = () => {
     return (
       <div>
         <Editor ref={inst => this.editor = inst } initialData={this.props.initialEditorData} />
-        <Keyboard data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.props.runCode}/>
+        <Keyboard data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
       </div>
     )
   }

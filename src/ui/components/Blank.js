@@ -15,9 +15,9 @@ export default class Blank extends Statement {
       focusCallback
     } = this.props;
 
-    this.setState({
+    this.state = {
       focused: initFocused
-    })
+    }
 
     if (initFocused)
       focusCallback(this)

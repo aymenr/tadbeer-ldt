@@ -151,20 +151,22 @@ const workerCode = function () {
             });
 
             var jsonStringify = JSON.stringify,
-                result,
+                result = '',
+                error = '',
 
                 originalSetTimeout = setTimeout,
                 timeoutCounter = 0;
 
-            var sendResult = function (result) {
+            var sendResult = function (result, error) {
                 global.postMessage({
                     answer: jsonStringify(result, reviver),
-                    log: jsonStringify(console._items, reviver).slice(1, -1)
+                    log: jsonStringify(console._items, reviver).slice(1, -1),
+                    error: error
                 });
             };
-            var done = function (result) {
+            var done = function (result, error) {
                 if (timeoutCounter < 1) {
-                    sendResult(result);
+                    sendResult(result, error);
                 }
             };
 
@@ -222,7 +224,8 @@ const workerCode = function () {
                 result = exec(event.data.code, event.data.arg);
             }
             catch (e) {
-                result = e.toString();
+                result = ''
+                error = e.toString();
             }
 
             /* handle promises appropriately*/
@@ -230,7 +233,7 @@ const workerCode = function () {
                 result.then(done).catch(done);
             }
             else {
-                done(result);
+                done(result, error);
             }
         };
     })();

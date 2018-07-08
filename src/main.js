@@ -4,6 +4,7 @@ import Phaser from 'phaser'
 
 import BootState from './states/Boot'
 import GameState from './states/Game'
+import Level1 from './states/Level1'
 
 import { connect } from './ui/main'
 
@@ -24,10 +25,11 @@ class Game extends Phaser.Game {
 
     this.state.add('Boot', BootState, false)
     this.state.add('Game', GameState, false)
+    this.state.add('Level1', Level1, false)
 
     this.state.start('Boot')
 
-    connect(containerId, width, height);
+    //connect(containerId, width, height);
   }
 }
 
