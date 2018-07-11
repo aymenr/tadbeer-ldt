@@ -14,7 +14,8 @@ var modeJS = path.join(__dirname, '/node_modules/ace-builds/src-noconflict/mode-
 var sweetJS = path.join(__dirname, '/node_modules/@sweet-js/core/dist/sweet.js')
 
 var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
+    __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
+    __LOCAL_DEV__: true
 })
 
 const host = process.env.IP || 'localhost'

@@ -14,7 +14,7 @@ export default class Level1 extends Phaser.State {
 
   create() {
 
-    var grid = new Grid(6, 6)
+    this.grid = new Grid(6, 6, this.game)
 
     var gameBoard = [
         ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
@@ -27,14 +27,11 @@ export default class Level1 extends Phaser.State {
 
     //grid.display()
 
-    grid.render(gameBoard)
+    this.grid.render(gameBoard)
 
     // //Initialize sprite
-    var rickshaw = game.add.sprite(0, 0, 'rickshaw1')
-   	grid.placeObject(2,0,rickshaw)
-
-    //Move a certain number of paces along the grid, relative to current position
-    grid.moveObject(0,5,rickshaw)
+    this.rickshaw = this.game.add.sprite(0, 0, 'rickshaw1')
+   	this.grid.placeObject(2,0,this.rickshaw)
 
     connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
   }

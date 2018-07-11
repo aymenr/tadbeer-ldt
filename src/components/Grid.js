@@ -1,5 +1,5 @@
 export default class Grid extends Phaser.Group {
-    constructor(cols, rows) {
+    constructor(cols, rows, game) {
         super(game);
 
         //initialize 2D arrays
@@ -21,11 +21,11 @@ export default class Grid extends Phaser.Group {
         this.cols = cols
 
         //Scale for different screen sizes
-        this.scaleRatio = window.innerWidth/(cols*game.cache.getImage('grass').width*1.2)
+        this.scaleRatio = window.innerWidth/(cols* this.game.cache.getImage('grass').width*1.2)
 
-        this.tileHeight = game.cache.getImage('grass').height*0.76*this.scaleRatio
-        this.tileWidth = game.cache.getImage('grass').width*this.scaleRatio
-        this.offset = game.cache.getImage('grass').height * this.rows * 0.5 *this.scaleRatio
+        this.tileHeight = this.game.cache.getImage('grass').height*0.76*this.scaleRatio
+        this.tileWidth = this.game.cache.getImage('grass').width*this.scaleRatio
+        this.offset = this.game.cache.getImage('grass').height * this.rows * 0.5 *this.scaleRatio
 
         for (var i=0; i < rows; i++){
           for (var j=this.cols-1; j>=0; j--){
@@ -50,7 +50,7 @@ export default class Grid extends Phaser.Group {
             x = (j * this.tileWidth / 2) + (i * this.tileWidth / 2)
             y = (i * this.tileHeight / 2) - (j * this.tileHeight / 2) + this.offset
             
-            tile = game.add.sprite(x, y, this.tileArray[i][this.cols-j])
+            tile = this.game.add.sprite(x, y, this.tileArray[i][this.cols-j])
             tile.scale.setTo(this.scaleRatio, this.scaleRatio);
           }
         }    
@@ -63,7 +63,7 @@ export default class Grid extends Phaser.Group {
       
 
       obj.scale.setTo(this.scaleRatio,this.scaleRatio)
-      game.physics.arcade.enable(obj);
+      this.game.physics.arcade.enable(obj);
       obj.anchor.setTo(0.5, 0.8);
 
       //Calculate target coordinates
@@ -88,9 +88,9 @@ export default class Grid extends Phaser.Group {
       let yy = (obj.i * this.tileHeight / 2) - (obj.j * this.tileHeight / 2) + this.offset
 
 
-      game.physics.arcade.moveToXY(obj, xx, yy, 0, 3000)
+      this.game.physics.arcade.moveToXY(obj, xx, yy, 0, 3000)
 
-      game.time.events.add(3100, function () {
+      this.game.time.events.add(3100, function () {
          obj.body.velocity.x = 0;
          obj.body.velocity.y = 0;
       }, this);
