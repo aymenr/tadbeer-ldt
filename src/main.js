@@ -18,7 +18,7 @@ class Game extends Phaser.Game {
   constructor () {
     const docElement = document.documentElement
     const width = window.innerWidth * window.devicePixelRatio
-    const height = window.innerHeight * window.devicePixelRatio
+    const height = (window.innerHeight * window.devicePixelRatio)/2
     let containerId = 'content'
 
     super(width, height, Phaser.AUTO, containerId, null)
