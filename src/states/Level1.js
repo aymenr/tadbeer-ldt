@@ -1,7 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import 'modeJS'
-import Grid from '../components/IsoGrid'
+import Grid from '../components/Grid'
 import { connect } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
@@ -13,28 +13,28 @@ export default class Level1 extends Phaser.State {
   }
 
   create() {
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.grid = new Grid(this.sizeX, this.sizeY, 'grass')
+    var grid = new Grid(6, 6)
 
-    this.grid.modify(4,3,'water')
-    this.grid.modify(4,4,'water')
-    for (let i=0; i<this.sizeX; i++){
-      this.grid.modify(1,i,'road1')
-    }
+    var gameBoard = [
+        ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
+        ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
+        ['road1', 'road1', 'road1', 'road1', 'road1', 'road1'],
+        ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
+        ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
+        ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
+      ];
 
-    this.grid.display()
+    //grid.display()
+
+    grid.render(gameBoard)
 
     // //Initialize sprite
-    this.rickshaw = game.add.sprite(0, 0, 'rickshaw1')
+    var rickshaw = game.add.sprite(0, 0, 'rickshaw1')
+   	grid.placeObject(2,0,rickshaw)
 
-    let wall = game.add.sprite(0, 0, 'wall2')
-
-    //Place at particular coordinates
-   	this.grid.placeObject(1,0,this.rickshaw)
-    this.grid.placeObject(4,5, wall)
-   	// Move a certain number of paces along the grid
-    this.grid.moveObject(1,4,this.rickshaw)
+    //Move a certain number of paces along the grid, relative to current position
+    grid.moveObject(0,5,rickshaw)
 
     connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
   }

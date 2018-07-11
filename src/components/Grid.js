@@ -1,62 +1,99 @@
 export default class Grid extends Phaser.Group {
-    constructor(cols = 3, rows = 3, cw = 100, game) {
+    constructor(cols, rows) {
         super(game);
+
+        //initialize 2D arrays
+        var tileArray = new Array(rows);
+        for (var i = 0; i < rows; i++) {
+          tileArray[i] = new Array(cols);
+        }
+
+        var objectArray = new Array(rows);
+        for (var i = 0; i < rows; i++) {
+          objectArray[i] = new Array(cols);
+        }
+
+
         //promote to a class variable
-        this.cellWidth = cw
+        this.tileArray = tileArray
+        this.objectArray = objectArray
         this.rows = rows
         this.cols = cols
-        this.objects = {}
+
+        //Scale for different screen sizes
+        this.scaleRatio = window.innerWidth/(cols*game.cache.getImage('grass').width*1.2)
+
+        this.tileHeight = game.cache.getImage('grass').height*0.76*this.scaleRatio
+        this.tileWidth = game.cache.getImage('grass').width*this.scaleRatio
+        this.offset = game.cache.getImage('grass').height * this.rows * 0.5 *this.scaleRatio
+
+        for (var i=0; i < rows; i++){
+          for (var j=this.cols-1; j>=0; j--){
+            tileArray[i][j]='grass'
+          }
+        }
     }
 
-    placeAt(xx,yy,obj) {
-    	//Calculate target coordinates
-    	var x2 = this.cellWidth * xx + this.cellWidth / 2;
-        var y2 = this.cellWidth * yy + this.cellWidth / 2;
+
+    render(tArray) {
+
+      for (let i=0; i<this.rows; i++){
+          for(let j=0; j<this.cols; j++){
+            this.tileArray[i][j] = tArray[i][this.cols-j-1]
+          }
+        }
+
+        var x,y,tile
+        for (let i=0; i<this.rows; i++){
+          for(let j=this.cols; j>0; j--){
+            
+            x = (j * this.tileWidth / 2) + (i * this.tileWidth / 2)
+            y = (i * this.tileHeight / 2) - (j * this.tileHeight / 2) + this.offset
+            
+            tile = game.add.sprite(x, y, this.tileArray[i][this.cols-j])
+            tile.scale.setTo(this.scaleRatio, this.scaleRatio);
+          }
+        }    
+    
+    }
+
+
+    placeObject(i,j,obj) {
+
+      
+
+      obj.scale.setTo(this.scaleRatio,this.scaleRatio)
+      game.physics.arcade.enable(obj);
+      obj.anchor.setTo(0.5, 0.8);
+
+      //Calculate target coordinates
+        let x2 = (j * this.tileWidth / 2) + (i * this.tileWidth / 2) + this.tileWidth
+        let y2 = (i * this.tileHeight / 2) - (j * this.tileHeight / 2) + this.offset  
         obj.x = x2;
         obj.y = y2;
-
+        obj.i = i;
+        obj.j = j;
+      //Update on array
+        this.objectArray[i][j]=obj
     }
 
-    moveObject(xx,yy, obj) {
-	  //xx is number of cells to move right
-	  //yy is number of cells to move down
+    //Moves j boxes to the right and i up    
+    moveObject(i, j, obj) {
+      this.objectArray[obj.i][obj.j]=null
+      obj.i+=i
+      obj.j+=j
+      this.objectArray[obj.i][obj.j]=obj
 
-      var pixels //Number of pixels to move
+      let xx = (obj.j * this.tileWidth / 2) + (obj.i * this.tileWidth / 2) + this.tileWidth
+      let yy = (obj.i * this.tileHeight / 2) - (obj.j * this.tileHeight / 2) + this.offset
 
-      var speed = 100
-      var direction //Direction in which to move
 
-      //Direction is positive or negative depending on sign of xx and yy 
-      direction = xx > 0 ? 1 : -1
-      pixels = xx*this.cellWidth
-      //Object is given a starting constant velocity
-      obj.body.velocity.x = speed * direction
+      game.physics.arcade.moveToXY(obj, xx, yy, 0, 3000)
 
-      //Reset velocity to zero when target cell is reached
-      setTimeout(function(){ obj.body.velocity.x=0 }, (pixels/speed)*1000);
-
-      //Repeated for downward movement
-      direction = yy > 0 ? 1 : -1
-      pixels = yy*this.cellWidth
-      obj.body.velocity.y = speed * direction
-
-      setTimeout(function(){ obj.body.velocity.y=0 }, (pixels/speed)*1000);  
+      game.time.events.add(3100, function () {
+         obj.body.velocity.x = 0;
+         obj.body.velocity.y = 0;
+      }, this);
     }
 
-
-    //mostly for planning and debugging this will
-    //create a visual representation of the grid
-    show() {
-        this.graphics = this.game.add.graphics();
-        this.graphics.lineStyle(1, 0x000000, 1);
-
-        for (var i = 0; i <= this.rows*this.cellWidth; i += this.cellWidth) {
-            this.graphics.moveTo(i, 0);
-            this.graphics.lineTo(i, this.cols*this.cellWidth);
-        }
-        for (var i = 0; i <= this.cols*this.cellWidth; i += this.cellWidth) {
-            this.graphics.moveTo(0, i);
-            this.graphics.lineTo(this.rows*this.cellWidth, i);
-        }
-    }
 }

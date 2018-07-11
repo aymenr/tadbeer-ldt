@@ -7,7 +7,7 @@ import Eval from '../services/Eval'
 import { compile } from '@sweet-js/core/dist/browser-sweet'
 import NodeLoader from '@sweet-js/core/dist/node-loader'
 import Urdu from '../services/Urdu.sjs'
-import Grid from '../components/IsoGrid'
+import Grid from '../components/Grid'
 
 export default class Game extends Phaser.State {
   init() { 
@@ -17,8 +17,10 @@ export default class Game extends Phaser.State {
 
   create() {
     //do any preliminary work here
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
     this.state.start('Level1')
-  }
+    }
 }
 
 function cartesianToIsometric(cartPt){
