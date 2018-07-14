@@ -17,7 +17,7 @@ export default class Game extends Phaser.State {
 
   create() {
     //do any preliminary work here
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.state.start('Level1')
     }
