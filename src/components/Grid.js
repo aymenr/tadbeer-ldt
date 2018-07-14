@@ -1,3 +1,4 @@
+import Phaser from 'phaser'
 export default class Grid extends Phaser.Group {
     constructor(cols, rows, game) {
         super(game);
@@ -21,11 +22,15 @@ export default class Grid extends Phaser.Group {
         this.cols = cols
 
         //Scale for different screen sizes
-        this.scaleRatio = window.innerWidth/(cols* this.game.cache.getImage('grass').width*1.2)
+        this.scaleRatio = window.innerWidth/(cols* this.game.cache.getImage('grass').width)
 
         this.tileHeight = this.game.cache.getImage('grass').height*0.76*this.scaleRatio
         this.tileWidth = this.game.cache.getImage('grass').width*this.scaleRatio
-        this.offset = this.game.cache.getImage('grass').height * this.rows * 0.5 *this.scaleRatio
+        this.offset = 0 //hackish solution for now
+        this.offset = Math.abs(this.convert(0, this.cols-1).y)
+        this.tiles = new Array(this.rows)
+        for (let i = 0; i < this.rows; i++)
+            this.tiles[i] = new Array(this.cols)
 
         for (var i=0; i < rows; i++){
           for (var j=this.cols-1; j>=0; j--){
@@ -45,12 +50,15 @@ export default class Grid extends Phaser.Group {
 
         var x,y,tile
         for (let i=0; i<this.rows; i++){
-          for(let j=this.cols; j>0; j--){
+          for(let j=this.cols - 1; j>=0; j--){
             
-            x = (j * this.tileWidth / 2) + (i * this.tileWidth / 2)
-            y = (i * this.tileHeight / 2) - (j * this.tileHeight / 2) + this.offset
-            
-            tile = this.game.add.sprite(x, y, this.tileArray[i][this.cols-j])
+            let {
+              x,
+              y
+            } = this.convert(i, j) 
+
+            tile = this.game.add.sprite(x, y, this.tileArray[i][this.cols-j -1])
+            this.tiles[i][j] = tile 
             tile.scale.setTo(this.scaleRatio, this.scaleRatio);
           }
         }    
@@ -58,42 +66,63 @@ export default class Grid extends Phaser.Group {
     }
 
 
-    placeObject(i,j,obj) {
+    convert(i, j) {
+      return {
+          x: (j * this.tileWidth / 2) + (i * this.tileWidth / 2),
+          y: (i * this.tileHeight / 2) - (j * this.tileHeight / 2) + this.offset
+      }
+    }
 
-      
+    //approximate method
+    getHeight() {
+      return Math.abs(this.convert(0, this.cols).y - this.convert(this.rows + 1, 0).y)
+    }
 
-      obj.scale.setTo(this.scaleRatio,this.scaleRatio)
-      this.game.physics.arcade.enable(obj);
-      obj.anchor.setTo(0.5, 0.8);
+    //approximate method
+    getWidth() {
+      return Math.abs(this.convert(0, 0).x - this.convert(this.rows, this.cols).x)
+    }
+
+    placeObject(x, y, obj, offsetX, offsetY) {
 
       //Calculate target coordinates
-        let x2 = (j * this.tileWidth / 2) + (i * this.tileWidth / 2) + this.tileWidth
-        let y2 = (i * this.tileHeight / 2) - (j * this.tileHeight / 2) + this.offset  
-        obj.x = x2;
-        obj.y = y2;
-        obj.i = i;
-        obj.j = j;
+      let converted = this.convert(x + offsetX, y + offsetY)
+      obj.x = converted.x;
+      obj.y = converted.y;
+
+      obj.scale.setTo(this.scaleRatio,this.scaleRatio)
+      obj.i = x;
+      obj.j = y;
       //Update on array
-        this.objectArray[i][j]=obj
+      this.objectArray[x][y]= obj
+    }
+
+    chainTween = (cb) => {
+      if (this.tween && this.tween.isRunning) {
+        this.tween.onComplete.add(cb)
+      }else {
+        this.tween = null;
+        cb();
+      }
     }
 
     //Moves j boxes to the right and i up    
-    moveObject(i, j, obj) {
-      this.objectArray[obj.i][obj.j]=null
-      obj.i+=i
-      obj.j+=j
-      this.objectArray[obj.i][obj.j]=obj
+    moveObject(x, y, obj, offsetX = 0, offsetY = 0) {
+      this.objectArray[obj.i][obj.j] = null
+      let diff = Math.max(Math.abs(x), Math.abs(y)),
+          time = diff * 1000
+      obj.i+=x
+      obj.j+=y
+      this.objectArray[obj.i][obj.j]= obj 
 
-      let xx = (obj.j * this.tileWidth / 2) + (obj.i * this.tileWidth / 2) + this.tileWidth
-      let yy = (obj.i * this.tileHeight / 2) - (obj.j * this.tileHeight / 2) + this.offset
 
-
-      this.game.physics.arcade.moveToXY(obj, xx, yy, 0, 3000)
-
-      this.game.time.events.add(3100, function () {
-         obj.body.velocity.x = 0;
-         obj.body.velocity.y = 0;
-      }, this);
+      let coordinates = this.convert(obj.i + offsetX,obj.j + offsetY)
+      let tween = this.game.add.tween(obj, this.game, this.game.tweens).to({
+        x: coordinates.x,
+        y: coordinates.y 
+      }, 2000)
+      tween.start()
+      this.tween = tween
     }
 
 }
