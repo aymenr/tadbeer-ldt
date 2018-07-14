@@ -42,6 +42,12 @@ export default class FuncCall extends Statement {
 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
+    if(data && data.type && data.type == 'delete') {
+      this.setState({
+        args: this.state.args.filter((_,i) => i != key)
+      })
+    }
+
     this.addArgDefaults(data, key)
     let newArgs = update(this.state.args, {[key]: {$set: data}}) 
     this.setState({ args: newArgs})

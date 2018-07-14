@@ -26,7 +26,7 @@ export default class UI extends Component {
 
   render = () => {
     return (
-      <div>
+      <div style={styles.container}>
         <Editor ref={inst => this.editor = inst } initialData={this.props.initialEditorData} />
         <Keyboard data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
       </div>
@@ -34,6 +34,11 @@ export default class UI extends Component {
   }
 }
 
+const styles = {
+  container: {
+    backgroundColor: 'white'
+  }
+}
 UI.propTypes = {
   runCode: PropTypes.func.isRequired,
   initialEditorData: PropTypes.array.isRequired,

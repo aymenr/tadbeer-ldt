@@ -21,6 +21,13 @@ export default class Statement extends Component {
     this._isMounted = false;
   }
 
+  delElem = () => {
+    if (this.props.updateDataCb)
+      this.props.updateDataCb({
+        type: 'delete',
+      }, this.props.index)
+  }
+
   render() {
     return false;
   }

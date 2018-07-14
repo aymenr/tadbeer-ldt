@@ -39,11 +39,20 @@ export default class Editor extends Component {
     if (!this.state.focused)
       return
 
+    if (data.type && data.type == 'delete') {
+      this.state.focused.delElem()
+      return
+    }
+    
     this.state.focused.updateData(data);
   }
 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
+    if (data && data.type && data.type == 'delete')
+      return this.setState({
+        statements: this.state.statements.filter((_,i) => i != key)
+      })
     let newState = update(this.state.statements, {[key]: { $set: data }})
     if (key == newState.length - 1)
       newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too

@@ -19,8 +19,27 @@ class FuncCallButton extends Component {
     } = this.props;
 
     return (
-      <div onClick={this.onClick}>{name}</div>
+      <div style={styles.container} >
+        <div style={styles.button} onClick={this.onClick}>{name}()</div>
+      </div>
     )
+  }
+}
+
+const styles = {
+  button: {
+    backgroundColor: 'white',
+    color: '#2890ab',
+    width: '25%',
+    borderBottom: '1px solid #2890ab',
+    margin: 'auto',
+    textAlign: 'center',
+    padding: '5px',
+    marginBottom: '20px'
+  },
+  container: {
+    display: 'inline-block',
+    width: '50%',
   }
 }
 
