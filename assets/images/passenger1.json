@@ -1,0 +1,28 @@
+{"frames": {
+
+"ride":
+{
+	"frame": {"x":1,"y":1,"w":441,"h":1449},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":441,"h":1449},
+	"sourceSize": {"w":441,"h":1449}
+},
+"no-ride":
+{
+	"frame": {"x":444,"y":1,"w":441,"h":1449},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":441,"h":1449},
+	"sourceSize": {"w":441,"h":1449}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "passenger1.png",
+	"format": "RGBA8888",
+	"size": {"w":886,"h":1451},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4eb65b5edae6ee27e41e531a8bd19778:1f07d2c73262d3c8b65aec041a5f9e5a:1fb336ac0fb634090bf2fedaf9e7ea53$"
+}
+}

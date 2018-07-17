@@ -83,16 +83,16 @@ export default class Grid extends Phaser.Group {
       return Math.abs(this.convert(0, 0).x - this.convert(this.rows, this.cols).x)
     }
 
-    placeObject(x, y, obj, offsetX, offsetY) {
+    placeObject(x, y, obj, offsetX, offsetY,scaleX,scaleY) {
 
       //Calculate target coordinates
       let converted = this.convert(x + offsetX, y + offsetY)
       obj.x = converted.x;
       obj.y = converted.y;
 
-      obj.scale.setTo(this.scaleRatio,this.scaleRatio)
-      obj.i = x;
-      obj.j = y;
+      obj.scale.setTo(this.scaleRatio * scaleX,this.scaleRatio * scaleY)
+      obj.i = x ;
+      obj.j = y ;
       //Update on array
       this.objectArray[x][y]= obj
     }

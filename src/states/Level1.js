@@ -13,6 +13,7 @@ export default class Level1 extends Phaser.State {
     this.grid = new Grid(6, 6, this.game)
     this.rickshawNames = ['rickshaw1', 'rickshaw2']
     this.rickshaws = []
+    
   }
 
   create() {
@@ -33,9 +34,12 @@ export default class Level1 extends Phaser.State {
     this.renderRickshaws(this.rickshaws)
     this.hideRickshaws(this.rickshaws)
 
-    this.rickshaw = this.rickshaws[1]
-    this.placeRickshaw(this.rickshaw, this.grid, 0, 0, 0, 0.3)
+    this.rickshaw = this.rickshaws[0] 
+    this.placeRickshaw(this.rickshaw, this.grid, 2, 0, 0, 0.3)
 
+    let passenger = this.renderAndPlaceObject('passenger1','ride',this.grid,1,4,-0.4,0.1,0.7,0.7)
+    passenger.animations.add('ride', ['ride','no-ride'],4,60,true,false);
+    passenger.animations.play('ride')
     connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
   }
 
@@ -44,13 +48,24 @@ export default class Level1 extends Phaser.State {
   rickshaws.forEach(r => r.alpha = 0)
   }
 
+  renderAndPlaceObject = (atlas,sprite,grid,x,y,xOffset,yOffset,scaleX,scaleY) => {
+    let object  = this.game.add.sprite(0,0,atlas,sprite)
+    
+    object.alpha = 0
+    grid.placeObject(x, y, object, xOffset, yOffset,scaleX,scaleY)
+
+    object.alpha = 1
+    return object
+  }
+
   renderRickshaws = (rickshaws) => {
     this.rickshawNames.map(r => rickshaws.push(this.game.add.sprite(0,0, r)))
   }
 
   placeRickshaw = (rickshaw, grid, x, y, xOffset, yOffset) => {
-    rickshaw.anchor.setTo(0, 0.25);
-    grid.placeObject(x, y, rickshaw, xOffset, yOffset)
+    console.log(rickshaw)
+    rickshaw.anchor.setTo(0, 0.15);
+    grid.placeObject(x, y, rickshaw, xOffset, yOffset,0.9,0.9)
     rickshaw.alpha = 1
   }
 

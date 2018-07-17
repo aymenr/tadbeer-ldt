@@ -17,8 +17,10 @@ export default class extends Phaser.State {
     this.load.image('water', 'assets/images/tiles/sewage_open.png')
     this.load.image('rickshaw1', 'assets/images/rickshaw1.png')
     this.load.image('rickshaw2', 'assets/images/rickshaw2.png')
+    //this.load.image('passenger1', 'assets/images/guy1.png')
     this.load.image('wall1', 'assets/images/wall1.png')
     this.load.image('wall2', 'assets/images/wall2.png')
+    this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
 
     FBInstant.setLoadingProgress(100);
   }
