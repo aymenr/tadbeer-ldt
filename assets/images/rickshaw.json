@@ -1,0 +1,44 @@
+{"frames": {
+
+"down":
+{
+	"frame": {"x":1,"y":1,"w":637,"h":703},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
+	"sourceSize": {"w":637,"h":703}
+},
+"up":
+{
+	"frame": {"x":1,"y":706,"w":637,"h":703},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
+	"sourceSize": {"w":637,"h":703}
+},
+"left":
+{
+	"frame": {"x":640,"y":1,"w":637,"h":703},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
+	"sourceSize": {"w":637,"h":703}
+},
+"right":
+{
+	"frame": {"x":640,"y":706,"w":637,"h":703},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
+	"sourceSize": {"w":637,"h":703}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "rickshaw.png",
+	"format": "RGBA8888",
+	"size": {"w":1278,"h":1410},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4846039e3406515a9e819e01b969ec04:fea4e5856b513678fe5affcc5f4cd2fe:cef3aab1d8be21ea641d06d71cedef8d$"
+}
+}

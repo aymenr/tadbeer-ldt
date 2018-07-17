@@ -19,7 +19,6 @@ const makeButtons = () => {
 export function connect(parentId, buttons, codeCb, editorDefault) {
 
     const parentElem = document.getElementById(parentId)
- 
     const guiContainer = document.createElement('div')
     parentElem.appendChild(guiContainer)
     render(
