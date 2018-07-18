@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import css from  '../../../fonts/stylesheet.css';
 class FuncCallButton extends Component {
 
   onClick = () => {
@@ -29,13 +29,14 @@ class FuncCallButton extends Component {
 const styles = {
   button: {
     backgroundColor: 'white',
+    fontFamily:'apercu_monoregular',
     color: '#2890ab',
-    width: '25%',
+    width: '20%',
     borderBottom: '1px solid #2890ab',
     margin: 'auto',
     textAlign: 'center',
     padding: '5px',
-    marginBottom: '20px'
+    marginBottom: '10px'
   },
   container: {
     display: 'inline-block',
