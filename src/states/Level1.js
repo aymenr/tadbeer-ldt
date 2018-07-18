@@ -71,38 +71,45 @@ export default class Level1 extends Phaser.State {
 
             if (!parsed.moves)
                 return
-
+            console.log(parsed.moves)
             parsed.moves.forEach(move => {
+                console.log('i');
                 switch (move.direction) {
                     case "up":
-                        this.grid.chainTween(() => {
-                            this.rickshaw.frameName = 'up'
                         
-                            return this.grid.moveObject(0, move.steps, this.rickshaw)
-                        })
-                       return
+                            this.rickshaw.frameName = 'up'
+                            console.log(move.steps,move.direction)
+                            this.grid.moveObject(0, move.steps, this.rickshaw)
+                           
+                      
+                         break;
                     case "down":
                         this.grid.chainTween(() => {
                             this.rickshaw.frameName = 'down'
-                            return this.grid.moveObject(0, -move.steps, this.rickshaw)
+                            console.log(move.steps,move.direction)
+                            this.grid.moveObject(0, -move.steps, this.rickshaw)
                         })
-                        return
+                         break;
                     case "left":
                         this.grid.chainTween(() => {
-                            this.rickshaw.frameName = 'left'
-                            return this.grid.moveObject(0, -move.steps, this.rickshaw)
+                            //this.rickshaw.frameName = 'left'
+                            console.log(move.steps,move.direction)
+                            this.grid.moveObject(0, -move.steps, this.rickshaw)
                         })
-                        return
+                        break
+                    
                     case "right":
-                        this.grid.chainTween(() => {
-                            this.rickshaw.frameName = 'right'
-                            return this.grid.moveObject(move.steps, 0, this.rickshaw, 0, 0.3)
-                        })
-                        return
+                        
+                            //this.rickshaw.frameName = 'right'
+                            console.log(move.steps,move.direction)
+                            this.grid.moveObject(move.steps, 0, this.rickshaw)
+                     
+                        break
+                       
                 }
-                this.grid.chainTween(() => {
-                    this.game.tweens.removeAll()
-                })
+                // this.grid.chainTween(() => {
+                //     this.game.tweens.removeAll()
+                // })
             })
         })
     }

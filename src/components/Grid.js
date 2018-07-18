@@ -3,6 +3,7 @@ export default class Grid extends Phaser.Group {
     constructor(cols, rows, game) {
         super(game);
 
+
         //initialize 2D arrays
         var tileArray = new Array(rows);
         for (var i = 0; i < rows; i++) {
@@ -20,6 +21,7 @@ export default class Grid extends Phaser.Group {
         this.objectArray = objectArray
         this.rows = rows
         this.cols = cols
+        this.tweens =[] //queue to manage tweens
 
         //Scale for different screen sizes
         this.scaleRatio = window.innerWidth/(cols* this.game.cache.getImage('grass').width)
@@ -97,17 +99,31 @@ export default class Grid extends Phaser.Group {
       this.objectArray[x][y]= obj
     }
 
-    chainTween = (cb) => {
-      if (this.tween && this.tween.isRunning) {
-        this.tween.onComplete.add(cb)
+    getNextTween =() => {
+      console.log('get next tween called');
+      if (this.tweens.length!= 0) {
+        var tween = this.tweens.pop()
+        tween.start()
+        tween.onComplete.add(this.getNextTween)
+      }
+    }
+    chainTween = (tween) => {
+      
+      if (this.tweens.length ==0) {
+        console.log('no tweens in queue')
+        this.tweens.unshift(tween)
+        tween.start()
+        tween.onComplete.add(this.getNextTween)
       }else {
-        this.tween = null;
-        cb();
+        console.log('there are tweens in the queue')
+        this.tweens.unshift(tween)
       }
     }
 
     //Moves j boxes to the right and i up    
     moveObject(x, y, obj, offsetX = 0, offsetY = 0) {
+      console.log(x, y,obj.i,obj.j)
+
       this.objectArray[obj.i][obj.j] = null
       let diff = Math.max(Math.abs(x), Math.abs(y)),
           time = diff * 1000
@@ -119,10 +135,10 @@ export default class Grid extends Phaser.Group {
       let coordinates = this.convert(obj.i + offsetX,obj.j + offsetY)
       let tween = this.game.add.tween(obj, this.game, this.game.tweens).to({
         x: coordinates.x,
-        y: coordinates.y 
+        y: coordinates.y,
+        frameName: 'right'
       }, 2000)
-      tween.start()
-      this.tween = tween
+      this.chainTween(tween)
     }
 
 }
