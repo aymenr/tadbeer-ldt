@@ -110,12 +110,10 @@ export default class Grid extends Phaser.Group {
     chainTween = (tween) => {
       
       if (this.tweens.length ==0) {
-        console.log('no tweens in queue')
         this.tweens.unshift(tween)
         tween.start()
         tween.onComplete.add(this.getNextTween)
       }else {
-        console.log('there are tweens in the queue')
         this.tweens.unshift(tween)
       }
     }
@@ -135,8 +133,7 @@ export default class Grid extends Phaser.Group {
       let coordinates = this.convert(obj.i + offsetX,obj.j + offsetY)
       let tween = this.game.add.tween(obj, this.game, this.game.tweens).to({
         x: coordinates.x,
-        y: coordinates.y,
-        frameName: 'right'
+        y: coordinates.y
       }, 2000)
       this.chainTween(tween)
     }

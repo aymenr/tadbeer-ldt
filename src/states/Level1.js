@@ -84,11 +84,11 @@ export default class Level1 extends Phaser.State {
                       
                          break;
                     case "down":
-                        this.grid.chainTween(() => {
+                        
                             this.rickshaw.frameName = 'down'
                             console.log(move.steps,move.direction)
                             this.grid.moveObject(0, -move.steps, this.rickshaw)
-                        })
+                    
                          break;
                     case "left":
                         this.grid.chainTween(() => {
