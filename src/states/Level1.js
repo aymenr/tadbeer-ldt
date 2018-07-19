@@ -67,27 +67,27 @@ export default class Level1 extends Phaser.State {
         switch (move.direction) {
             case "up":
                 this.rickshaw.frameName = 'up'
-                this.grid.moveObject(0, move.steps, this.rickshaw, callback,1)
+                this.grid.moveObject(0, move.steps, this.rickshaw, callback,1, -.2, 0.6)
 
 
                 break;
             case "down":
 
                 this.rickshaw.frameName = 'down'
-                this.grid.moveObject(0, -move.steps, this.rickshaw,callback,1)
+                this.grid.moveObject(0, -move.steps, this.rickshaw,callback,1, -.2, 0.6)
 
                 break;
             case "left":
             
                     this.rickshaw.frameName = 'left'
-                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback,1)
+                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback,1, -.2, 0.6)
                
                 break
 
             case "right":
              
                 this.rickshaw.frameName = 'right'
-                this.grid.moveObject(move.steps, 0, this.rickshaw, callback,1)
+                this.grid.moveObject(move.steps, 0, this.rickshaw, callback,1, -.2, 0.6)
 
                 break
 
