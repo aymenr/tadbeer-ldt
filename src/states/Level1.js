@@ -14,6 +14,8 @@ export default class Level1 extends Phaser.State {
         this.grid = new Grid(6, 6, this.game)
         this.rickshaw;
         this.passenger;
+        this.rickshawXOffset = -0.2;
+        this.rickshawYOffset = 0.6;
     }
 
     create() {
@@ -33,7 +35,7 @@ export default class Level1 extends Phaser.State {
         this.grid.render(gameBoard)
 
         //setup rickshaw
-        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'up', this.grid, 2, 0, -0.2, 0.6, 1.3, 1.3)
+        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'up', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
   
 
 
@@ -64,34 +66,33 @@ export default class Level1 extends Phaser.State {
 
     wrapCode = (code) => Level1Wrap + " " + code
     moveRickshaw = (move, callback) => {
+        let x = 0,
+            y = 0
+
         switch (move.direction) {
             case "up":
+                y = move.steps
                 this.rickshaw.frameName = 'up'
-                this.grid.moveObject(0, move.steps, this.rickshaw, callback,1, -.2, 0.6)
-
 
                 break;
             case "down":
-
+                y = -move.steps
                 this.rickshaw.frameName = 'down'
-                this.grid.moveObject(0, -move.steps, this.rickshaw,callback,1, -.2, 0.6)
 
                 break;
             case "left":
-            
-                    this.rickshaw.frameName = 'left'
-                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback,1, -.2, 0.6)
+                x = -move.steps 
                
                 break
 
             case "right":
-             
+                x = move.steps 
                 this.rickshaw.frameName = 'right'
-                this.grid.moveObject(move.steps, 0, this.rickshaw, callback,1, -.2, 0.6)
 
                 break
-
         }
+
+        this.grid.moveObject( x, y, this.rickshaw,callback, 1, this.rickshawXOffset, this.rickshawYOffset)
 
     }
     runCodeCb = (code) => {
@@ -134,9 +135,9 @@ export default class Level1 extends Phaser.State {
         this.grid.moveObject(1, 0, this.passenger, function(){
 
       
-            that.grid.moveObject(1,6,that.rickshaw,function() {
+            that.grid.moveObject(0,6,that.rickshaw,function() {
                 console.log("next level loading");
-            })
+            }, 0, this.rickshawXOffset, this.rickshawYOffset)
         },0)
 
     }
