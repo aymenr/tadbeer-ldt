@@ -129,7 +129,7 @@ export default class Level1 extends Phaser.State {
             numArgs: 1
         }, {
             type: 'func_call_button',
-            name: 'neche',
+            name: 'neechay',
             numArgs: 1,
         }, {
             type: 'func_call_button',

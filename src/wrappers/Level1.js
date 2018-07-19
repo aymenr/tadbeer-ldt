@@ -23,6 +23,6 @@ const generic = (number, direction) => {
 }
 
 const uper = (number) => generic(number, "up")
-const neche = (number) => generic(number, "down")
+const neechay = (number) => generic(number, "down")
 const daen = (number) => generic(number, "right")
 const baen = (number) => generic(number, "left")
