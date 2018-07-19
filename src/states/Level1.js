@@ -5,6 +5,7 @@ import Grid from '../components/Grid'
 import { connect } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
+import async from '../../node_modules/async'
 
 export default class Level1 extends Phaser.State {
     init() {
@@ -56,7 +57,37 @@ export default class Level1 extends Phaser.State {
 
 
     wrapCode = (code) => Level1Wrap + " " + code
+    moveObj = (move, callback) => {
+        switch (move.direction) {
+            case "up":
+                this.rickshaw.frameName = 'up'
+                this.grid.moveObject(0, move.steps, this.rickshaw, callback)
 
+
+                break;
+            case "down":
+
+                this.rickshaw.frameName = 'down'
+                this.grid.moveObject(0, -move.steps, this.rickshaw,callback)
+
+                break;
+            case "left":
+            
+                    this.rickshaw.frameName = 'left'
+                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback)
+               
+                break
+
+            case "right":
+             
+                this.rickshaw.frameName = 'right'
+                this.grid.moveObject(move.steps, 0, this.rickshaw, callback)
+
+                break
+
+        }
+
+    }
     runCodeCb = (code) => {
         code = this.wrapCode(code) //wrap code in our wrapper
         let compiled = CodeService.compileCode(code)
@@ -71,48 +102,25 @@ export default class Level1 extends Phaser.State {
 
             if (!parsed.moves)
                 return
-            console.log(parsed.moves)
-            parsed.moves.forEach(move => {
-                console.log('i');
-                switch (move.direction) {
-                    case "up":
-                        
-                            this.rickshaw.frameName = 'up'
-                            console.log(move.steps,move.direction)
-                            this.grid.moveObject(0, move.steps, this.rickshaw)
-                           
-                      
-                         break;
-                    case "down":
-                        
-                            this.rickshaw.frameName = 'down'
-                            console.log(move.steps,move.direction)
-                            this.grid.moveObject(0, -move.steps, this.rickshaw)
-                    
-                         break;
-                    case "left":
-                        this.grid.chainTween(() => {
-                            //this.rickshaw.frameName = 'left'
-                            console.log(move.steps,move.direction)
-                            this.grid.moveObject(0, -move.steps, this.rickshaw)
-                        })
-                        break
-                    
-                    case "right":
-                        
-                            //this.rickshaw.frameName = 'right'
-                            console.log(move.steps,move.direction)
-                            this.grid.moveObject(move.steps, 0, this.rickshaw)
-                     
-                        break
-                       
-                }
-                // this.grid.chainTween(() => {
-                //     this.game.tweens.removeAll()
-                // })
-            })
+   
+            let that = this
+        
+            async.forEachSeries(parsed.moves,function(move, callback) {
+                console.log(callback)
+                that.moveObj(move, callback)
+
+            }, function() {
+                console.log('done running the entire code')
+            });
+
+
+
         })
     }
+
+
+
+
 
     makeButtons = () => {
         return [{

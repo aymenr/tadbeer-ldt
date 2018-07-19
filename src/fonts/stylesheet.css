@@ -1,4 +1,4 @@
-
+/*
 @font-face {
     font-family: 'apercu_monoregular';
 	src: url('~/apercu_mono-webfont.woff2') format('woff2')
@@ -7,3 +7,6 @@
     font-style: normal;
 
 }
+html {
+	font-family: 'apercu_monoregular',monospace;
+}*/

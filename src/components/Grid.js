@@ -21,8 +21,7 @@ export default class Grid extends Phaser.Group {
         this.objectArray = objectArray
         this.rows = rows
         this.cols = cols
-        this.tweens =[] //queue to manage tweens
-
+        this.callback;
         //Scale for different screen sizes
         this.scaleRatio = window.innerWidth/(cols* this.game.cache.getImage('grass').width)
 
@@ -98,28 +97,15 @@ export default class Grid extends Phaser.Group {
       //Update on array
       this.objectArray[x][y]= obj
     }
-
-    getNextTween =() => {
-      console.log('get next tween called');
-      if (this.tweens.length!= 0) {
-        var tween = this.tweens.pop()
-        tween.start()
-        tween.onComplete.add(this.getNextTween)
-      }
-    }
-    chainTween = (tween) => {
-      
-      if (this.tweens.length ==0) {
-        this.tweens.unshift(tween)
-        tween.start()
-        tween.onComplete.add(this.getNextTween)
-      }else {
-        this.tweens.unshift(tween)
-      }
+    //using callback directly doesnt work for some reason
+    callbackWrapper() {
+      this.callback()
     }
 
-    //Moves j boxes to the right and i up    
-    moveObject(x, y, obj, offsetX = 0, offsetY = 0) {
+    //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
+    moveObject(x, y, obj,callbackToAsync, offsetX = 0, offsetY = 0) {
+
+      console.log("in grid moveObject");
       console.log(x, y,obj.i,obj.j)
 
       this.objectArray[obj.i][obj.j] = null
@@ -134,8 +120,15 @@ export default class Grid extends Phaser.Group {
       let tween = this.game.add.tween(obj, this.game, this.game.tweens).to({
         x: coordinates.x,
         y: coordinates.y
-      }, 2000)
-      this.chainTween(tween)
+      }, 1500)
+      
+      this.callback = callbackToAsync
+      tween.onComplete.add(this.callbackWrapper,this)
+      tween.start()
+      
+      
     }
+
+    
 
 }

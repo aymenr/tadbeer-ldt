@@ -78,7 +78,10 @@ module.exports = {
                 loader: 'raw-loader',
                 include: path.join(__dirname, './src/wrappers')
             },
-            
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader',
+            },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
