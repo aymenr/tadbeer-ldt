@@ -2,10 +2,11 @@ import Blank from './components/Blank';
 import React from 'react';
 import FuncCall from './components/FuncCall';
 import NumberEle from './components/Number.js'
-// import ParamNumEle from './components/ParamNum.js'
-import { FuncCallButton, NumberButton} from './components/keyboard/index';
+import ParamNumEle from './components/ParamNum.js'
+import { FuncCallButton, NumberButton, ParamNumButton} from './components/keyboard/index';
 
 const getCorrespEle = (ele) => {
+  console.log('ELE:',ele);
   switch (ele.type) {
     case 'blank':
       return <Blank { ...ele } />
@@ -13,6 +14,8 @@ const getCorrespEle = (ele) => {
       return <FuncCall { ...ele } />
     case 'number':
       return <NumberEle {...ele } />
+    case 'param_nums':
+      return <ParamNumEle {...ele} />
   }
 }
 
@@ -22,6 +25,8 @@ const getCorrespButton = (button) => {
       return <FuncCallButton { ...button } />
     case 'number_button':
       return <NumberButton {...button } />
+    case 'param_num':
+      return <ParamNumButton {...button}/>
   }
 }
 

@@ -142,16 +142,14 @@ export default class Level1 extends Phaser.State {
 
     }
     checkGoal=() => {
-        let rickshawBounds = this.rickshaw.getBounds()
-        let goalTileBounds = this.grid.getGoalTile().getBounds
-        console.log(rickshawBounds,'rickshawbounds')
-        console.log(goalTileBounds,'tilebounds')
-        return Phaser.Rectangle.intersects(rickshawBounds, goalTileBounds);
+       
+        let goalTile = this.grid.getGoalTile()
+        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j   
     }
 
     createNumButtons= () => {
         let numButtons = [];
-        for (var i = 0; i <=9; i++) {
+        for (var i = 1; i <=5; i++) {
             numButtons.push({type:'param_num',value:i.toString()})
         }
         return numButtons

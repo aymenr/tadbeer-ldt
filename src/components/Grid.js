@@ -62,10 +62,11 @@ export default class Grid extends Phaser.Group {
 
 
             tile = this.game.add.sprite(x, y, this.tileArray[i][this.cols-j -1])
-            
+            tile.i = i
+            tile.j = j
            
             this.tiles[i][j] = tile 
-
+          
             tile.scale.setTo(this.scaleRatio, this.scaleRatio);
 
              //set goaltile

@@ -36,7 +36,7 @@ export default class Editor extends Component {
   }
 
   addData = (data) => {
-    console.log("going to add numbers as parameters");
+    console.log("going to add numbers as parameters",data);
     if (!this.state.focused)
       return
 
@@ -44,12 +44,13 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-    
+    console.log('1');
     this.state.focused.updateData(data);
   }
 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
+    console.log(data);
     if (data && data.type && data.type == 'delete')
       return this.setState({
         statements: this.state.statements.filter((_,i) => i != key)
@@ -57,6 +58,7 @@ export default class Editor extends Component {
     let newState = update(this.state.statements, {[key]: { $set: data }})
     if (key == newState.length - 1)
       newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too
+    console.log('newstate',newState)
     this.setState({statements: newState })
   }
 
@@ -68,9 +70,12 @@ export default class Editor extends Component {
   }
 
   render() {
+    console.log("here:",this.state.statements)
     return (
+
       <div ref={ref => this.container = ref } >
         {
+
         this.state.statements.map((statement, index) => getCorrespEle({ ...statement, key: index, focusCallback: this.focusCallback, updateDataCb: this.updateDataCb, index: index}) )
         }
       </div>
