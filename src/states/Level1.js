@@ -142,7 +142,7 @@ export default class Level1 extends Phaser.State {
     }
     checkGoal=() => {
         let rickshawBounds = this.rickshaw.getBounds()
-        let goalTileBounds = this.grid.getGoalTile().getBounds
+        let goalTileBounds = this.grid.getGoalTile().getBounds()
         console.log(rickshawBounds,'rickshawbounds')
         console.log(goalTileBounds,'tilebounds')
         return Phaser.Rectangle.intersects(rickshawBounds, goalTileBounds);
