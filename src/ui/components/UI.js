@@ -36,7 +36,8 @@ export default class UI extends Component {
 
 const styles = {
   container: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    border: 'black solid 1px'
   }
 }
 UI.propTypes = {

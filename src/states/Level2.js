@@ -7,7 +7,7 @@ import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
 
-export default class Level1 extends Phaser.State {
+export default class Level2 extends Phaser.State {
     init() {
         this.sizeX = 6
         this.sizeY = 6
@@ -38,7 +38,7 @@ export default class Level1 extends Phaser.State {
 
 
         //setup passenger1
-        this.passenger = this.renderAndPlaceObject('passenger2', 'ride', this.grid, 1, 4, 0.2, -0.2, 1.1, 1.1)
+        this.passenger = this.renderAndPlaceObject('passenger2', 'ride', this.grid, 0, 4, 0.2, -0.2, 1.1, 1.1)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02','walk03'], 6, 60, false, false);
         
@@ -46,7 +46,7 @@ export default class Level1 extends Phaser.State {
         
 
 
-        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
+       // connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
     }
 
 
@@ -136,7 +136,7 @@ export default class Level1 extends Phaser.State {
       
             that.grid.moveObject(1,6,that.rickshaw,function() {
                 console.log("next level loading");
-                that.game.state.start('Level1')
+                that.game.state.start('Level2')
             })
         },0)
 
@@ -149,15 +149,8 @@ export default class Level1 extends Phaser.State {
         return Phaser.Rectangle.intersects(rickshawBounds, goalTileBounds);
     }
 
-    createNumButtons= () => {
-        let numButtons = [];
-        for (var i = 0; i <=9; i++) {
-            numButtons.push({type:'param_num',value:i.toString()})
-        }
-        return numButtons
-    }
+
     makeButtons = () => {
-        
         return [{
             type: 'func_call_button',
             name: 'uper',
@@ -174,8 +167,9 @@ export default class Level1 extends Phaser.State {
             type: 'func_call_button',
             name: 'baen',
             numArgs: 1
-        }
-        ].concat(this.createNumButtons())
+        }, {
+            type: 'number_button'
+        }]
     }
 
     makeEditorData = () => {

@@ -36,6 +36,7 @@ export default class Editor extends Component {
   }
 
   addData = (data) => {
+    console.log("going to add numbers as parameters");
     if (!this.state.focused)
       return
 

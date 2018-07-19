@@ -15,6 +15,7 @@ class Keyboard extends Component {
   }
 
   render = () => {
+    console.log("look at the buttons:",this.props.data)
     return (
       <div style={style.container}>
         <header style={style.header}>

@@ -2,7 +2,8 @@ import Blank from './components/Blank';
 import React from 'react';
 import FuncCall from './components/FuncCall';
 import NumberEle from './components/Number.js'
-import { FuncCallButton, NumberButton } from './components/keyboard/index';
+// import ParamNumEle from './components/ParamNum.js'
+import { FuncCallButton, NumberButton} from './components/keyboard/index';
 
 const getCorrespEle = (ele) => {
   switch (ele.type) {
