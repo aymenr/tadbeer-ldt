@@ -22,6 +22,7 @@ export default class Grid extends Phaser.Group {
         this.rows = rows
         this.cols = cols
         this.callback;
+        this.goalTile;
         //Scale for different screen sizes
         this.scaleRatio = window.innerWidth/(cols* this.game.cache.getImage('grass').width)
 
@@ -58,9 +59,21 @@ export default class Grid extends Phaser.Group {
               y
             } = this.convert(i, j) 
 
+
+
             tile = this.game.add.sprite(x, y, this.tileArray[i][this.cols-j -1])
+            
+           
             this.tiles[i][j] = tile 
+
             tile.scale.setTo(this.scaleRatio, this.scaleRatio);
+
+             //set goaltile
+            if (this.tileArray[i][this.cols-j-1] =='goal-road') {
+         
+              this.goalTile = this.tiles[i][j]
+            
+            }
           }
         }    
     
@@ -74,6 +87,9 @@ export default class Grid extends Phaser.Group {
       }
     }
 
+    getGoalTile() {
+      return this.goalTile
+    }
     //approximate method
     getHeight() {
       return Math.abs(this.convert(0, this.cols).y - this.convert(this.rows + 1, 0).y)
@@ -84,6 +100,20 @@ export default class Grid extends Phaser.Group {
       return Math.abs(this.convert(0, 0).x - this.convert(this.rows, this.cols).x)
     }
 
+    createTween(fade,obj,coordinates) {
+    if(fade ==1) {
+    return this.game.add.tween(obj, this.game, this.game.tweens).to({
+        x: coordinates.x,
+        y: coordinates.y
+      }, 1500)
+    }else {
+      return this.game.add.tween(obj, this.game, this.game.tweens).to({
+        x: coordinates.x,
+        y: coordinates.y,
+        alpha:0
+      }, 1500)
+    }
+    }
     placeObject(x, y, obj, offsetX, offsetY,scaleX,scaleY) {
 
       //Calculate target coordinates
@@ -103,7 +133,7 @@ export default class Grid extends Phaser.Group {
     }
 
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
-    moveObject(x, y, obj,callbackToAsync, offsetX = 0, offsetY = 0) {
+    moveObject(x, y, obj,callbackToAsync,fade, offsetX = 0, offsetY = 0) {
 
       console.log("in grid moveObject");
       console.log(x, y,obj.i,obj.j)
@@ -117,10 +147,9 @@ export default class Grid extends Phaser.Group {
 
 
       let coordinates = this.convert(obj.i + offsetX,obj.j + offsetY)
-      let tween = this.game.add.tween(obj, this.game, this.game.tweens).to({
-        x: coordinates.x,
-        y: coordinates.y
-      }, 1500)
+
+      let tween =this.createTween(fade,obj,coordinates)
+       
       
       this.callback = callbackToAsync
       tween.onComplete.add(this.callbackWrapper,this)

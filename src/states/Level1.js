@@ -13,6 +13,7 @@ export default class Level1 extends Phaser.State {
         this.sizeY = 6
         this.grid = new Grid(6, 6, this.game)
         this.rickshaw;
+        this.passenger;
     }
 
     create() {
@@ -26,18 +27,23 @@ export default class Level1 extends Phaser.State {
         ];
 
 
-
+        game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
 
         this.grid.render(gameBoard)
 
         //setup rickshaw
         this.rickshaw = this.renderAndPlaceObject('rickshaw', 'up', this.grid, 2, 0, -0.2, 0.6, 1.3, 1.3)
+  
+
 
         //setup passenger1
-        let passenger = this.renderAndPlaceObject('passenger1', 'ride', this.grid, 1, 4, -0.4, 0.1, 0.7, 0.7)
-        passenger.animations.add('ride', ['ride', 'no-ride'], 4, 60, true, false);
-        passenger.animations.play('ride')
+        this.passenger = this.renderAndPlaceObject('passenger2', 'ride', this.grid, 1, 4, 0.2, -0.2, 1.1, 1.1)
+        this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
+        this.passenger.animations.add('walk', ['walk01', 'walk02','walk03'], 6, 60, false, false);
+        
+        this.passenger.animations.play('ride')
+        
 
 
         connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
@@ -57,31 +63,31 @@ export default class Level1 extends Phaser.State {
 
 
     wrapCode = (code) => Level1Wrap + " " + code
-    moveObj = (move, callback) => {
+    moveRickshaw = (move, callback) => {
         switch (move.direction) {
             case "up":
                 this.rickshaw.frameName = 'up'
-                this.grid.moveObject(0, move.steps, this.rickshaw, callback)
+                this.grid.moveObject(0, move.steps, this.rickshaw, callback,1)
 
 
                 break;
             case "down":
 
                 this.rickshaw.frameName = 'down'
-                this.grid.moveObject(0, -move.steps, this.rickshaw,callback)
+                this.grid.moveObject(0, -move.steps, this.rickshaw,callback,1)
 
                 break;
             case "left":
             
                     this.rickshaw.frameName = 'left'
-                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback)
+                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback,1)
                
                 break
 
             case "right":
              
                 this.rickshaw.frameName = 'right'
-                this.grid.moveObject(move.steps, 0, this.rickshaw, callback)
+                this.grid.moveObject(move.steps, 0, this.rickshaw, callback,1)
 
                 break
 
@@ -107,10 +113,14 @@ export default class Level1 extends Phaser.State {
         
             async.forEachSeries(parsed.moves,function(move, callback) {
                 console.log(callback)
-                that.moveObj(move, callback)
+                that.moveRickshaw(move, callback)
 
             }, function() {
-                console.log('done running the entire code')
+                console.log('ends')
+                if (that.checkGoal()) {
+                    that.gameOver()
+                }
+        
             });
 
 
@@ -118,8 +128,21 @@ export default class Level1 extends Phaser.State {
         })
     }
 
+    gameOver=()=> {
+        this.passenger.animations.play('walk',6,true)
+        this.grid.moveObject(1, 0, this.passenger, function(){
 
+            this.passenger.animations.stop(null, true);
+        },0)
 
+    }
+    checkGoal=() => {
+        let rickshawBounds = this.rickshaw.getBounds()
+        let goalTileBounds = this.grid.getGoalTile().getBounds
+        console.log(rickshawBounds,'rickshawbounds')
+        console.log(goalTileBounds,'tilebounds')
+        return Phaser.Rectangle.intersects(rickshawBounds, goalTileBounds);
+    }
 
 
     makeButtons = () => {
