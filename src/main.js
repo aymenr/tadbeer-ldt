@@ -5,10 +5,13 @@ import Phaser from 'phaser'
 import BootState from './states/Boot'
 import GameState from './states/Game'
 import Level1 from './states/Level1'
+import Splash from './states/Splash'
 
 import { connect } from './ui/main'
 
 import config from './config'
+import style from 'slick-carousel/slick/slick.css'
+import style1 from 'slick-carousel/slick/slick-theme.css'
 
 if (__LOCAL_DEV__) {
   //include mock API
@@ -26,6 +29,7 @@ class Game extends Phaser.Game {
     this.state.add('Boot', BootState, false)
     this.state.add('Game', GameState, false)
     this.state.add('Level1', Level1, false)
+    this.state.add('Splash', Splash, false)
 
     this.state.start('Boot')
   }

@@ -27,6 +27,6 @@ export default class extends Phaser.State {
 
   create() {
     FBInstant.startGameAsync()
-      .then(() => this.state.start('Game'))
+      .then(() => this.state.start('Splash'))
   }
 }
