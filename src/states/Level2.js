@@ -148,7 +148,7 @@ export default class Level1 extends Phaser.State {
 
             that.grid.moveObject(0, -6, that.rickshaw, function() {
                 that.state.start('Level2')
-            }, 0, this.rickshawXOffset, this.rickshawYOffset)
+            }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
         }, 0,this.passengerXOffset,this.passengerYOffset)
 

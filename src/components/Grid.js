@@ -47,7 +47,7 @@ export default class Grid extends Phaser.Group {
 
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
-                this.tileArray[i][j] = tArray[i][this.cols - j - 1]
+                this.tileArray[i][j] = tArray[i][j]
             }
         }
 
@@ -62,7 +62,7 @@ export default class Grid extends Phaser.Group {
 
 
 
-                tile = this.game.add.sprite(x, y, this.tileArray[i][this.cols - j - 1])
+                tile = this.game.add.sprite(x, y, this.tileArray[i][j])
                 tile.i = i
                 tile.j = j
 
@@ -71,14 +71,14 @@ export default class Grid extends Phaser.Group {
                 tile.scale.setTo(this.scaleRatio, this.scaleRatio);
 
                 //set goaltile
-                if (this.tileArray[i][this.cols - j - 1].includes('goal-road')) {
+                if (this.tileArray[i][j].includes('goal-road')) {
 
                     this.goalTile = this.tiles[i][j]
 
                 }
             }
         }
-
+        console.log("TILE ARRRAY:",this.tileArray);
     }
 
 
@@ -143,7 +143,7 @@ export default class Grid extends Phaser.Group {
     }
 
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
-    moveObject(x, y, obj, callbackToAsync, fade, offsetX = 0, offsetY = 0) {
+    moveObject(x, y, obj, callbackToAsync, fade, offsetX = 0, offsetY = 0, override = false) {
 
         console.log("in grid moveObject");
         console.log(x, y, obj.i, obj.j)
@@ -161,12 +161,10 @@ export default class Grid extends Phaser.Group {
         let obstruction = this.checkObstruction(oldCoordinates, {'x':obj.i,'y':obj.j}) 
         let outOfBounds = false
 
-        //need to FIX this because will check for obstruction at last move and will fuck it up - put  a check for out of bounds
-        if (obj.i < this.objectArray.length && obj.i >= 0 && obj.j < this.objectArray[obj.i].length && obj.j >= 0) // if out of bounds let it go for now
-            this.objectArray[obj.i][obj.j] = obj
+        this.objectArray[obj.i][obj.j] = obj
 
         //if theres an obstruction it iwll stop at obstruction, if there ius no obstruction it will stop when outta bounds
-        if (obstruction!= false) {
+        if (obstruction!= false && override == false) {
             newCoordinates = this.convert(obstruction.x +offsetX,obstruction.y + offsetY)
             this.error = "obstruction_error"
          }else 
@@ -174,7 +172,7 @@ export default class Grid extends Phaser.Group {
             
         
 
-        if (outOfBounds != false){
+        if (outOfBounds != false && override ==false){
             newCoordinates = this.convert(outOfBounds.x +offsetX,outOfBounds.y + offsetY)
             this.error ="outofbounds_error"
           }
@@ -184,6 +182,7 @@ export default class Grid extends Phaser.Group {
 
 
         this.callback = callbackToAsync
+
         tween.onComplete.add(this.callbackWrapper, this)
         tween.start()
 
@@ -236,7 +235,7 @@ export default class Grid extends Phaser.Group {
           }
         }else {
           for (var y = startCoordinates.y-1; y >= endCoordinates.y; y--) {
-              if ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' )|| this.tileArray[x][startCoordinates.y]=='nehar-lower' ) {
+              if ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' )|| this.tileArray[startCoordinates.x][y]=='nehar-lower' ) {
                   return { 'x': startCoordinates.x, 'y': y+1 }
               }
           }
