@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 class ParamNumButton extends Component {
 
     onClick = () => {
-        let data = {
+            let data = {
             value: this.props.value,
             type: 'param_nums'
         }
@@ -28,7 +28,6 @@ class ParamNumButton extends Component {
     }
 
     render = () => {
-        console.log("im getting the callback paramnums",this.props.buttonCb)
         const value = this.props.value;
 
         return ( <

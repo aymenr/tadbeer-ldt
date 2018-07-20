@@ -27,7 +27,8 @@ export default class Editor extends Component {
   }
 
   focusCallback = (comp) => {
-    if (this.state.focused) {
+    console.log("changing focus")
+    if (this.state.focused ) {
       this.state.focused.setFocus(false)
     }
 
@@ -36,7 +37,6 @@ export default class Editor extends Component {
   }
 
   addData = (data) => {
-    console.log("going to add numbers as parameters",data);
     if (!this.state.focused)
       return
 
@@ -44,7 +44,7 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-    console.log('1');
+
     this.state.focused.updateData(data);
   }
 
@@ -58,7 +58,7 @@ export default class Editor extends Component {
     let newState = update(this.state.statements, {[key]: { $set: data }})
     if (key == newState.length - 1)
       newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too
-    console.log('newstate',newState)
+
     this.setState({statements: newState })
   }
 
@@ -70,7 +70,6 @@ export default class Editor extends Component {
   }
 
   render() {
-    console.log("here:",this.state.statements)
     return (
 
       <div ref={ref => this.container = ref } >

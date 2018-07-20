@@ -32,7 +32,6 @@ class FuncCallButton extends Component {
     const {
       name
     } = this.props;
-    console.log("im getting the callback funccall",this.props.buttonCb)
     return (
       <div style={styles.container} >
         <div style={styles.button} onClick={this.onClick}>{name}()</div>

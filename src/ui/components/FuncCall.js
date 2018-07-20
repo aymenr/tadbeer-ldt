@@ -15,7 +15,7 @@ export default class FuncCall extends Statement {
   initState() {
     let state = {
       args: [],
-      focused: false
+      focus: false
     }
 
     // #TODO add ability to provide default args
@@ -58,6 +58,7 @@ export default class FuncCall extends Statement {
   }
 
   render() {
+
     const {
       name
     } = this.props;

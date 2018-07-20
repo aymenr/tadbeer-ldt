@@ -7,14 +7,17 @@ export default class Statement extends Component {
   }
 
   componentDidMount() {
+
     this._isMounted = true;
   }
 
   setFocus = (focus) => {
-    if (this._isMounted)
-      return this.setState({ focus })
-    else
-      return new Promise(resolve => resolve())
+    // if (this._isMounted)
+      console.log('setting components focus and rerendering component:',focus)
+      return this.setState({ focus:focus })
+    // else
+
+    //   return new Promise(resolve => resolve())
   }
 
   componentWillUnmount() {

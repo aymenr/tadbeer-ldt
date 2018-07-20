@@ -29,11 +29,11 @@ export default class ParamNum extends Statement {
 
   render = () => {
     const value =this.props.value
-    console.log('value should be here',this.props);
+
     
 
     return (
-      <span onClick={this.onClick}>{value}</span>
+      <span style={this.state.focus? styles.blank : styles.none} onClick={this.onClick}>{value}</span>
     )
   }
 }
@@ -51,6 +51,14 @@ const styles = {
     outline: 0,
     background: 'transparent',
     borderBottom: '1px solid black',
-  }
+  },
+
+    blank: {
+      backgroundColor:'#b8b8b8'
+    },
+    none:{
+      backgroundColor:'white'
+    
+}
 }
 

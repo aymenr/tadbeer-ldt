@@ -6,7 +6,6 @@ import ParamNumEle from './components/ParamNum.js'
 import { FuncCallButton, NumberButton, ParamNumButton} from './components/keyboard/index';
 
 const getCorrespEle = (ele) => {
-  console.log('ELE:',ele);
   switch (ele.type) {
     case 'blank':
       return <Blank { ...ele } />

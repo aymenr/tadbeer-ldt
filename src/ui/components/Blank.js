@@ -16,7 +16,7 @@ export default class Blank extends Statement {
     } = this.props;
 
     this.state = {
-      focused: initFocused
+      focus: initFocused
     }
 
     if (initFocused)
@@ -24,10 +24,12 @@ export default class Blank extends Statement {
   }
 
   onClick = (ev) => {
+
     this.props.focusCallback(this);
   }
 
   updateData = (data) => {
+
     if (this.props.updateDataCb)
       return this.props.updateDataCb(data, this.props.index)
 
@@ -35,10 +37,20 @@ export default class Blank extends Statement {
   }
 
   render() {
+    console.log('mystate:',this.state)
+    console.log('rendering with this focus value:',this.state.focus)
     return (
-      <span onClick={this.onClick} >__</span>
+      <span style= {this.state.focus? styles.blank : styles.none}  onClick={this.onClick} >__</span>
     )
   }
+}
+const styles = {
+    blank: {
+      backgroundColor:'#b8b8b8'
+    },
+    none:{
+      backgroundColor:'white'
+    }
 }
 
 Blank.propTypes = {
