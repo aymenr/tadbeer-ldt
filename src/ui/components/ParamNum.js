@@ -24,6 +24,7 @@ export default class ParamNum extends Statement {
 
   updateData = (data) => {
     //just notify parent
+   
     this.props.updateDataCb(data, this.props.index)
   }
 

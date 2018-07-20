@@ -39,9 +39,10 @@ export default class FuncCall extends Statement {
     data.index = key;
     data.updateDataCb = this.updateDataCb;
   }
-
+// 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
+    console.log("this is where its going dowwn:",data,key)
     if(data && data.type && data.type == 'delete') {
       this.setState({
         args: this.state.args.filter((_,i) => i != key)
@@ -51,6 +52,7 @@ export default class FuncCall extends Statement {
     this.addArgDefaults(data, key)
     let newArgs = update(this.state.args, {[key]: {$set: data}}) 
     this.setState({ args: newArgs})
+    console.log("state of affairs:",this.state)
   }
 
   onClick = () => {

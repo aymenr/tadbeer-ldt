@@ -12,12 +12,10 @@ export default class Statement extends Component {
   }
 
   setFocus = (focus) => {
-    // if (this._isMounted)
-      console.log('setting components focus and rerendering component:',focus)
+    if (this._isMounted)
       return this.setState({ focus:focus })
-    // else
-
-    //   return new Promise(resolve => resolve())
+    else
+      return new Promise(resolve => resolve())
   }
 
   componentWillUnmount() {

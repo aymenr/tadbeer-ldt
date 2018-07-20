@@ -37,6 +37,7 @@ export default class Editor extends Component {
   }
 
   addData = (data) => {
+    console.log("maybe here")
     if (!this.state.focused)
       return
 
@@ -44,13 +45,12 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-
+    console.log("should beadding data")
     this.state.focused.updateData(data);
   }
 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
-    console.log(data);
     if (data && data.type && data.type == 'delete')
       return this.setState({
         statements: this.state.statements.filter((_,i) => i != key)
@@ -70,6 +70,7 @@ export default class Editor extends Component {
   }
 
   render() {
+    console.log("statements:",this.state.statements);
     return (
 
       <div ref={ref => this.container = ref } >

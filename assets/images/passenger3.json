@@ -35,10 +35,10 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "passenger1.png",
+	"image": "passenger3.png",
 	"format": "RGBA8888",
 	"size": {"w":488,"h":1466},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:694568c912f50a268b5116c72c0440e1:0b3635bfcd47e7885176e9372527ace2:1fb336ac0fb634090bf2fedaf9e7ea53$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d52656ffc0540b1b7ee0463ddccf6c81:ec20e6e5366886573f96ba27d769b45c:4f62270c4faea95cb4406371ac589188$"
 }
 }

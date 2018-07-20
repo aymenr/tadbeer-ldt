@@ -16,10 +16,20 @@ export default class extends Phaser.State {
     this.load.image('water', 'assets/images/tiles/water.png')
     this.load.image('water', 'assets/images/tiles/sewage_open.png')
     this.load.image('goal-road', 'assets/images/tiles/road1-goal.png')
+    this.load.image('goal-road2', 'assets/images/tiles/road2-goal.png')
     this.load.image('wall1', 'assets/images/wall1.png')
-    this.load.image('wall2', 'assets/images/wall2.png')
+    this.load.image('wall2', 'asisets/images/wall2.png')
+    this.load.image('policeNaka', 'assets/images/police.png')
+    this.load.image('nehar-lower', 'assets/images/tiles/nehar-lower.png')
+
+    this.load.image('road-up-left', 'assets/images/tiles/turn7.png')
+    this.load.image('road-left-down', 'assets/images/tiles/turn1.png')
+    this.load.image('tree', 'assets/images/tree.png')
+    this.load.image('bench', 'assets/images/bench.png')
+    
     this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
     this.load.atlasJSONHash('passenger2', 'assets/images/passenger2.png', 'assets/images/passenger2.json');
+    this.load.atlasJSONHash('passenger3', 'assets/images/passenger3.png', 'assets/images/passenger3.json');
     this.load.atlasJSONHash('rickshaw', 'assets/images/rickshaw.png', 'assets/images/rickshaw.json');
 
     FBInstant.setLoadingProgress(100);

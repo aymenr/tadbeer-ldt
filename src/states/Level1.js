@@ -9,21 +9,23 @@ import async from '../../node_modules/async'
 
 export default class Level1 extends Phaser.State {
     init() {
-        this.sizeX = 6
-        this.sizeY = 6
-        this.grid = new Grid(6, 6, this.game)
+        this.sizeX = 3
+        this.sizeY = 3
+        this.grid = new Grid(3, 3, this.game)
         this.rickshaw;
         this.passenger;
-    }
+        this.rickshawXOffset = -0.2;
+        this.rickshawYOffset = 0.6;
+        this.passengerXOffset = 0  
+        this.passengerYOffset = 1
+     }
 
     create() {
         var gameBoard = [
-            ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
-            ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
-            ['road1', 'road1', 'road1', 'goal-road', 'road1', 'road1'],
-            ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
-            ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
-            ['grass', 'grass', 'grass', 'grass', 'grass', 'grass'],
+            ['goal-road2', 'grass', 'grass'],
+            ['road2', 'grass', 'grass'],
+            ['road2', 'grass', 'grass']
+
         ];
 
 
@@ -33,17 +35,17 @@ export default class Level1 extends Phaser.State {
         this.grid.render(gameBoard)
 
         //setup rickshaw
-        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'up', this.grid, 2, 0, -0.2, 0.6, 1.3, 1.3)
-  
+        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
+
 
 
         //setup passenger1
-        this.passenger = this.renderAndPlaceObject('passenger2', 'ride', this.grid, 1, 4, 0.2, -0.2, 1.1, 1.1)
+        this.passenger = this.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
-        this.passenger.animations.add('walk', ['walk01', 'walk02','walk03'], 6, 60, false, false);
-        
+        this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
+
         this.passenger.animations.play('ride')
-        
+
 
 
         connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
@@ -64,34 +66,33 @@ export default class Level1 extends Phaser.State {
 
     wrapCode = (code) => Level1Wrap + " " + code
     moveRickshaw = (move, callback) => {
+        let x = 0,
+            y = 0
+
         switch (move.direction) {
             case "up":
+                y = move.steps
                 this.rickshaw.frameName = 'up'
-                this.grid.moveObject(0, move.steps, this.rickshaw, callback,1)
-
 
                 break;
             case "down":
-
+                y = -move.steps
                 this.rickshaw.frameName = 'down'
-                this.grid.moveObject(0, -move.steps, this.rickshaw,callback,1)
 
                 break;
             case "left":
-            
-                    this.rickshaw.frameName = 'left'
-                    this.grid.moveObject( -move.steps, 0,this.rickshaw,callback,1)
-               
+                x = -move.steps
+                this.rickshaw.frameName='left'
                 break
 
             case "right":
-             
+                x = move.steps
                 this.rickshaw.frameName = 'right'
-                this.grid.moveObject(move.steps, 0, this.rickshaw, callback,1)
 
                 break
-
         }
+
+        this.grid.moveObject(x, y, this.rickshaw, callback, 1, this.rickshawXOffset, this.rickshawYOffset)
 
     }
     runCodeCb = (code) => {
@@ -108,10 +109,10 @@ export default class Level1 extends Phaser.State {
 
             if (!parsed.moves)
                 return
-   
+
             let that = this
-        
-            async.forEachSeries(parsed.moves,function(move, callback) {
+
+            async.forEachSeries(parsed.moves, function(move, callback) {
                 console.log(callback)
                 that.moveRickshaw(move, callback)
 
@@ -120,7 +121,7 @@ export default class Level1 extends Phaser.State {
                 if (that.checkGoal()) {
                     that.gameOver()
                 }
-        
+
             });
 
 
@@ -128,34 +129,38 @@ export default class Level1 extends Phaser.State {
         })
     }
 
-    gameOver=()=> {
-        this.passenger.animations.play('walk',6,true)
+    gameOver = () => {
+
+        this.passenger.animations.play('walk', 6, true)
         var that = this
-        this.grid.moveObject(1, 0, this.passenger, function(){
+        this.grid.moveObject(0, -1, this.passenger, function() {
 
-      
-            that.grid.moveObject(1,6,that.rickshaw,function() {
+
+            that.grid.moveObject(-3, 0, that.rickshaw, function() {
                 console.log("next level loading");
-                that.game.state.start('Level1')
-            })
-        },0)
+                that.state.start('Level2')
+            }, 0, that.rickshawXOffset, that.rickshawYOffset)
+
+        }, 0,this.passengerXOffset,this.passengerYOffset)
 
     }
-    checkGoal=() => {
-       
+    checkGoal = () => {
+
+
         let goalTile = this.grid.getGoalTile()
-        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j   
+        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j
+
     }
 
-    createNumButtons= () => {
+    createNumButtons = () => {
         let numButtons = [];
-        for (var i = 1; i <=5; i++) {
-            numButtons.push({type:'param_num',value:i.toString()})
+        for (var i = 1; i <= 2; i++) {
+            numButtons.push({ type: 'param_num', value: i })
         }
         return numButtons
     }
     makeButtons = () => {
-        
+
         return [{
             type: 'func_call_button',
             name: 'uper',
@@ -178,8 +183,14 @@ export default class Level1 extends Phaser.State {
 
     makeEditorData = () => {
         return [{
-            type: 'blank',
-            initFocused: true
-        }]
+                name: 'baen',
+                numArgs: 1,
+                type: 'func_call'
+            },
+            {
+                type: 'blank',
+                initFocused: false 
+            }
+        ]
     }
 }

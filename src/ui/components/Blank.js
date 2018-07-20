@@ -29,16 +29,16 @@ export default class Blank extends Statement {
   }
 
   updateData = (data) => {
+   
+    if (this.props.updateDataCb){
 
-    if (this.props.updateDataCb)
       return this.props.updateDataCb(data, this.props.index)
+    }
 
     //default implementation here
   }
 
   render() {
-    console.log('mystate:',this.state)
-    console.log('rendering with this focus value:',this.state.focus)
     return (
       <span style= {this.state.focus? styles.blank : styles.none}  onClick={this.onClick} >__</span>
     )

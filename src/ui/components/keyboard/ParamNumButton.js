@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 class ParamNumButton extends Component {
 
     onClick = () => {
-            let data = {
+               let data = {
             value: this.props.value,
             type: 'param_nums'
         }
@@ -57,7 +57,7 @@ const styles = {
 }
 
 ParamNumButton.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
     buttonCb: PropTypes.func.isRequired
 }
 

@@ -24,7 +24,7 @@ class FuncCallButton extends Component {
       numArgs: this.props.numArgs,
       type: 'func_call'
     }
-
+    console.log('THIS IS WHATA CMD LOKS LIKE',data)
     this.props.buttonCb(data);
   }
 
