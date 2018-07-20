@@ -23,6 +23,7 @@ export default class Grid extends Phaser.Group {
         this.cols = cols
         this.callback;
         this.goalTile;
+        this.error = false
         //Scale for different screen sizes
         this.scaleRatio = window.innerWidth / (cols * this.game.cache.getImage('grass').width)
 
@@ -130,7 +131,15 @@ export default class Grid extends Phaser.Group {
     }
     //using callback directly doesnt work for some reason
     callbackWrapper() {
-        this.callback()
+        if(this.error =="obstruction_error"){
+          this.error = false
+          this.callback('obstruction_error')
+        }
+        else if (this.error =='outofbounds_error'){
+          this.error = false
+          this.callback('outofbounds_error')
+        } else
+            this.callback()
     }
 
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
@@ -150,15 +159,27 @@ export default class Grid extends Phaser.Group {
 
         let newCoordinates= this.convert(obj.i + offsetX, obj.j + offsetY)
         let obstruction = this.checkObstruction(oldCoordinates, {'x':obj.i,'y':obj.j}) 
+        let outOfBounds = false
 
-        //need to fix this because will check for obstruction at last move and will fuck it up - put  a check for out of bounds
+        //need to FIX this because will check for obstruction at last move and will fuck it up - put  a check for out of bounds
         if (obj.i < this.objectArray.length && obj.i >= 0 && obj.j < this.objectArray[obj.i].length && obj.j >= 0) // if out of bounds let it go for now
             this.objectArray[obj.i][obj.j] = obj
 
+        //if theres an obstruction it iwll stop at obstruction, if there ius no obstruction it will stop when outta bounds
         if (obstruction!= false) {
-            console.log('yaar ye kahan ja raha hay rickshaw')
             newCoordinates = this.convert(obstruction.x +offsetX,obstruction.y + offsetY)
-        }
+            this.error = "obstruction_error"
+         }else 
+            outOfBounds = this.checkOutOfBounds({'x':obj.i,'y':obj.j})
+            
+        
+
+        if (outOfBounds != false){
+            newCoordinates = this.convert(outOfBounds.x +offsetX,outOfBounds.y + offsetY)
+            this.error ="outofbounds_error"
+          }
+        
+
         let tween = this.createTween(fade, obj, newCoordinates, time)
 
 
@@ -168,6 +189,25 @@ export default class Grid extends Phaser.Group {
 
 
     }
+    checkOutOfBounds(endCoordinates) {
+        if(endCoordinates.x >= this.tileArray.length) 
+          return ({'x':this.tileArray.length-1,'y':endCoordinates.y})
+
+
+        if (endCoordinates.x <0) 
+            return ({'x':0,'y':endCoordinates.y})
+            
+        
+        if (endCoordinates.y >= this.tileArray[endCoordinates.x].length)
+          return ({'x':endCoordinates.x,'y':this.tileArray[endCoordinates.x].length-1})
+
+
+        if(endCoordinates.y < 0)
+           return ({'x':endCoordinates.x,'y':0})
+
+        return false
+     }
+
     checkObstructionForward(startCoordinates,endCoordinates,direction) {
         if (direction=='x') {
           for (var x = startCoordinates.x+1; x <= endCoordinates.x; x++) {

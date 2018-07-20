@@ -125,9 +125,11 @@ export default class Level1 extends Phaser.State {
                 console.log(callback)
                 that.moveRickshaw(move, callback)
 
-            }, function() {
-                console.log('ends')
-                if (that.checkGoal()) {
+            }, function(err) {
+                if (err){
+                    console.log("there is an:",err)
+                }
+                else if (that.checkGoal()) {
                     that.gameOver()
                 }
 
