@@ -18,19 +18,25 @@ export default class FuncCall extends Statement {
       focused: false
     }
 
-    // #TODO add ability to provide default args
-    //for numArgs, push blanks
-    let temp = [...Array(this.props.numArgs).keys()].map((_,index) => {
-      state.args.push({
-        type: 'blank',
-        validCat: 'expression',
-        updateDataCb: this.updateDataCb,
-        focusCallback: this.props.focusCallback,
-        index: index,
-        initFocused: index == 0 ? true : false
+    if (this.props.args) {
+      state.args = this.props.args.map((arg, index) => {
+        let newArg = Object.assign({}, arg) //copy over
+        this.addArgDefaults(newArg, index) 
+        return newArg
       })
-    })
-
+    } else {
+        //for numArgs, push blanks
+      let temp = [...Array(this.props.numArgs).keys()].map((_,index) => {
+        state.args.push({
+          type: 'blank',
+          validCat: 'expression',
+          updateDataCb: this.updateDataCb,
+          focusCallback: this.props.focusCallback,
+          index: index,
+          initFocused: index == 0 ? true : false
+        })
+      })
+    }
     this.state = state;
   }
 

@@ -174,8 +174,13 @@ export default class Level1 extends Phaser.State {
 
     makeEditorData = () => {
         return [{
-            type: 'blank',
-            initFocused: true
+            type: 'func_call',
+            initFocused: true,
+            args: [{
+                type: 'number',
+                initValue: 1
+            }],
+            name: 'uper'
         }]
     }
 }
