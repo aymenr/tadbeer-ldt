@@ -81,13 +81,17 @@ module.exports = {
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]',
+                    context: ''
+                }
             },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                test: /\.(png|woff|woff2|eot|ttf|svg|gif)$/,
                 loader: 'url-loader?limit=100000'
             },
             {
@@ -120,7 +124,8 @@ module.exports = {
             'phaser': phaser,
             'pixi': pixi,
             'p2': p2,
-            'modeJS': modeJS
+            'modeJS': modeJS,
+            '~': path.resolve(__dirname)
         },
         //modules: ['node_modules']
     }

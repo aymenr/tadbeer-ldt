@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
-import {deleteUI} from '../ui/main'
+import { deleteUI } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
@@ -17,9 +17,9 @@ export default class Level1 extends Phaser.State {
         this.passenger;
         this.rickshawXOffset = -0.2;
         this.rickshawYOffset = 0.6;
-        this.passengerXOffset = 0  
+        this.passengerXOffset = 0
         this.passengerYOffset = 1
-     }
+    }
 
     create() {
         var gameBoard = [
@@ -47,7 +47,7 @@ export default class Level1 extends Phaser.State {
 
 
 
-       connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
 
     }
 
@@ -82,7 +82,7 @@ export default class Level1 extends Phaser.State {
                 break;
             case "left":
                 x = -move.steps
-                this.rickshaw.frameName='left'
+                this.rickshaw.frameName = 'left'
                 break
 
             case "right":
@@ -113,11 +113,11 @@ export default class Level1 extends Phaser.State {
             let that = this
 
             async.forEachSeries(parsed.moves, function(move, callback) {
-      
+
                 that.moveRickshaw(move, callback)
 
             }, function(err) {
-                console.log('level1:',err)
+                console.log('level1:', err)
                 if (!err && that.checkGoal()) {
                     that.gameOver()
                 }
@@ -139,9 +139,9 @@ export default class Level1 extends Phaser.State {
             that.grid.moveObject(-3, 0, that.rickshaw, function() {
                 deleteUI('content')
                 that.state.start('Level2')
-            }, 0, that.rickshawXOffset, that.rickshawYOffset,true)
+            }, 0, that.rickshawXOffset, that.rickshawYOffset, true)
 
-        }, 0,this.passengerXOffset,this.passengerYOffset)
+        }, 0, this.passengerXOffset, this.passengerYOffset)
 
     }
     checkGoal = () => {
@@ -177,20 +177,23 @@ export default class Level1 extends Phaser.State {
             type: 'func_call_button',
             name: 'baen',
             numArgs: 1
-        }
-        ].concat(this.createNumButtons())
+        }].concat(this.createNumButtons())
     }
 
     makeEditorData = () => {
         return [{
-                name: 'baen',
-                numArgs: 1,
-                type: 'func_call'
-            },
-            {
-                type: 'blank',
-                initFocused: false 
-            }
-        ]
+
+            type: 'func_call',
+            initFocused: true,
+            args: [{
+                type: 'number',
+                initValue: 1
+            }],
+            name: 'uper'
+        }, {
+            type: 'blank',
+            initFocused: false
+        }]
+
     }
 }
