@@ -81,6 +81,10 @@ module.exports = {
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]',
+                    context: ''
+                }
             },
             {
                 test: /\.css$/,
@@ -120,7 +124,8 @@ module.exports = {
             'phaser': phaser,
             'pixi': pixi,
             'p2': p2,
-            'modeJS': modeJS
+            'modeJS': modeJS,
+            '~': path.resolve(__dirname)
         },
         //modules: ['node_modules']
     }

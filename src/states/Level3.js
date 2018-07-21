@@ -46,7 +46,7 @@ export default class Level1 extends Phaser.State {
         this.rickshaw = this.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
 
         //setup passenger2
-        this.passenger = this.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1)
+        this.passenger = this.renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
