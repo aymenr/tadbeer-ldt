@@ -8,13 +8,10 @@ export default class extends Phaser.State {
   preload() {
     FBInstant.setLoadingProgress(50);
     //load any assets here
-    this.load.image('dude', 'assets/images/phaser-dude.png')
     this.load.image('road1', 'assets/images/tiles/road1.png')
     this.load.image('road2', 'assets/images/tiles/road2.png')
-    this.load.image('turn5', 'assets/images/tiles/turn5.png')
+    
     this.load.image('grass', 'assets/images/tiles/grass.png')
-    this.load.image('water', 'assets/images/tiles/water.png')
-    this.load.image('water', 'assets/images/tiles/sewage_open.png')
     this.load.image('goal-road', 'assets/images/tiles/road1-goal.png')
     this.load.image('goal-road2', 'assets/images/tiles/road2-goal.png')
     this.load.image('wall1', 'assets/images/wall1.png')
@@ -24,8 +21,17 @@ export default class extends Phaser.State {
 
     this.load.image('road-up-left', 'assets/images/tiles/turn7.png')
     this.load.image('road-left-down', 'assets/images/tiles/turn1.png')
+    this.load.image('road-down-left', 'assets/images/tiles/turn9.png')
+    this.load.image('road-left-up', 'assets/images/tiles/turn3.png')
     this.load.image('tree', 'assets/images/tree.png')
     this.load.image('bench', 'assets/images/bench.png')
+    this.load.image('lamppost-1', 'assets/images/lamppost1.png')
+    this.load.image('lamppost-2', 'assets/images/lamppost2.png')
+    this.load.image('khamba', 'assets/images/khamba.png')
+
+    this.load.image('khamba1half', 'assets/images/khamba1half.png')
+    this.load.image('khamba2half', 'assets/images/khamba2half.png')
+
     
     this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
     this.load.atlasJSONHash('passenger2', 'assets/images/passenger2.png', 'assets/images/passenger2.json');

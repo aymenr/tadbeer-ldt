@@ -6,6 +6,7 @@ import BootState from './states/Boot'
 import GameState from './states/Game'
 import Level1 from './states/Level1'
 import Level2 from './states/Level2'
+import Level3 from './states/Level3'
 
 import { connect } from './ui/main'
 
@@ -28,6 +29,7 @@ class Game extends Phaser.Game {
     this.state.add('Game', GameState, false)
     this.state.add('Level1', Level1, false)
     this.state.add('Level2', Level2, false)
+    this.state.add('Level3', Level3, false)
 
     this.state.start('Boot')
   }
