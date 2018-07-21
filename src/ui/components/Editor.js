@@ -27,7 +27,8 @@ export default class Editor extends Component {
   }
 
   focusCallback = (comp) => {
-    if (this.state.focused) {
+   
+    if (this.state.focused ) {
       this.state.focused.setFocus(false)
     }
 
@@ -36,6 +37,7 @@ export default class Editor extends Component {
   }
 
   addData = (data) => {
+ 
     if (!this.state.focused)
       return
 
@@ -43,7 +45,7 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-    
+
     this.state.focused.updateData(data);
   }
 
@@ -56,6 +58,7 @@ export default class Editor extends Component {
     let newState = update(this.state.statements, {[key]: { $set: data }})
     if (key == newState.length - 1)
       newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too
+
     this.setState({statements: newState })
   }
 
@@ -67,9 +70,12 @@ export default class Editor extends Component {
   }
 
   render() {
+
     return (
+
       <div ref={ref => this.container = ref } >
         {
+
         this.state.statements.map((statement, index) => getCorrespEle({ ...statement, key: index, focusCallback: this.focusCallback, updateDataCb: this.updateDataCb, index: index}) )
         }
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
-var image = require('~/assets/images/character.png')
-var image2 = require('~/assets/images/down.png')
+var image = require('~/assets/images/bench.png')
+var image2 = require('~/assets/images/khamba.png')
 
 export default class HomeSlider extends React.Component {
   render() {

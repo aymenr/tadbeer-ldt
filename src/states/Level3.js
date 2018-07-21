@@ -3,58 +3,73 @@ import Phaser from 'phaser'
 import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
-import { deleteUI } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
-
+import {deleteUI} from '../ui/main'
 export default class Level1 extends Phaser.State {
     init() {
-        this.sizeX = 3
-        this.sizeY = 3
-        this.grid = new Grid(3, 3, this.game)
+        this.sizeX = 4
+        this.sizeY = 4
+        this.grid = new Grid(4, 4, this.game)
         this.rickshaw;
         this.passenger;
         this.rickshawXOffset = -0.2;
         this.rickshawYOffset = 0.6;
-        this.passengerXOffset = 0
-        this.passengerYOffset = 1
+        this.passengerXOffset = 0  
+        this.passengerYOffset = 0.5
     }
 
     create() {
         var gameBoard = [
-            ['goal-road2', 'grass', 'grass'],
-            ['road2', 'grass', 'grass'],
-            ['road2', 'grass', 'grass']
+            ['grass', 'grass', 'goal-road2','grass'],
+            ['grass', 'road-left-up', 'road-up-left','road2'],
+            ['grass', 'road2', 'grass','road2'],
+            ['grass', 'road-down-left', 'road1','road-up-left']
 
         ];
 
+    
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
 
-        this.grid.render(gameBoard)
-
-        //setup rickshaw
-        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
-
-        //setup passenger1
-        this.passenger = this.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1)
-        this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
-        this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
-
-        this.passenger.animations.play('ride')
-
-
+        this.grid.render(gameBoard,'tiles')
+        this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
         connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
-
     }
 
 
+    renderObjects =()=> {
+        //setup rickshaw
+        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
 
+        //setup passenger2
+        this.passenger = this.renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1)
+        this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
+        this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
+        this.passenger.animations.play('ride');
+
+        
+        let naka= this.renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.1, 0.3, 1, 1)
+        let lampPost1= this.renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -0.3, 1.2, 1.5, 1.5)
+        let lampPost2= this.renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -0.3, 1.2, 1.5, 1.5)
+        let khamba1h= this.renderAndPlaceObject('', 'khamba1half', this.grid, 0, 0, -0.7, 1.22, 1.7, 1.7)
+        let khamba2h= this.renderAndPlaceObject('', 'khamba2half', this.grid, 0, 1, -0.2, 0.74 , 1.7, 1.7)
+
+        let khamba1bh= this.renderAndPlaceObject('', 'khamba1half', this.grid, 2, 0, -0.7, 1.38, 1.7, 1.7)
+        let khamba2bh= this.renderAndPlaceObject('', 'khamba2half', this.grid, 3, 0, -1.2, 1.9 , 1.7, 1.7)
+
+
+      
+    }
     renderAndPlaceObject = (atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY) => {
-        let object = this.game.add.sprite(0, 0, atlas, sprite)
+        let object;
+        if (atlas =='') //loading from sprite instead of atlas
+              object = this.game.add.sprite(0, 0, sprite)
+        else  
+            object = this.game.add.sprite(0, 0, atlas, sprite)
 
         object.alpha = 0
         grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
@@ -113,12 +128,14 @@ export default class Level1 extends Phaser.State {
             let that = this
 
             async.forEachSeries(parsed.moves, function(move, callback) {
-
+        
                 that.moveRickshaw(move, callback)
 
             }, function(err) {
-                console.log('level1:', err)
-                if (!err && that.checkGoal()) {
+                if (err){
+                    console.log("there is an:",err)
+                }
+                else if (that.checkGoal()) {
                     that.gameOver()
                 }
 
@@ -130,18 +147,17 @@ export default class Level1 extends Phaser.State {
     }
 
     gameOver = () => {
-
         this.passenger.animations.play('walk', 6, true)
         var that = this
-        this.grid.moveObject(0, -1, this.passenger, function() {
+        this.grid.moveObject(1, 0, this.passenger, function() {
 
 
-            that.grid.moveObject(-3, 0, that.rickshaw, function() {
+            that.grid.moveObject(-2, 0, that.rickshaw, function() {
                 deleteUI('content')
-                that.state.start('Level2')
-            }, 0, that.rickshawXOffset, that.rickshawYOffset, true)
+                that.state.start('Level1')
+            }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
-        }, 0, this.passengerXOffset, this.passengerYOffset)
+        }, 0,this.passengerXOffset,this.passengerYOffset)
 
     }
     checkGoal = () => {
@@ -154,7 +170,7 @@ export default class Level1 extends Phaser.State {
 
     createNumButtons = () => {
         let numButtons = [];
-        for (var i = 1; i <= 2; i++) {
+        for (var i = 1; i <= 3; i++) {
             numButtons.push({ type: 'param_num', value: i })
         }
         return numButtons
@@ -177,25 +193,20 @@ export default class Level1 extends Phaser.State {
             type: 'func_call_button',
             name: 'baen',
             numArgs: 1
-        }].concat(this.createNumButtons())
+        }
+        ].concat(this.createNumButtons())
     }
 
     makeEditorData = () => {
         return [{
-
-            type: 'func_call',
-            initFocused: true,
-            args: [{
-                type: 'number',
-                initValue: 1
-            }],
-            name: 'uper'
-
-        }, {
-            type: 'blank',
-            initFocused: false
-        }]
-
-
+                name: 'uper',
+                numArgs: 1,
+                type: 'func_call'
+            },
+            {
+                type: 'blank',
+                initFocused: false 
+            }
+        ]
     }
 }
