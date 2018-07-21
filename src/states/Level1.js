@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
+import {deleteUI} from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
@@ -37,8 +38,6 @@ export default class Level1 extends Phaser.State {
         //setup rickshaw
         this.rickshaw = this.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
 
-
-
         //setup passenger1
         this.passenger = this.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
@@ -48,7 +47,8 @@ export default class Level1 extends Phaser.State {
 
 
 
-        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
+       connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
+
     }
 
 
@@ -113,12 +113,12 @@ export default class Level1 extends Phaser.State {
             let that = this
 
             async.forEachSeries(parsed.moves, function(move, callback) {
-                console.log(callback)
+      
                 that.moveRickshaw(move, callback)
 
-            }, function() {
-                console.log('ends')
-                if (that.checkGoal()) {
+            }, function(err) {
+                console.log('level1:',err)
+                if (!err && that.checkGoal()) {
                     that.gameOver()
                 }
 
@@ -137,7 +137,7 @@ export default class Level1 extends Phaser.State {
 
 
             that.grid.moveObject(-3, 0, that.rickshaw, function() {
-                console.log("next level loading");
+                deleteUI('content')
                 that.state.start('Level2')
             }, 0, that.rickshawXOffset, that.rickshawYOffset,true)
 

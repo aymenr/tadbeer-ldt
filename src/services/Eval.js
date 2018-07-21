@@ -17,7 +17,7 @@ const Eval = (function () {
             timeout;
 
         worker.onmessage = function (evt) {
-            console.log(evt, 'eval worker.onmessage');
+            
 
             var type = evt.data.event;
 

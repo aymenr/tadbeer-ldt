@@ -78,7 +78,7 @@ export default class Grid extends Phaser.Group {
                 }
             }
         }
-        console.log("TILE ARRRAY:",this.tileArray);
+
     }
 
 
@@ -145,45 +145,38 @@ export default class Grid extends Phaser.Group {
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
     moveObject(x, y, obj, callbackToAsync, fade, offsetX = 0, offsetY = 0, override = false) {
 
-        console.log("in grid moveObject");
-        console.log(x, y, obj.i, obj.j)
 
         this.objectArray[obj.i][obj.j] = null
-        let diff = Math.max(Math.abs(x), Math.abs(y)),
-            time = diff * 600
-        let oldCoordinates = { 'x': obj.i, 'y': obj.j }
-        obj.i += x
-        obj.j += y
+        let obstruction = this.checkObstruction( { 'x': obj.i, 'y': obj.j }, {'x':obj.i +x,'y':obj.j +y}) 
+        let outOfBounds = this.checkOutOfBounds({'x':obj.i + x,'y':obj.j+y})
+        let newCoordinates= this.convert(obj.i + x + offsetX,obj.j+ y + offsetY)
 
-
-
-        let newCoordinates= this.convert(obj.i + offsetX, obj.j + offsetY)
-        let obstruction = this.checkObstruction(oldCoordinates, {'x':obj.i,'y':obj.j}) 
-        let outOfBounds = false
-
-        this.objectArray[obj.i][obj.j] = obj
-
-        //if theres an obstruction it iwll stop at obstruction, if there ius no obstruction it will stop when outta bounds
-        if (obstruction!= false && override == false) {
+        //if theres an obstruction it will stop at obstruction, if there is no obstruction it will stop when outta bounds otherwise it will go to new coordinates
+        if (obstruction!= false) { 
             newCoordinates = this.convert(obstruction.x +offsetX,obstruction.y + offsetY)
-            this.error = "obstruction_error"
-         }else 
-            outOfBounds = this.checkOutOfBounds({'x':obj.i,'y':obj.j})
-            
-        
+            obj.i +=obstruction.x
+            obj.y +=obstruction.y
 
-        if (outOfBounds != false && override ==false){
+            this.error = "obstruction_error" 
+         }else if(outOfBounds != false && override ==false ) {
             newCoordinates = this.convert(outOfBounds.x +offsetX,outOfBounds.y + offsetY)
+            obj.i +=outOfBounds.x
+            obj.y +=outOfBounds.y
             this.error ="outofbounds_error"
+         } else{ //no errors
+            obj.i = obj.i + x
+            obj.j = obj.j + y
           }
+
+        if (!override)
+          this.objectArray[obj.i][obj.j] = obj
         
 
-        let tween = this.createTween(fade, obj, newCoordinates, time)
-
-
+        //start tween
+        let tween = this.createTween(fade, obj, newCoordinates, Math.max(Math.abs(x), Math.abs(y)) * 600)
         this.callback = callbackToAsync
-
         tween.onComplete.add(this.callbackWrapper, this)
+
         tween.start()
 
 

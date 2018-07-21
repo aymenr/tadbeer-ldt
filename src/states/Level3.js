@@ -6,7 +6,7 @@ import { connect } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
-
+import {deleteUI} from '../ui/main'
 export default class Level1 extends Phaser.State {
     init() {
         this.sizeX = 4
@@ -23,7 +23,7 @@ export default class Level1 extends Phaser.State {
     create() {
         var gameBoard = [
             ['grass', 'grass', 'goal-road2','grass'],
-            ['grass', 'road-left-up', 'road-up-left','grass'],
+            ['grass', 'road-left-up', 'road-up-left','road2'],
             ['grass', 'road2', 'grass','road2'],
             ['grass', 'road-down-left', 'road1','road-up-left']
 
@@ -43,7 +43,7 @@ export default class Level1 extends Phaser.State {
 
     renderObjects =()=> {
         //setup rickshaw
-        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'right', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
+        this.rickshaw = this.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3)
 
         //setup passenger2
         this.passenger = this.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1)
@@ -128,7 +128,7 @@ export default class Level1 extends Phaser.State {
             let that = this
 
             async.forEachSeries(parsed.moves, function(move, callback) {
-                console.log(callback)
+        
                 that.moveRickshaw(move, callback)
 
             }, function(err) {
@@ -152,8 +152,9 @@ export default class Level1 extends Phaser.State {
         this.grid.moveObject(1, 0, this.passenger, function() {
 
 
-            that.grid.moveObject(0, -6, that.rickshaw, function() {
-                that.state.start('Level2')
+            that.grid.moveObject(-2, 0, that.rickshaw, function() {
+                deleteUI('content')
+                that.state.start('Level1')
             }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
         }, 0,this.passengerXOffset,this.passengerYOffset)

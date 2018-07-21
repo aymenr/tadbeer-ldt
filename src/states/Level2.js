@@ -6,7 +6,7 @@ import { connect } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
-
+import {deleteUI} from '../ui/main'
 export default class Level1 extends Phaser.State {
     init() {
         this.sizeX = 4
@@ -122,7 +122,7 @@ export default class Level1 extends Phaser.State {
             let that = this
 
             async.forEachSeries(parsed.moves, function(move, callback) {
-                console.log(callback)
+         
                 that.moveRickshaw(move, callback)
 
             }, function(err) {
@@ -147,7 +147,8 @@ export default class Level1 extends Phaser.State {
 
 
             that.grid.moveObject(0, -6, that.rickshaw, function() {
-                that.state.start('Level2')
+                deleteUI('content')
+                that.state.start('Level3')
             }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
         }, 0,this.passengerXOffset,this.passengerYOffset)

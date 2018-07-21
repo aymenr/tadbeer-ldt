@@ -15,7 +15,7 @@ export default class extends Phaser.State {
     this.load.image('goal-road', 'assets/images/tiles/road1-goal.png')
     this.load.image('goal-road2', 'assets/images/tiles/road2-goal.png')
     this.load.image('wall1', 'assets/images/wall1.png')
-    this.load.image('wall2', 'asisets/images/wall2.png')
+    
     this.load.image('policeNaka', 'assets/images/police.png')
     this.load.image('nehar-lower', 'assets/images/tiles/nehar-lower.png')
 

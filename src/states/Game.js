@@ -19,9 +19,9 @@ export default class Game extends Phaser.State {
     //do any preliminary work here
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //this.state.start('Level1')
+    this.state.start('Level1')
     //this.state.start('Level2')
-    this.state.start('Level3')
+    ///this.state.start('Level3')
     }
 }
 

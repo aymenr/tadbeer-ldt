@@ -27,7 +27,7 @@ export default class Editor extends Component {
   }
 
   focusCallback = (comp) => {
-    console.log("changing focus")
+   
     if (this.state.focused ) {
       this.state.focused.setFocus(false)
     }
@@ -37,7 +37,7 @@ export default class Editor extends Component {
   }
 
   addData = (data) => {
-    console.log("maybe here")
+ 
     if (!this.state.focused)
       return
 
@@ -45,7 +45,7 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-    console.log("should beadding data")
+
     this.state.focused.updateData(data);
   }
 
@@ -70,7 +70,7 @@ export default class Editor extends Component {
   }
 
   render() {
-    console.log("statements:",this.state.statements);
+
     return (
 
       <div ref={ref => this.container = ref } >
