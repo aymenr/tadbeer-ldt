@@ -40,19 +40,38 @@ export default class FuncCall extends Statement {
     data.updateDataCb = this.updateDataCb;
   }
 // 
+  initializeBlank = () => {
+    //add default blank at end
+    return {
+      type: 'blank'
+    }
+  }
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
-
+    console.log('before',this.state.args)
     if(data && data.type && data.type == 'delete') {
       this.setState({
         args: this.state.args.filter((_,i) => i != key)
       })
-    }
+      console.log(this.state.args)
+      data = this.initializeBlank()
+    } 
+    
 
     this.addArgDefaults(data, key)
     let newArgs = update(this.state.args, {[key]: {$set: data}}) 
     this.setState({ args: newArgs})
   
+  }
+  //testing this
+   updateData = (data) => {
+   
+    if (this.props.updateDataCb){
+
+      return this.props.updateDataCb(data, this.props.index)
+    }
+
+    //default implementation here
   }
 
   onClick = () => {
@@ -67,7 +86,7 @@ export default class FuncCall extends Statement {
 
     return (
       <div>
-        <span onClick={this.onClick} >{name}</span>
+        <span style= {this.state.focus? styles.blank : styles.none} onClick={this.onClick} >{name}</span>
         ( 
           {
             this.state.args.map((arg, ind) =>
@@ -78,6 +97,14 @@ export default class FuncCall extends Statement {
       </div>
     )
   }
+}
+const styles = {
+    blank: {
+      backgroundColor:'#b8b8b8'
+    },
+    none:{
+      backgroundColor:'white'
+    }
 }
 
 FuncCall.propTypes = {
