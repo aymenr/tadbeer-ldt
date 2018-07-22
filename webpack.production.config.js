@@ -10,6 +10,7 @@ var phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
 var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
 var pixi = path.join(phaserModule, 'build/custom/pixi.js')
 var p2 = path.join(phaserModule, 'build/custom/p2.js')
+var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 var config = require('./config')
 var modeJS = path.join(__dirname, '/node_modules/ace-builds/src-noconflict/mode-javascript')
 var sweetJS = path.join(__dirname, '/node_modules/@sweet-js/core/dist/sweet.js')
@@ -60,6 +61,13 @@ module.exports = {
                 removeEmptyAttributes: true
             },
             hash: true
+        }),
+        new HtmlWebpackExternalsPlugin({
+             externals: [{
+                 module: 'fbinstant',
+                 entry: 'https://connect.facebook.net/en_US/fbinstant.6.2.js',
+                 global: 'FBInstant'
+             }]
         }),
         new CopyWebpackPlugin([
             { from: 'assets', to: 'assets' }
