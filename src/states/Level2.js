@@ -77,29 +77,109 @@ export default class Level1 extends Phaser.State {
     moveRickshaw = (move, callback) => {
         let x = 0,
             y = 0
+        
+        if(this.rickshaw.frameName === 'up'){
+            
+            switch (move.direction) {
+                case "up":
+                    y = move.steps
+                    this.rickshaw.frameName = 'up'
 
-        switch (move.direction) {
-            case "up":
-                y = move.steps
-                this.rickshaw.frameName = 'up'
+                    break;
+                case "down":
+                    y = -move.steps
+                    this.rickshaw.frameName = 'down'
 
-                break;
-            case "down":
-                y = -move.steps
-                this.rickshaw.frameName = 'down'
+                    break;
+                case "left":
+                    x = -move.steps
+                    this.rickshaw.frameName = 'left'
+                    break
 
-                break;
-            case "left":
-                x = -move.steps
-                this.rickshaw.frameName = 'left'
-                break
+                case "right":
+                    x = move.steps
+                    this.rickshaw.frameName = 'right'
 
-            case "right":
-                x = move.steps
-                this.rickshaw.frameName = 'right'
+                    break
+            }
+            
+        } else if(this.rickshaw.frameName === 'down'){
+            
+            switch (move.direction) {
+                case "up":
+                    y = -move.steps
+                    this.rickshaw.frameName = 'down'
 
-                break
+                    break;
+                case "down":
+                    y = move.steps
+                    this.rickshaw.frameName = 'up'
+
+                    break;
+                case "left":
+                    x = move.steps
+                    this.rickshaw.frameName = 'right'
+                    break
+
+                case "right":
+                    x = -move.steps
+                    this.rickshaw.frameName = 'left'
+
+                    break
+            }
+
+        } else if(this.rickshaw.frameName === 'right'){
+            
+            switch (move.direction) {
+                case "up":
+                    x = move.steps
+                    this.rickshaw.frameName = 'right'
+
+                    break;
+                case "down":
+                    x = -move.steps
+                    this.rickshaw.frameName = 'left'
+
+                    break;
+                case "left":
+                    y = move.steps
+                    this.rickshaw.frameName = 'up'
+                    break
+
+                case "right":
+                    y = -move.steps
+                    this.rickshaw.frameName = 'down'
+
+                    break
+            }
+
+        } else if(this.rickshaw.frameName === 'left'){
+            
+            switch (move.direction) {
+                case "up":
+                    x = -move.steps
+                    this.rickshaw.frameName = 'left'
+
+                    break;
+                case "down":
+                    x = move.steps
+                    this.rickshaw.frameName = 'right'
+
+                    break;
+                case "left":
+                    y = -move.steps
+                    this.rickshaw.frameName = 'down'
+                    break
+
+                case "right":
+                    y = move.steps
+                    this.rickshaw.frameName = 'up'
+
+                    break
+            }
+
         }
+
 
         this.grid.moveObject(x, y, this.rickshaw, callback, 1, this.rickshawXOffset, this.rickshawYOffset)
 

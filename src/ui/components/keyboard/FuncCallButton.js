@@ -42,17 +42,18 @@ class FuncCallButton extends Component {
 
 const styles = {
   button: {
-    backgroundColor: 'white',
+    backgroundColor: '#c597f3',
     fontFamily:'apercu_monoregular',
-    color: '#2890ab',
-    width: '20%',
-    borderBottom: '1px solid #2890ab',
+    color: '#515a5a',
+    display: 'inline-block',
     margin: 'auto',
+    boxShadow: '8px 0 4px 0 rgba(0, 0, 0, 0.5)',
     textAlign: 'center',
-    padding: '5px',
-    marginBottom: '10px'
+    padding: '10px',
+    marginBottom: '5px'
   },
   container: {
+    textAlign: 'center',
     display: 'inline-block',
     width: '50%',
   }

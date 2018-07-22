@@ -145,7 +145,6 @@ export default class Grid extends Phaser.Group {
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
     moveObject(x, y, obj, callbackToAsync, fade, offsetX = 0, offsetY = 0, override = false) {
 
-
         this.objectArray[obj.i][obj.j] = null
         let obstruction = this.checkObstruction( { 'x': obj.i, 'y': obj.j }, {'x':obj.i +x,'y':obj.j +y}) 
         let outOfBounds = this.checkOutOfBounds({'x':obj.i + x,'y':obj.j+y})

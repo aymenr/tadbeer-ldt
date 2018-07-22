@@ -29,6 +29,7 @@ export default class UI extends Component {
       <div style={styles.container}>
         <Editor ref={inst => this.editor = inst } initialData={this.props.initialEditorData} />
         <Keyboard data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
+        <Text text="Instructions" />
       </div>
     )
   }
@@ -45,3 +46,17 @@ UI.propTypes = {
   initialEditorData: PropTypes.array.isRequired,
   buttons: PropTypes.array.isRequired
 }
+
+
+
+class Text extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return <h3>{this.props.text}</h3>;
+  }
+}
+
+

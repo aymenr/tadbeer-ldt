@@ -40,15 +40,15 @@ class ParamNumButton extends Component {
 
 const styles = {
     button: {
-        backgroundColor: 'yellow',
+        backgroundColor: '#ffd475',
         fontFamily: 'apercu_monoregular',
-        color: '#2890ab',
+        color: '#515a5a',
+        boxShadow: '8px 0 4px 0 rgba(0, 0, 0, 0.5)',
         width: '20%',
-        borderBottom: '1px solid #2890ab',
         margin: 'auto',
         textAlign: 'center',
         padding: '5px',
-        marginBottom: '10px'
+        marginBottom: '15px'
     },
     container: {
         display: 'inline-block',
