@@ -220,7 +220,7 @@ export default class Level1 extends Phaser.State {
             }, function(err) {
                 if (err){
 
-                    showError()
+                    showError(err)
                     that.grid.resetPosition(that.rickshaw,{'x':2,'y':3},that.rickshawXOffset,that.rickshawYOffset,'left')
                
                 }
