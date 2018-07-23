@@ -45,17 +45,17 @@ const styles = {
     backgroundColor: '#c597f3',
     fontFamily:'apercu_monoregular',
     color: '#515a5a',
+    width: '70%',
     display: 'inline-block',
     margin: 'auto',
-    boxShadow: '8px 0 4px 0 rgba(0, 0, 0, 0.5)',
+    boxShadow: '4px 0 2px 0 rgba(0, 0, 0, 0.5)',
     textAlign: 'center',
-    padding: '10px',
-    marginBottom: '5px'
+    padding: '5px',
   },
   container: {
-    textAlign: 'center',
-    display: 'inline-block',
-    width: '50%',
+
+    display: 'inline-flex',
+    width: '35%'
   }
 }
 

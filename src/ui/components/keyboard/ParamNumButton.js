@@ -43,16 +43,16 @@ const styles = {
         backgroundColor: '#ffd475',
         fontFamily: 'apercu_monoregular',
         color: '#515a5a',
-        boxShadow: '8px 0 4px 0 rgba(0, 0, 0, 0.5)',
-        width: '20%',
+        boxShadow: '4px 0 2px 0 rgba(0, 0, 0, 0.5)',
+        width: '40%',
         margin: 'auto',
         textAlign: 'center',
         padding: '5px',
-        marginBottom: '15px'
+        marginBottom: '25%'
     },
     container: {
-        display: 'inline-block',
-        width: '50%',
+        display: 'inline-flex',
+        width: '15%'
     }
 }
 

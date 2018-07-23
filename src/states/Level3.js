@@ -257,6 +257,8 @@ export default class Level1 extends Phaser.State {
     }
     makeButtons = () => {
 
+    var numButtons = this.createNumButtons()
+
         return [{
             type: 'func_call_button',
             name: 'uper',
@@ -266,6 +268,12 @@ export default class Level1 extends Phaser.State {
             name: 'neechay',
             numArgs: 1,
         }, {
+            type: 'param_num',
+            value: 1,
+        }, {
+            type: 'param_num',
+            value: 2,
+        }, {
             type: 'func_call_button',
             name: 'daen',
             numArgs: 1,
@@ -274,7 +282,7 @@ export default class Level1 extends Phaser.State {
             name: 'baen',
             numArgs: 1
         }
-        ].concat(this.createNumButtons())
+        ].concat(numButtons.slice(2))
     }
 
     makeEditorData = () => {
