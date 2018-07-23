@@ -1,9 +1,11 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import 'modeJS'
+import React from 'react'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
 import { deleteUI } from '../ui/main'
+import {showError } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
@@ -46,11 +48,18 @@ export default class Level1 extends Phaser.State {
         this.passenger.animations.play('ride')
 
 
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
 
-        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
+        
 
     }
 
+
+    makeInstructions = () => { 
+       
+       return  "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
+
+    }
 
 
     renderAndPlaceObject = (atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY) => {
@@ -176,6 +185,7 @@ export default class Level1 extends Phaser.State {
 
     }
     runCodeCb = (code) => {
+        showError('')
         code = this.wrapCode(code) //wrap code in our wrapper
         let compiled = CodeService.compileCode(code)
         CodeService.runCode(compiled.code, (err, data) => {
@@ -197,9 +207,19 @@ export default class Level1 extends Phaser.State {
                 that.moveRickshaw(move, callback)
 
             }, function(err) {
-                console.log('level1:', err)
+                if (err) {
+
+                    showError(err)
+
+                    that.grid.resetPosition(that.rickshaw,{'x':2,'y':0},that.rickshawXOffset,that.rickshawYOffset,'left')
+                }
+
                 if (!err && that.checkGoal()) {
                     that.gameOver()
+                } else {
+                        showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
+                        that.grid.resetPosition(that.rickshaw,{'x':2,'y':0},that.rickshawXOffset,that.rickshawYOffset,'left')
+                
                 }
 
             });
@@ -245,11 +265,11 @@ export default class Level1 extends Phaser.State {
 
         return [{
             type: 'func_call_button',
-            name: 'uper',
+            name: 'agay',
             numArgs: 1
         }, {
             type: 'func_call_button',
-            name: 'neechay',
+            name: 'peechay',
             numArgs: 1,
         }, {
             type: 'param_num',
@@ -269,12 +289,22 @@ export default class Level1 extends Phaser.State {
         ].concat(numButtons.slice(2))
     }
 
-    makeEditorData = () => {
-        return [ {
-            type: 'blank',
-            initFocused: true
-        }]
+      makeEditorData = () => {
+        return [{
+            type: 'func_call',
+            
+            args: [{
+                type: 'param_nums',
+                value: 1,
+                initFocused: true,
+            }],
+            name: 'agay'
+        },
+        {
+             type: 'blank',
+             initFocused: true
+        }
 
-
+        ]
     }
 }

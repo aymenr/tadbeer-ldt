@@ -2,11 +2,19 @@
 import Phaser from 'phaser'
 import Slider from "react-slick";
 import {connect_slider} from "../ui/main";
+import {delete_slider} from "../ui/main";
 
-export default class Game extends Phaser.State {
+export default class LevelSlider extends Phaser.State {
   preload() { }
 
   create() {
-    connect_slider('content')
+  	console.log(this.game.state)
+    connect_slider('content',this.startGame)
+  }
+
+  startGame = () => {
+  	console.log('starting game');
+  	delete_slider()
+  	this.game.state.start('Level1')
   }
 }

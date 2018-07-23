@@ -7,6 +7,7 @@ import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
+import {showError } from '../ui/main'
 export default class Level1 extends Phaser.State {
     init() {
         this.sizeX = 4
@@ -37,7 +38,7 @@ export default class Level1 extends Phaser.State {
         this.grid.render(gameBoard,'tiles')
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
-        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData())
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
     }
 
 
@@ -72,6 +73,11 @@ export default class Level1 extends Phaser.State {
         return object
     }
 
+
+    makeInstructions = () => { 
+       
+       return  "<ul><li>Bushra ke sawari nehar kay doosri side pay hay. </li>  <li>Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </li> </ul>"
+    }
 
     wrapCode = (code) => Level1Wrap + " " + code
     moveRickshaw = (move, callback) => {
@@ -185,6 +191,7 @@ export default class Level1 extends Phaser.State {
 
     }
     runCodeCb = (code) => {
+        showError('')
         code = this.wrapCode(code) //wrap code in our wrapper
         let compiled = CodeService.compileCode(code)
         CodeService.runCode(compiled.code, (err, data) => {
@@ -207,10 +214,16 @@ export default class Level1 extends Phaser.State {
 
             }, function(err) {
                 if (err){
-                    console.log("there is an:",err)
+                     showError(err)
+                    that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
+               
                 }
                 else if (that.checkGoal()) {
                     that.gameOver()
+                } else {
+                    showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
+                    that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
+                
                 }
 
             });
@@ -255,11 +268,11 @@ export default class Level1 extends Phaser.State {
 
         return [{
             type: 'func_call_button',
-            name: 'uper',
+            name: 'agay',
             numArgs: 1
         }, {
             type: 'func_call_button',
-            name: 'neechay',
+            name: 'peechay',
             numArgs: 1,
         }, {
             type: 'param_num',
@@ -279,16 +292,13 @@ export default class Level1 extends Phaser.State {
         ].concat(numButtons.slice(2))
     }
 
+ 
     makeEditorData = () => {
-        return [{
-                name: 'uper',
-                numArgs: 1,
-                type: 'func_call'
-            },
-            {
-                type: 'blank',
-                initFocused: false 
-            }
-        ]
+        return [ {
+            type: 'blank',
+            initFocused: true
+        }]
+
+
     }
 }
