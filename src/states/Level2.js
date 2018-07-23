@@ -215,9 +215,15 @@ export default class Level1 extends Phaser.State {
             }, function(err) {
                 if (err){
                      showError(err)
+                    that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
+               
                 }
                 else if (that.checkGoal()) {
                     that.gameOver()
+                } else {
+                    showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
+                    that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
+                
                 }
 
             });

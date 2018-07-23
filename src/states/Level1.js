@@ -57,7 +57,7 @@ export default class Level1 extends Phaser.State {
 
     makeInstructions = () => { 
        
-       return  "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay chalay</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
+       return  "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
 
     }
 
@@ -216,6 +216,10 @@ export default class Level1 extends Phaser.State {
 
                 if (!err && that.checkGoal()) {
                     that.gameOver()
+                } else {
+                        showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
+                        that.grid.resetPosition(that.rickshaw,{'x':2,'y':0},that.rickshawXOffset,that.rickshawYOffset,'left')
+                
                 }
 
             });
@@ -276,12 +280,22 @@ export default class Level1 extends Phaser.State {
         }].concat(this.createNumButtons())
     }
 
-    makeEditorData = () => {
-        return [ {
-            type: 'blank',
-            initFocused: true
-        }]
+      makeEditorData = () => {
+        return [{
+            type: 'func_call',
+            
+            args: [{
+                type: 'param_nums',
+                value: 1,
+                initFocused: true,
+            }],
+            name: 'agay'
+        },
+        {
+             type: 'blank',
+             initFocused: true
+        }
 
-
+        ]
     }
 }
