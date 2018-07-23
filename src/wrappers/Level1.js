@@ -22,7 +22,7 @@ const generic = (number, direction) => {
   return returnVal// return is necessary for eval, as it takes last return statemetn
 }
 
-const uper = (number) => generic(number, "up")
-const neechay = (number) => generic(number, "down")
+const agay = (number) => generic(number, "up")
+const peechay = (number) => generic(number, "down")
 const daen = (number) => generic(number, "right")
 const baen = (number) => generic(number, "left")

@@ -142,9 +142,21 @@ export default class Grid extends Phaser.Group {
             this.callback()
     }
 
+
+    resetPosition(obj,coordinates,xOffset,yOffset,frameName) 
+    {
+        this.objectArray[obj.i][obj.j] = null
+        obj.frameName = frameName
+        obj.i = coordinates.x
+        obj.j = coordinates.y
+        let newCoordinates = this.convert(coordinates.x + xOffset,coordinates.y + yOffset)
+        obj.x = newCoordinates.x
+        obj.y = newCoordinates.y
+        this.objectArray[obj.i][obj.j] = obj
+    }
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
     moveObject(x, y, obj, callbackToAsync, fade, offsetX = 0, offsetY = 0, override = false) {
-
+        this.error =false;
         this.objectArray[obj.i][obj.j] = null
         let obstruction = this.checkObstruction( { 'x': obj.i, 'y': obj.j }, {'x':obj.i +x,'y':obj.j +y}) 
         let outOfBounds = this.checkOutOfBounds({'x':obj.i + x,'y':obj.j+y})
@@ -153,14 +165,14 @@ export default class Grid extends Phaser.Group {
         //if theres an obstruction it will stop at obstruction, if there is no obstruction it will stop when outta bounds otherwise it will go to new coordinates
         if (obstruction!= false) { 
             newCoordinates = this.convert(obstruction.x +offsetX,obstruction.y + offsetY)
-            obj.i +=obstruction.x
-            obj.y +=obstruction.y
+            obj.i =obstruction.x
+            obj.y =obstruction.y
 
             this.error = "obstruction_error" 
          }else if(outOfBounds != false && override ==false ) {
             newCoordinates = this.convert(outOfBounds.x +offsetX,outOfBounds.y + offsetY)
-            obj.i +=outOfBounds.x
-            obj.y +=outOfBounds.y
+            obj.i =outOfBounds.x
+            obj.y =outOfBounds.y
             this.error ="outofbounds_error"
          } else{ //no errors
             obj.i = obj.i + x
@@ -202,14 +214,14 @@ export default class Grid extends Phaser.Group {
     checkObstructionForward(startCoordinates,endCoordinates,direction) {
         if (direction=='x') {
           for (var x = startCoordinates.x+1; x <= endCoordinates.x; x++) {
-              if ((this.objectArray[x][startCoordinates.y] != null &&  this.objectArray[x][startCoordinates.y].key !='rickshaw') || this.tileArray[x][startCoordinates.y] =='nehar-lower' ) {
+              if ((x < this.objectArray.length) && ((this.objectArray[x][startCoordinates.y] != null &&  this.objectArray[x][startCoordinates.y].key !='rickshaw') || this.tileArray[x][startCoordinates.y] =='nehar-lower' )) {
                   return { 'x': x-1, 'y': startCoordinates.y }
               }
           }
         }
         else {
            for (var y = startCoordinates.y+1; x <= endCoordinates.y; y++) {
-              if ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' ) || this.tileArray[x][startCoordinates.y] =='nehar-lower') {
+              if ((y < this.objectArray[startCoordinates.x].length) && ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' ) || this.tileArray[x][startCoordinates.y] =='nehar-lower')) {
                   return { 'x': startCoordinates.x, 'y': y -1}
               }
           }
@@ -221,13 +233,13 @@ export default class Grid extends Phaser.Group {
         if (direction=='x') {
 
           for (var x = startCoordinates.x-1; x >= endCoordinates.x; x--) {
-              if ((this.objectArray[x][startCoordinates.y] != null && this.objectArray[x][startCoordinates.y].key !='rickshaw') || this.tileArray[x][startCoordinates.y]=='nehar-lower' ) {
+              if ((x >= 0)  && ((this.objectArray[x][startCoordinates.y] != null && this.objectArray[x][startCoordinates.y].key !='rickshaw') || this.tileArray[x][startCoordinates.y]=='nehar-lower' ) ){
                   return { 'x': x+1, 'y': startCoordinates.y }
               }
           }
         }else {
           for (var y = startCoordinates.y-1; y >= endCoordinates.y; y--) {
-              if ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' )|| this.tileArray[startCoordinates.x][y]=='nehar-lower' ) {
+              if ((y >=0) &&  ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' )|| this.tileArray[startCoordinates.x][y]=='nehar-lower' )) {
                   return { 'x': startCoordinates.x, 'y': y+1 }
               }
           }
@@ -241,11 +253,11 @@ export default class Grid extends Phaser.Group {
             if (startCoordinates.x < endCoordinates.x)
                 return this.checkObstructionForward(startCoordinates,endCoordinates,'x')
             else if (startCoordinates.x > endCoordinates.x)
-                return this.checkObstructionBackwards(startCoordinates,endCoordinates,'y')
+                return this.checkObstructionBackwards(startCoordinates,endCoordinates,'x')
         } else if (startCoordinates.y != endCoordinates.y) //moves in y
         {
             if (startCoordinates.y < endCoordinates.y) 
-                return this.checkObstructionForward(startCoordinates,endCoordinates,'x')
+                return this.checkObstructionForward(startCoordinates,endCoordinates,'y')
             else if (startCoordinates.y > endCoordinates.y) 
                 return this.checkObstructionBackwards(startCoordinates,endCoordinates,'y')
         }
