@@ -75,7 +75,8 @@ const style = {
   },
   container: {
     display: 'inline-block',
-    backgroundColor: '#f2f6f7'
+    backgroundColor: '#f2f6f7',
+    width: '100%'
   }
 }
 
