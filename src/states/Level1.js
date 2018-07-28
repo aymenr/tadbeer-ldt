@@ -8,6 +8,7 @@ import { deleteUI } from '../ui/main'
 import {showError } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
+import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 
 export default class Level1 extends Phaser.State {
@@ -73,7 +74,7 @@ export default class Level1 extends Phaser.State {
     }
 
 
-    wrapCode = (code) => Level1Wrap + " " + code
+    wrapCode = (code) => Level1Wrap + " " + code + " " + ReturnWrap
     moveRickshaw = (move, callback) => {
         let x = 0,
             y = 0
@@ -285,6 +286,9 @@ export default class Level1 extends Phaser.State {
             type: 'func_call_button',
             name: 'baen',
             numArgs: 1
+        }, {
+            type: 'binop_button',
+            value: '&&'
         }
         ].concat(numButtons.slice(2))
     }
@@ -301,7 +305,7 @@ export default class Level1 extends Phaser.State {
             name: 'agay'
         },
         {
-             type: 'blank',
+             type: 'if',
              initFocused: true
         }
 

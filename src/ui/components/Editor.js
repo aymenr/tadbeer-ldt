@@ -66,7 +66,14 @@ export default class Editor extends Component {
   getCode = () => {
     let html = this.container.innerHTML
     html = html.replace(/<[^>]*>/g, "");
-    return html.replace("__", ""); //remove blanks
+    return this.htmlDecode(html.replace(/__/g, "")); //remove blanks
+  }
+
+  htmlDecode = (input) => {
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    // handle case of empty input
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
 
   render() {

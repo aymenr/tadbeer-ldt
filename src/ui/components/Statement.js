@@ -4,17 +4,16 @@ export default class Statement extends Component {
 
   constructor(props) {
     super(props);
+    this.focus = false;
   }
 
   componentDidMount() {
-
     this._isMounted = true;
   }
 
   setFocus = (focus) => {
-    if (this._isMounted)
       return this.setState({ focus:focus })
-    else
+      this.focus = true  
       return new Promise(resolve => resolve())
   }
 

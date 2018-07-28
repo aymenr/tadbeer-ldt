@@ -5,6 +5,7 @@ import Grid from '../components/Grid'
 import { connect } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
+import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
 import {showError } from '../ui/main'
@@ -79,7 +80,7 @@ export default class Level1 extends Phaser.State {
        return  "<ul><li>Bushra ke sawari nehar kay doosri side pay hay. </li>  <li>Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </li> </ul>"
     }
 
-    wrapCode = (code) => Level1Wrap + " " + code
+    wrapCode = (code) => Level1Wrap + " " + code + " " + ReturnWrap
     moveRickshaw = (move, callback) => {
         let x = 0,
             y = 0
