@@ -9,7 +9,7 @@ import {showError } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
-import {moveRickshawAux, renderAndPlaceObject, makeButtons} from '../states/helper'
+import {moveRickshawAux, makeButtons} from '../states/helper'
 
 export default class Level1 extends Phaser.State {
     init() {
@@ -39,10 +39,10 @@ export default class Level1 extends Phaser.State {
         this.grid.render(gameBoard)
 
         //setup rickshaw
-        this.rickshaw = renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
 
         //setup passenger1
-        this.passenger = renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
+        this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
 

@@ -111,15 +111,6 @@ export function moveRickshawAux(move, callback, level) {
 
     }
 
-export function renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level) {
-        let object = level.game.add.sprite(0, 0, atlas, sprite)
-
-        object.alpha = 0
-        grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
-
-        object.alpha = 1
-        return object
-    }
 //Nums are number of numerical buttons
 export function makeButtons(nums) {
 

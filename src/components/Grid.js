@@ -116,6 +116,17 @@ export default class Grid extends Phaser.Group {
             }, time)
         }
     }
+
+  renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level) {
+        let object = level.game.add.sprite(0, 0, atlas, sprite)
+
+        object.alpha = 0
+        grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
+
+        object.alpha = 1
+        this.placeObject(x,y,object,xOffset,yOffset,scaleX,scaleY)
+        return object
+    }
     placeObject(x, y, obj, offsetX, offsetY, scaleX, scaleY) {
 
         //Calculate target coordinates
