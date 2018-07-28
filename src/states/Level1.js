@@ -31,8 +31,8 @@ export default class Level1 extends Phaser.State {
             ['road2', 'grass', 'grass']
 
         ];
-
-
+        console.log('width:',this.grid.getWidth(),'height:',this.grid.getHeight())
+        let background = game.add.tileSprite(0, 0, this.grid.getWidth(),this.grid.getWidth(), 'background1');
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
 

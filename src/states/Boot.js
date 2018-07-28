@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.State {
   init() {
-    this.game.stage.backgroundColor = '#ffffff';
+    this.game.stage.backgroundColor = '#9d9d9d';
   }
 
   preload() {
@@ -31,7 +31,8 @@ export default class extends Phaser.State {
 
     this.load.image('khamba1half', 'assets/images/khamba1half.png')
     this.load.image('khamba2half', 'assets/images/khamba2half.png')
-
+    game.load.image('background1', 'assets/images/blurlevel1.png');
+    game.load.image('background2', 'assets/images/blurlevel2.png');
     
     this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
     this.load.atlasJSONHash('passenger2', 'assets/images/passenger2.png', 'assets/images/passenger2.json');
@@ -43,6 +44,6 @@ export default class extends Phaser.State {
 
   create() {
     FBInstant.startGameAsync()
-      .then(() => this.state.start('Level1'))
+      .then(() => this.state.start('Level2'))
   }
 }

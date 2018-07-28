@@ -8,7 +8,7 @@ import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
 import {showError } from '../ui/main'
-import {moveRickshawAux, renderAndPlaceObject, makeButtons} from '../states/helper'
+import {moveRickshawAux, makeButtons} from '../states/helper'
 
 
 export default class Level1 extends Phaser.State {
@@ -37,7 +37,8 @@ export default class Level1 extends Phaser.State {
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
-
+        let background = game.add.tileSprite(0, 0, this.grid.getWidth(),this.grid.getWidth(), 'background2');
+       
         this.grid.render(gameBoard,'tiles')
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
@@ -47,17 +48,17 @@ export default class Level1 extends Phaser.State {
 
     renderObjects =()=> {
         //setup rickshaw
-        this.rickshaw = renderAndPlaceObject('rickshaw', 'up', this.grid, 0, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'up', this.grid, 0, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
 
         //setup passenger2
-        this.passenger = renderAndPlaceObject('passenger2', 'ride', this.grid, 2, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
+        this.passenger = this.grid.renderAndPlaceObject('passenger2', 'ride', this.grid, 2, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
 
     
-        this.tree = renderAndPlaceObject('', 'tree', this.grid, 2, 2, -0.4, 1, 1.5, 1.5, this)
-        this.bench = renderAndPlaceObject('', 'bench', this.grid, 2, 0, 0.1, 0.4, 1, 1, this)
+        this.tree = this.grid.renderAndPlaceObject('', 'tree', this.grid, 2, 2, -0.4, 1, 1.5, 1.5, this)
+        this.bench = this.grid.renderAndPlaceObject('', 'bench', this.grid, 2, 0, 0.1, 0.4, 1, 1, this)
         
 
       
