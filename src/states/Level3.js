@@ -3,12 +3,9 @@ import Phaser from 'phaser'
 import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
-import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
-import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
-import {showError } from '../ui/main'
-import {moveRickshawAux, renderAndPlaceObject, makeButtons} from '../states/helper'
+import {moveRickshawAux, renderAndPlaceObject, runCodeCbAux, makeButtons} from '../states/helper'
 
 
 export default class Level1 extends Phaser.State {
@@ -48,6 +45,7 @@ export default class Level1 extends Phaser.State {
     renderObjects =()=> {
         //setup rickshaw
         this.rickshaw = renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshawSound = game.add.audio('rickshaw-sound');
 
         //setup passenger2
         this.passenger = renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1, this)
@@ -68,19 +66,6 @@ export default class Level1 extends Phaser.State {
 
       
     }
-    // renderAndPlaceObject = (atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY) => {
-    //     let object;
-    //     if (atlas =='') //loading from sprite instead of atlas
-    //           object = this.game.add.sprite(0, 0, sprite)
-    //     else  
-    //         object = this.game.add.sprite(0, 0, atlas, sprite)
-
-    //     object.alpha = 0
-    //     grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
-
-    //     object.alpha = 1
-    //     return object
-    // }
 
     makeInstructions = () => { 
        
@@ -88,53 +73,9 @@ export default class Level1 extends Phaser.State {
     }
 
     wrapCode = (code) => Level1Wrap + " " + code
-    moveRickshaw = (move, callback) => {
-
-        moveRickshawAux(move, callback, this)
-
-    }
     runCodeCb = (code) => {
-        showError('')
-        code = this.wrapCode(code) //wrap code in our wrapper
-        let compiled = CodeService.compileCode(code)
-        CodeService.runCode(compiled.code, (err, data) => {
-            //handle this later
-            if (err)
-                return
 
-            if (!data.answer)
-                return
-            let parsed = JSON.parse(data.answer)
-
-            if (!parsed.moves)
-                return
-
-            let that = this
-
-            async.forEachSeries(parsed.moves, function(move, callback) {
-        
-                that.moveRickshaw(move, callback)
-
-            }, function(err) {
-                if (err){
-
-                    showError()
-                    that.grid.resetPosition(that.rickshaw,{'x':2,'y':3},that.rickshawXOffset,that.rickshawYOffset,'left')
-               
-                }
-                else if (that.checkGoal()) {
-                    that.gameOver()
-                } else {
-                    showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
-                    that.grid.resetPosition(that.rickshaw,{'x':2,'y':3},that.rickshawXOffset,that.rickshawYOffset,'left')
-                
-                }
-
-            });
-
-
-
-        })
+        runCodeCbAux(code, 2, 3, 'left', this)
     }
 
     gameOver = () => {
@@ -149,13 +90,6 @@ export default class Level1 extends Phaser.State {
             }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
         }, 0,this.passengerXOffset,this.passengerYOffset)
-
-    }
-    checkGoal = () => {
-
-
-        let goalTile = this.grid.getGoalTile()
-        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j
 
     }
     
