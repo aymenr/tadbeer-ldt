@@ -79,14 +79,6 @@ module.exports = {
                 include: path.join(__dirname, './src/wrappers')
             },
             {
-                test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]',
-                    context: ''
-                }
-            },
-            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },

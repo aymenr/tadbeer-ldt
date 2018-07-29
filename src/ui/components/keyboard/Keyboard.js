@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import update from 'immutability-helper';
 import { getCorrespButton } from '../../helpers';
 import PropTypes from 'prop-types';
+  //import  '~/assets/fonts/stylesheet.css';
 
 class Keyboard extends Component {
   constructor(props, editor) {
@@ -46,6 +47,7 @@ const style = {
     borderBottom: '1px solid #d8d8d8'
   },
   headerButton: {
+     fontFamily:'apercubold',
     backgroundColor: '#c5f67b',
 //    height: '30px',
 //    verticalAlign: 'center',
@@ -60,6 +62,7 @@ const style = {
  //   top: '5px'
   },
   delButton: {
+    fontFamily:'apercubold',
     backgroundColor: '#ff8d8d',
 //    height: '30px',
     marginRight: '10px',

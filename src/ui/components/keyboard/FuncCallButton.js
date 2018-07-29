@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import  '../../../fonts/stylesheet.css';
+import  '~/assets/fonts/stylesheet.css';
 
-//import myfont from '../../../fonts/apercu_mono-webfont.woff2';
-
-// injectGlobal`
-//   @font-face {
-//     font-family: 'apercu_monoregular';
-//     src: url(${myFont}) format('truetype');
-//     font-weight: normal;
-//     font-style: normal;s
-//   }
-// `;
-//import ReactFontFace from 'react-font-face'
-// SHOWS IMPORT OF LOCAL FILE
-//import apercuMono from '../../../fonts/apercu_mono-webfont.woff'
 
 class FuncCallButton extends Component {
 
@@ -44,7 +31,7 @@ const styles = {
   button: {
     backgroundColor: '#c597f3',
     fontFamily:'apercu_monoregular',
-    color: '#515a5a',
+    color: 'black',
     width: '70%',
     display: 'inline-block',
     margin: 'auto',
