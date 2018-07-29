@@ -3,12 +3,13 @@ import Phaser from 'phaser'
 import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
+import { toggleRunButton } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
 import {showError } from '../ui/main'
-import {moveRickshawAux, makeButtons} from '../states/helper'
+import {moveRickshawAux, turnRickshawAux,makeButtons} from '../states/helper'
 
 
 export default class Level1 extends Phaser.State {
@@ -22,6 +23,7 @@ export default class Level1 extends Phaser.State {
         this.rickshawYOffset = 0.6;
         this.passengerXOffset = 0  
         this.passengerYOffset = 1
+        this.codeRunning = false;
     }
 
     create() {
@@ -75,11 +77,22 @@ export default class Level1 extends Phaser.State {
 
         moveRickshawAux(move, callback, this)
     }
+    turnRickshaw = (move, callback) => {
+
+        turnRickshawAux(move, callback, this)
+    }
     runCodeCb = (code) => {
+        if (this.codeRunning == true) {
+            console.log('codes running');
+            return
+        }
+        this.codeRunning = true
+        toggleRunButton(false)
         showError('')
         code = this.wrapCode(code) //wrap code in our wrapper
         let compiled = CodeService.compileCode(code)
         CodeService.runCode(compiled.code, (err, data) => {
+
             //handle this later
             if (err)
                 return
@@ -92,16 +105,22 @@ export default class Level1 extends Phaser.State {
                 return
 
             let that = this
-
+            console.log(parsed.moves)
             async.forEachSeries(parsed.moves, function(move, callback) {
-         
-                that.moveRickshaw(move, callback)
+                
+                if (move.type=="move")
+                    that.moveRickshaw(move, callback)
+                else if(move.type=="turn") 
+                    that.turnRickshaw(move,callback)
+
+                
 
             }, function(err) {
+
                 if (err){
                      showError(err)
                     that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
-               
+                    
                 }
                 else if (that.checkGoal()) {
                     that.gameOver()
@@ -110,6 +129,8 @@ export default class Level1 extends Phaser.State {
                     that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
                 
                 }
+                that.codeRunning = false;
+                toggleRunButton(true)
 
             });
 

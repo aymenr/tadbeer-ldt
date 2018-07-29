@@ -31,6 +31,7 @@ const styles = {
   button: {
     backgroundColor: '#c597f3',
     fontFamily:'apercu_monoregular',
+    fontSize: '14px',
     color: 'black',
     width: '70%',
     display: 'inline-block',

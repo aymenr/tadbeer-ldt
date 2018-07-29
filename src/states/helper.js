@@ -17,16 +17,6 @@ export function moveRickshawAux(move, callback, level) {
                     level.rickshaw.frameName = 'down'
 
                     break;
-                case "left":
-                    x = -move.steps
-                    level.rickshaw.frameName = 'left'
-                    break
-
-                case "right":
-                    x = move.steps
-                    level.rickshaw.frameName = 'right'
-
-                    break
             }
             
         } else if(level.rickshaw.frameName === 'down'){
@@ -42,16 +32,7 @@ export function moveRickshawAux(move, callback, level) {
                     level.rickshaw.frameName = 'up'
 
                     break;
-                case "left":
-                    x = move.steps
-                    level.rickshaw.frameName = 'right'
-                    break
-
-                case "right":
-                    x = -move.steps
-                    level.rickshaw.frameName = 'left'
-
-                    break
+             
             }
 
         } else if(level.rickshaw.frameName === 'right'){
@@ -67,16 +48,7 @@ export function moveRickshawAux(move, callback, level) {
                     level.rickshaw.frameName = 'left'
 
                     break;
-                case "left":
-                    y = move.steps
-                    level.rickshaw.frameName = 'up'
-                    break
-
-                case "right":
-                    y = -move.steps
-                    level.rickshaw.frameName = 'down'
-
-                    break
+          
             }
 
         } else if(level.rickshaw.frameName === 'left'){
@@ -92,16 +64,6 @@ export function moveRickshawAux(move, callback, level) {
                     level.rickshaw.frameName = 'right'
 
                     break;
-                case "left":
-                    y = -move.steps
-                    level.rickshaw.frameName = 'down'
-                    break
-
-                case "right":
-                    y = move.steps
-                    level.rickshaw.frameName = 'up'
-
-                    break
             }
 
         }
@@ -110,7 +72,42 @@ export function moveRickshawAux(move, callback, level) {
         level.grid.moveObject(x, y, level.rickshaw, callback, 1, level.rickshawXOffset, level.rickshawYOffset)
 
     }
+export function turnRickshawAux(move,callback,level) {
 
+
+    if (move.direction =="right"){
+        switch (level.rickshaw.frameName) {
+            case "up":
+                level.rickshaw.frameName = "right"
+                break
+            case "down":
+                level.rickshaw.frameName = "left"
+                break
+            case "left":
+                level.rickshaw.frameName = "up"
+                break
+            case "right":
+                level.rickshaw.frameName = "down"
+                break
+        }
+    }else if (move.direction =='left') {
+        switch (level.rickshaw.frameName) {
+            case "up":
+                level.rickshaw.frameName = "left"
+                break
+            case "down":
+                level.rickshaw.frameName = "right"
+                break
+            case "left":
+                level.rickshaw.frameName = "down"
+                break
+            case "right":
+                level.rickshaw.frameName = "up"
+                break
+        }
+    }
+    callback()
+}
 //Nums are number of numerical buttons
 export function makeButtons(nums) {
 
@@ -136,12 +133,12 @@ export function makeButtons(nums) {
             value: 2,
         }, {
             type: 'func_call_button',
-            name: 'daen',
-            numArgs: 1,
+            name: 'daenMuro',
+            numArgs: 0,
         }, {
             type: 'func_call_button',
-            name: 'baen',
-            numArgs: 1
+            name: 'baenMuro',
+            numArgs: 0
         }
         ].concat(numButtons.slice(2))
     }

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 class Keyboard extends Component {
   constructor(props, editor) {
     super(props)
+    this.running = false
   }
 
   del = () => {
@@ -14,13 +15,13 @@ class Keyboard extends Component {
       type: 'delete'
     })
   }
-
+  
   render = () => {
 
     return (
       <div style={style.container}>
         <header style={style.header}>
-          <div style={style.headerButton} onClick={this.props.runCodeCb} >chalao</div>
+        <div className="run-button" style=  {style.headerButton} onClick={this.props.runCodeCb} >chalao</div>
           <div style={style.delButton} onClick={this.del}> mitao</div>
         </header>
         {
@@ -49,8 +50,6 @@ const style = {
   headerButton: {
      fontFamily:'apercubold',
     backgroundColor: '#c5f67b',
-//    height: '30px',
-//    verticalAlign: 'center',
     fontWeight: 'bold',
     color: 'black',
     display: 'inline-block',
@@ -58,8 +57,17 @@ const style = {
     padding: '4px',
     boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
     float: 'right'
-//    width: '50px'
- //   top: '5px'
+  },
+  disabledHeaderButton: {
+     fontFamily:'apercubold',
+    backgroundColor: 'black',
+    fontWeight: 'bold',
+    color: 'black',
+    display: 'inline-block',
+    marginRight: '10px',
+    padding: '4px',
+    boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
+    float: 'right'
   },
   delButton: {
     fontFamily:'apercubold',
@@ -72,7 +80,7 @@ const style = {
     color: 'black',
     padding: '4px',
     boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
-    float: 'right',
+    float: 'right'
 //    width: '50px',
   //  top: '5px'
   },

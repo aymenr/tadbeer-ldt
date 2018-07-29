@@ -53,8 +53,14 @@ export function connect_slider(parentId,sliderCb,context) {
       <Slider atLastSlide={sliderCb}  />,
       sliderContainer
   );
+}
 
-
+export function toggleRunButton(enabled) {
+  const runButton = document.getElementsByClassName('run-button')[0]
+  if (enabled) 
+    runButton.style.backgroundColor = "#c5f67b"
+  else
+     runButton.style.backgroundColor = "#bdbdbd"
 }
 // should probably be a component RIGHT? render vs appending?
 export function showError(error) {

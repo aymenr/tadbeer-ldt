@@ -16,13 +16,27 @@ const moveDirection = (direction, steps) => {
   }
 }
 
+const turnDirection = (direction) => {
+  return {
+    type: "turn",
+    direction: direction,
+  }
+}
+
+
+
 const generic = (number, direction) => {
   validations(number)
   returnVal.moves.push(moveDirection(direction, number)) 
   return returnVal// return is necessary for eval, as it takes last return statemetn
 }
 
+const turn= (direction) => {
+  returnVal.moves.push(turnDirection(direction)) 
+  return returnVal// return is necessary for eval, as it takes last return statemetn
+}
+
 const agay = (number) => generic(number, "up")
 const peechay = (number) => generic(number, "down")
-const daen = (number) => generic(number, "right")
-const baen = (number) => generic(number, "left")
+const daenMuro = () => turn("right")
+const baenMuro = () => turn("left")
