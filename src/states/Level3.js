@@ -8,10 +8,11 @@ import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
 import {showError } from '../ui/main'
-import {moveRickshawAux, renderAndPlaceObject, makeButtons} from '../states/helper'
+import { toggleRunButton } from '../ui/main'
+import {moveRickshawAux, turnRickshawAux, makeButtons} from '../states/helper'
 
 
-export default class Level1 extends Phaser.State {
+export default class Level3 extends Phaser.State {
     init() {
         this.sizeX = 4
         this.sizeY = 4
@@ -22,6 +23,7 @@ export default class Level1 extends Phaser.State {
         this.rickshawYOffset = 0.6;
         this.passengerXOffset = 0  
         this.passengerYOffset = 0.5
+        this.codeRunning = false;
     }
 
     create() {
@@ -47,40 +49,28 @@ export default class Level1 extends Phaser.State {
 
     renderObjects =()=> {
         //setup rickshaw
-        this.rickshaw = renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
 
         //setup passenger2
-        this.passenger = renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1, this)
+        this.passenger = this.grid.renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1, this)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
 
         
-        let naka= renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.1, 0.3, 1, 1, this)
-        let lampPost1= renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -0.3, 1.2, 1.5, 1.5, this)
-        let lampPost2= renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -0.3, 1.2, 1.5, 1.5, this)
-        let khamba1h= renderAndPlaceObject('', 'khamba1half', this.grid, 0, 0, -0.7, 1.22, 1.7, 1.7, this)
-        let khamba2h= renderAndPlaceObject('', 'khamba2half', this.grid, 0, 1, -0.2, 0.74 , 1.7, 1.7,this)
+        let naka= this.grid.renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.1, 0.3, 1, 1, this)
+        let lampPost1= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -0.3, 1.2, 1.5, 1.5, this)
+        let lampPost2= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -0.3, 1.2, 1.5, 1.5, this)
+        let khamba1h= this.grid.renderAndPlaceObject('', 'khamba1half', this.grid, 0, 0, -0.7, 1.22, 1.7, 1.7, this)
+        let khamba2h= this.grid.renderAndPlaceObject('', 'khamba2half', this.grid, 0, 1, -0.2, 0.74 , 1.7, 1.7,this)
 
-        let khamba1bh= renderAndPlaceObject('', 'khamba1half', this.grid, 2, 0, -0.7, 1.38, 1.7, 1.7, this)
-        let khamba2bh= renderAndPlaceObject('', 'khamba2half', this.grid, 3, 0, -1.2, 1.9 , 1.7, 1.7,this)
+        let khamba1bh= this.grid.renderAndPlaceObject('', 'khamba1half', this.grid, 2, 0, -0.7, 1.38, 1.7, 1.7, this)
+        let khamba2bh= this.grid.renderAndPlaceObject('', 'khamba2half', this.grid, 3, 0, -1.2, 1.9 , 1.7, 1.7,this)
 
 
       
     }
-    // renderAndPlaceObject = (atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY) => {
-    //     let object;
-    //     if (atlas =='') //loading from sprite instead of atlas
-    //           object = this.game.add.sprite(0, 0, sprite)
-    //     else  
-    //         object = this.game.add.sprite(0, 0, atlas, sprite)
 
-    //     object.alpha = 0
-    //     grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
-
-    //     object.alpha = 1
-    //     return object
-    // }
 
     makeInstructions = () => { 
        
@@ -93,7 +83,18 @@ export default class Level1 extends Phaser.State {
         moveRickshawAux(move, callback, this)
 
     }
+     turnRickshaw = (move, callback) => {
+
+        turnRickshawAux(move, callback, this)
+    }
     runCodeCb = (code) => {
+        if (this.codeRunning == true) {
+            console.log('codes running');
+            return
+        }
+        this.codeRunning = true
+        toggleRunButton(false)
+
         showError('')
         code = this.wrapCode(code) //wrap code in our wrapper
         let compiled = CodeService.compileCode(code)
@@ -113,7 +114,11 @@ export default class Level1 extends Phaser.State {
 
             async.forEachSeries(parsed.moves, function(move, callback) {
         
-                that.moveRickshaw(move, callback)
+                async.forEachSeries(parsed.moves, function(move, callback) {
+                if (move.type == "move")
+                    that.moveRickshaw(move, callback)
+                else if (move.type == "turn")
+                    that.turnRickshaw(move, callback)
 
             }, function(err) {
                 if (err){
@@ -129,12 +134,14 @@ export default class Level1 extends Phaser.State {
                     that.grid.resetPosition(that.rickshaw,{'x':2,'y':3},that.rickshawXOffset,that.rickshawYOffset,'left')
                 
                 }
-
+                 that.codeRunning = false;
+                 toggleRunButton(true)
             });
 
 
 
         })
+    })
     }
 
     gameOver = () => {

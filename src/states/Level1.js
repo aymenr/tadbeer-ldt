@@ -5,11 +5,12 @@ import React from 'react'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
 import { deleteUI } from '../ui/main'
-import {showError } from '../ui/main'
+import { showError } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
-import {moveRickshawAux, makeButtons} from '../states/helper'
+import { toggleRunButton } from '../ui/main'
+import { moveRickshawAux, turnRickshawAux, makeButtons } from '../states/helper'
 
 export default class Level1 extends Phaser.State {
     init() {
@@ -22,6 +23,7 @@ export default class Level1 extends Phaser.State {
         this.rickshawYOffset = 0.6;
         this.passengerXOffset = 0
         this.passengerYOffset = 1
+        this.codeRunning = false;
     }
 
     create() {
@@ -31,8 +33,8 @@ export default class Level1 extends Phaser.State {
             ['road2', 'grass', 'grass']
 
         ];
-        console.log('width:',this.grid.getWidth(),'height:',this.grid.getHeight())
-        let background = game.add.tileSprite(0, 0, this.grid.getWidth(),this.grid.getWidth(), 'background1');
+        console.log('width:', this.grid.getWidth(), 'height:', this.grid.getHeight())
+        let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background1');
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
 
@@ -49,16 +51,16 @@ export default class Level1 extends Phaser.State {
         this.passenger.animations.play('ride')
 
 
-        connect('content', makeButtons(2), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+        connect('content', makeButtons(2), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
 
-        
+
 
     }
 
 
-    makeInstructions = () => { 
-       
-       return  "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
+    makeInstructions = () => {
+
+        return "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
 
     }
 
@@ -69,7 +71,17 @@ export default class Level1 extends Phaser.State {
     moveRickshaw = (move, callback) => {
         moveRickshawAux(move, callback, this)
     }
+    turnRickshaw = (move, callback) => {
+
+        turnRickshawAux(move, callback, this)
+    }
     runCodeCb = (code) => {
+        if (this.codeRunning == true) {
+            console.log('codes running');
+            return
+        }
+        this.codeRunning = true
+        toggleRunButton(false)
         showError('')
         code = this.wrapCode(code) //wrap code in our wrapper
         let compiled = CodeService.compileCode(code)
@@ -88,25 +100,29 @@ export default class Level1 extends Phaser.State {
             let that = this
 
             async.forEachSeries(parsed.moves, function(move, callback) {
+                if (move.type == "move")
+                    that.moveRickshaw(move, callback)
+                else if (move.type == "turn")
+                    that.turnRickshaw(move, callback)
 
-                that.moveRickshaw(move, callback)
 
             }, function(err) {
                 if (err) {
 
                     showError(err)
 
-                    that.grid.resetPosition(that.rickshaw,{'x':2,'y':0},that.rickshawXOffset,that.rickshawYOffset,'left')
+                    that.grid.resetPosition(that.rickshaw, { 'x': 2, 'y': 0 }, that.rickshawXOffset, that.rickshawYOffset, 'left')
                 }
 
                 if (!err && that.checkGoal()) {
                     that.gameOver()
                 } else {
-                        showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
-                        that.grid.resetPosition(that.rickshaw,{'x':2,'y':0},that.rickshawXOffset,that.rickshawYOffset,'left')
-                
-                }
+                    showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
+                    that.grid.resetPosition(that.rickshaw, { 'x': 2, 'y': 0 }, that.rickshawXOffset, that.rickshawYOffset, 'left')
 
+                }
+                 that.codeRunning = false;
+                toggleRunButton(true)
             });
 
 
@@ -138,21 +154,21 @@ export default class Level1 extends Phaser.State {
     }
 
 
-      makeEditorData = () => {
+    makeEditorData = () => {
         return [{
-            type: 'func_call',
-            
-            args: [{
-                type: 'param_nums',
-                value: 1,
-                initFocused: true,
-            }],
-            name: 'agay'
-        },
-        {
-             type: 'blank',
-             initFocused: true
-        }
+                type: 'func_call',
+
+                args: [{
+                    type: 'param_nums',
+                    value: 1,
+                    initFocused: true,
+                }],
+                name: 'agay'
+            },
+            {
+                type: 'blank',
+                initFocused: true
+            }
 
         ]
     }

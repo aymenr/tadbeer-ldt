@@ -7,12 +7,12 @@ import { toggleRunButton } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
-import {deleteUI} from '../ui/main'
-import {showError } from '../ui/main'
-import {moveRickshawAux, turnRickshawAux,makeButtons} from '../states/helper'
+import { deleteUI } from '../ui/main'
+import { showError } from '../ui/main'
+import { moveRickshawAux, turnRickshawAux, makeButtons } from '../states/helper'
 
 
-export default class Level1 extends Phaser.State {
+export default class Level2 extends Phaser.State {
     init() {
         this.sizeX = 4
         this.sizeY = 4
@@ -21,34 +21,34 @@ export default class Level1 extends Phaser.State {
         this.passenger;
         this.rickshawXOffset = -0.2;
         this.rickshawYOffset = 0.6;
-        this.passengerXOffset = 0  
+        this.passengerXOffset = 0
         this.passengerYOffset = 1
         this.codeRunning = false;
     }
 
     create() {
         var gameBoard = [
-            ['road1', 'road1', 'road1','road-left-down'],
-            ['nehar-lower', 'nehar-lower', 'nehar-lower','road2'],
-            ['grass', 'grass', 'grass','road2'],
-            ['road1', 'goal-road', 'road1','road-up-left']
+            ['road1', 'road1', 'road1', 'road-left-down'],
+            ['nehar-lower', 'nehar-lower', 'nehar-lower', 'road2'],
+            ['grass', 'grass', 'grass', 'road2'],
+            ['road1', 'goal-road', 'road1', 'road-up-left']
 
         ];
 
-    
+
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
-        let background = game.add.tileSprite(0, 0, this.grid.getWidth(),this.grid.getWidth(), 'background2');
-       
-        this.grid.render(gameBoard,'tiles')
+        let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background2');
+
+        this.grid.render(gameBoard, 'tiles')
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
-        connect('content', makeButtons(3), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+        connect('content', makeButtons(3), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
     }
 
 
-    renderObjects =()=> {
+    renderObjects = () => {
         //setup rickshaw
         this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'up', this.grid, 0, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
 
@@ -58,18 +58,18 @@ export default class Level1 extends Phaser.State {
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
 
-    
+
         this.tree = this.grid.renderAndPlaceObject('', 'tree', this.grid, 2, 2, -0.4, 1, 1.5, 1.5, this)
         this.bench = this.grid.renderAndPlaceObject('', 'bench', this.grid, 2, 0, 0.1, 0.4, 1, 1, this)
-        
 
-      
+
+
     }
 
 
-    makeInstructions = () => { 
-       
-       return  "<ul><li>Bushra ke sawari nehar kay doosri side pay hay. </li>  <li>Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </li> </ul>"
+    makeInstructions = () => {
+
+        return "<ul><li>Bushra ke sawari nehar kay doosri side pay hay. </li>  <li>Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </li> </ul>"
     }
 
     wrapCode = (code) => Level1Wrap + " " + code
@@ -107,27 +107,26 @@ export default class Level1 extends Phaser.State {
             let that = this
             console.log(parsed.moves)
             async.forEachSeries(parsed.moves, function(move, callback) {
-                
-                if (move.type=="move")
-                    that.moveRickshaw(move, callback)
-                else if(move.type=="turn") 
-                    that.turnRickshaw(move,callback)
 
-                
+                if (move.type == "move")
+                    that.moveRickshaw(move, callback)
+                else if (move.type == "turn")
+                    that.turnRickshaw(move, callback)
+
+
 
             }, function(err) {
 
-                if (err){
-                     showError(err)
-                    that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
-                    
-                }
-                else if (that.checkGoal()) {
+                if (err) {
+                    showError(err)
+                    that.grid.resetPosition(that.rickshaw, { 'x': 0, 'y': 0 }, that.rickshawXOffset, that.rickshawYOffset, 'up')
+
+                } else if (that.checkGoal()) {
                     that.gameOver()
                 } else {
                     showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
-                    that.grid.resetPosition(that.rickshaw,{'x':0,'y':0},that.rickshawXOffset,that.rickshawYOffset,'up')
-                
+                    that.grid.resetPosition(that.rickshaw, { 'x': 0, 'y': 0 }, that.rickshawXOffset, that.rickshawYOffset, 'up')
+
                 }
                 that.codeRunning = false;
                 toggleRunButton(true)
@@ -148,9 +147,9 @@ export default class Level1 extends Phaser.State {
             that.grid.moveObject(0, -6, that.rickshaw, function() {
                 deleteUI('content')
                 that.state.start('Level3')
-            }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
+            }, 0, this.rickshawXOffset, this.rickshawYOffset, true)
 
-        }, 0,this.passengerXOffset,this.passengerYOffset)
+        }, 0, this.passengerXOffset, this.passengerYOffset)
 
     }
     checkGoal = () => {
@@ -162,9 +161,9 @@ export default class Level1 extends Phaser.State {
     }
 
 
- 
+
     makeEditorData = () => {
-        return [ {
+        return [{
             type: 'blank',
             initFocused: true
         }]
