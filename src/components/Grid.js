@@ -117,14 +117,14 @@ export default class Grid extends Phaser.Group {
         }
     }
 
-  renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level) {
+    renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level) {
         let object = level.game.add.sprite(0, 0, atlas, sprite)
 
         object.alpha = 0
         grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
 
         object.alpha = 1
-        this.placeObject(x,y,object,xOffset,yOffset,scaleX,scaleY)
+        this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
         return object
     }
     placeObject(x, y, obj, offsetX, offsetY, scaleX, scaleY) {
@@ -142,118 +142,121 @@ export default class Grid extends Phaser.Group {
     }
     //using callback directly doesnt work for some reason
     callbackWrapper() {
-        if(this.error =="obstruction_error"){
-          this.error = false
-          this.callback('obstruction_error')
-        }
-        else if (this.error =='outofbounds_error'){
-          this.error = false
-          this.callback('outofbounds_error')
+        if (this.error == "obstruction_error") {
+            this.error = false
+            this.callback('obstruction_error')
+        } else if (this.error == 'outofbounds_error') {
+            this.error = false
+            this.callback('outofbounds_error')
         } else
             this.callback()
     }
 
 
-    resetPosition(obj,coordinates,xOffset,yOffset,frameName) 
-    {
+    resetPosition(obj, coordinates, xOffset, yOffset, frameName) {
         this.objectArray[obj.i][obj.j] = null
         obj.frameName = frameName
         obj.i = coordinates.x
         obj.j = coordinates.y
-        let newCoordinates = this.convert(coordinates.x + xOffset,coordinates.y + yOffset)
+        let newCoordinates = this.convert(coordinates.x + xOffset, coordinates.y + yOffset)
         obj.x = newCoordinates.x
         obj.y = newCoordinates.y
         this.objectArray[obj.i][obj.j] = obj
     }
     //Moves j boxes to the right and i up  call callback when tween is done so next command can be processed 
     moveObject(x, y, obj, callbackToAsync, fade, offsetX = 0, offsetY = 0, override = false) {
-        this.error =false;
+        this.error = false;
         this.objectArray[obj.i][obj.j] = null
-        let obstruction = this.checkObstruction( { 'x': obj.i, 'y': obj.j }, {'x':obj.i +x,'y':obj.j +y}) 
-        let outOfBounds = this.checkOutOfBounds({'x':obj.i + x,'y':obj.j+y})
-        let newCoordinates= this.convert(obj.i + x + offsetX,obj.j+ y + offsetY)
-
+        let obstruction = this.checkObstruction({ 'x': obj.i, 'y': obj.j }, { 'x': obj.i + x, 'y': obj.j + y })
+        let outOfBounds = this.checkOutOfBounds({ 'x': obj.i + x, 'y': obj.j + y })
+        let newCoordinates = this.convert(obj.i + x + offsetX, obj.j + y + offsetY)
+        let oldCoordinates = { 'x': obj.i, 'y': obj.j };
         //if theres an obstruction it will stop at obstruction, if there is no obstruction it will stop when outta bounds otherwise it will go to new coordinates
-        if (obstruction!= false) { 
-            newCoordinates = this.convert(obstruction.x +offsetX,obstruction.y + offsetY)
-            obj.i =obstruction.x
-            obj.y =obstruction.y
+        if (obstruction != false) {
+            newCoordinates = this.convert(obstruction.x + offsetX, obstruction.y + offsetY)
 
-            this.error = "obstruction_error" 
-         }else if(outOfBounds != false && override ==false ) {
-            newCoordinates = this.convert(outOfBounds.x +offsetX,outOfBounds.y + offsetY)
-            obj.i =outOfBounds.x
-            obj.y =outOfBounds.y
-            this.error ="outofbounds_error"
-         } else{ //no errors
+            obj.i = obstruction.x
+            obj.y = obstruction.y
+
+            this.error = "obstruction_error"
+        } else if (outOfBounds != false && override == false) {
+            newCoordinates = this.convert(outOfBounds.x + offsetX, outOfBounds.y + offsetY)
+            obj.i = outOfBounds.x
+            obj.y = outOfBounds.y
+            this.error = "outofbounds_error"
+        } else { //no errors
             obj.i = obj.i + x
             obj.j = obj.j + y
-          }
+        }
 
         if (!override)
-          this.objectArray[obj.i][obj.j] = obj
-        
+            this.objectArray[obj.i][obj.j] = obj
 
-        //start tween
-        let tween = this.createTween(fade, obj, newCoordinates, Math.max(Math.abs(x), Math.abs(y)) * 600)
         this.callback = callbackToAsync
-        tween.onComplete.add(this.callbackWrapper, this)
 
-        tween.start()
+        if (oldCoordinates.x == obj.i && oldCoordinates.y == obj.j) {
+            this.callbackWrapper()
+        } else {
+            //start tween
+            let tween = this.createTween(fade, obj, newCoordinates, Math.max(Math.abs(x), Math.abs(y)) * 600)
+            
+            tween.onComplete.add(this.callbackWrapper, this)
+
+            tween.start()
+        }
 
 
     }
     checkOutOfBounds(endCoordinates) {
-        if(endCoordinates.x >= this.tileArray.length) 
-          return ({'x':this.tileArray.length-1,'y':endCoordinates.y})
+        if (endCoordinates.x >= this.tileArray.length)
+            return ({ 'x': this.tileArray.length - 1, 'y': endCoordinates.y })
 
 
-        if (endCoordinates.x <0) 
-            return ({'x':0,'y':endCoordinates.y})
-            
-        
+        if (endCoordinates.x < 0)
+            return ({ 'x': 0, 'y': endCoordinates.y })
+
+
         if (endCoordinates.y >= this.tileArray[endCoordinates.x].length)
-          return ({'x':endCoordinates.x,'y':this.tileArray[endCoordinates.x].length-1})
+            return ({ 'x': endCoordinates.x, 'y': this.tileArray[endCoordinates.x].length - 1 })
 
 
-        if(endCoordinates.y < 0)
-           return ({'x':endCoordinates.x,'y':0})
+        if (endCoordinates.y < 0)
+            return ({ 'x': endCoordinates.x, 'y': 0 })
 
         return false
-     }
+    }
 
-    checkObstructionForward(startCoordinates,endCoordinates,direction) {
-        if (direction=='x') {
-          for (var x = startCoordinates.x+1; x <= endCoordinates.x; x++) {
-              if ((x < this.objectArray.length) && ((this.objectArray[x][startCoordinates.y] != null &&  this.objectArray[x][startCoordinates.y].key !='rickshaw') || this.tileArray[x][startCoordinates.y] =='nehar-lower' )) {
-                  return { 'x': x-1, 'y': startCoordinates.y }
-              }
-          }
-        }
-        else {
-           for (var y = startCoordinates.y+1; x <= endCoordinates.y; y++) {
-              if ((y < this.objectArray[startCoordinates.x].length) && ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' ) || this.tileArray[x][startCoordinates.y] =='nehar-lower')) {
-                  return { 'x': startCoordinates.x, 'y': y -1}
-              }
-          }
+    checkObstructionForward(startCoordinates, endCoordinates, direction) {
+        if (direction == 'x') {
+            for (var x = startCoordinates.x + 1; x <= endCoordinates.x; x++) {
+                if ((x < this.objectArray.length) && ((this.objectArray[x][startCoordinates.y] != null && this.objectArray[x][startCoordinates.y].key != 'rickshaw') || this.tileArray[x][startCoordinates.y] == 'nehar-lower')) {
+                    return { 'x': x - 1, 'y': startCoordinates.y }
+                }
+            }
+        } else {
+            for (var y = startCoordinates.y + 1; x <= endCoordinates.y; y++) {
+                if ((y < this.objectArray[startCoordinates.x].length) && ((this.objectArray[startCoordinates.x][y] != null && this.objectArray[startCoordinates.x][y].key != 'rickshaw') || this.tileArray[x][startCoordinates.y] == 'nehar-lower')) {
+                    return { 'x': startCoordinates.x, 'y': y - 1 }
+                }
+            }
         }
         return false
     }
 
-    checkObstructionBackwards(startCoordinates,endCoordinates,direction) {
-        if (direction=='x') {
+    checkObstructionBackwards(startCoordinates, endCoordinates, direction) {
+        if (direction == 'x') {
 
-          for (var x = startCoordinates.x-1; x >= endCoordinates.x; x--) {
-              if ((x >= 0)  && ((this.objectArray[x][startCoordinates.y] != null && this.objectArray[x][startCoordinates.y].key !='rickshaw') || this.tileArray[x][startCoordinates.y]=='nehar-lower' ) ){
-                  return { 'x': x+1, 'y': startCoordinates.y }
-              }
-          }
-        }else {
-          for (var y = startCoordinates.y-1; y >= endCoordinates.y; y--) {
-              if ((y >=0) &&  ((this.objectArray[startCoordinates.x][y] != null &&  this.objectArray[startCoordinates.x][y].key !='rickshaw' )|| this.tileArray[startCoordinates.x][y]=='nehar-lower' )) {
-                  return { 'x': startCoordinates.x, 'y': y+1 }
-              }
-          }
+            for (var x = startCoordinates.x - 1; x >= endCoordinates.x; x--) {
+                if ((x >= 0) && ((this.objectArray[x][startCoordinates.y] != null && this.objectArray[x][startCoordinates.y].key != 'rickshaw') || this.tileArray[x][startCoordinates.y] == 'nehar-lower')) {
+                    return { 'x': x + 1, 'y': startCoordinates.y }
+                }
+            }
+        } else {
+            for (var y = startCoordinates.y - 1; y >= endCoordinates.y; y--) {
+                if ((y >= 0) && ((this.objectArray[startCoordinates.x][y] != null && this.objectArray[startCoordinates.x][y].key != 'rickshaw') || this.tileArray[startCoordinates.x][y] == 'nehar-lower')) {
+                    return { 'x': startCoordinates.x, 'y': y + 1 }
+                }
+            }
         }
         return false
     }
@@ -262,15 +265,15 @@ export default class Grid extends Phaser.Group {
         if (startCoordinates.x != endCoordinates.x) //moves in x
         {
             if (startCoordinates.x < endCoordinates.x)
-                return this.checkObstructionForward(startCoordinates,endCoordinates,'x')
+                return this.checkObstructionForward(startCoordinates, endCoordinates, 'x')
             else if (startCoordinates.x > endCoordinates.x)
-                return this.checkObstructionBackwards(startCoordinates,endCoordinates,'x')
+                return this.checkObstructionBackwards(startCoordinates, endCoordinates, 'x')
         } else if (startCoordinates.y != endCoordinates.y) //moves in y
         {
-            if (startCoordinates.y < endCoordinates.y) 
-                return this.checkObstructionForward(startCoordinates,endCoordinates,'y')
-            else if (startCoordinates.y > endCoordinates.y) 
-                return this.checkObstructionBackwards(startCoordinates,endCoordinates,'y')
+            if (startCoordinates.y < endCoordinates.y)
+                return this.checkObstructionForward(startCoordinates, endCoordinates, 'y')
+            else if (startCoordinates.y > endCoordinates.y)
+                return this.checkObstructionBackwards(startCoordinates, endCoordinates, 'y')
         }
 
     }

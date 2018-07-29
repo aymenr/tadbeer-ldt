@@ -3,6 +3,7 @@ import Blank from './Blank';
 import FuncCall from './FuncCall';
 import { getCorrespEle } from '../helpers';
 import update from 'immutability-helper';
+import  '~/assets/fonts/stylesheet.css';
 
 export default class Editor extends Component {
 
@@ -73,12 +74,20 @@ export default class Editor extends Component {
 
     return (
 
-      <div ref={ref => this.container = ref } >
+      <div style={styles.editor} ref={ref => this.container = ref } >
         {
 
         this.state.statements.map((statement, index) => getCorrespEle({ ...statement, key: index, focusCallback: this.focusCallback, updateDataCb: this.updateDataCb, index: index}) )
         }
       </div>
     )
+  }
+}
+
+const styles = {
+  editor: {
+    fontFamily:'apercu_monoregular',
+    color:'#7a46af'
+    
   }
 }
