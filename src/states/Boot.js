@@ -31,8 +31,12 @@ export default class extends Phaser.State {
 
     this.load.image('khamba1half', 'assets/images/khamba1half.png')
     this.load.image('khamba2half', 'assets/images/khamba2half.png')
+
     game.load.image('background1', 'assets/images/blurlevel1.png');
     game.load.image('background2', 'assets/images/blurlevel2.png');
+
+    this.load.audio('rickshaw-sound', 'assets/audio/rickshaw.mp3')
+
     
     this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
     this.load.atlasJSONHash('passenger2', 'assets/images/passenger2.png', 'assets/images/passenger2.json');

@@ -1,3 +1,6 @@
+import {showError } from '../ui/main'
+import CodeService from '../services/Code'
+import async from '../../node_modules/async'
 
 export function moveRickshawAux(move, callback, level) {
 
@@ -68,9 +71,7 @@ export function moveRickshawAux(move, callback, level) {
 
         }
 
-
-        level.grid.moveObject(x, y, level.rickshaw, callback, 1, level.rickshawXOffset, level.rickshawYOffset)
-
+        level.grid.moveObject(x, y, level.rickshaw, callback, 1, level.rickshawXOffset, level.rickshawYOffset);
     }
 export function turnRickshawAux(move,callback,level) {
 
@@ -139,4 +140,63 @@ export function makeButtons(nums) {
             numArgs: 0
         }
         ].concat(numButtons.slice(2))
+    }
+
+export function runCodeCbAux(code, x, y, orientation, level){
+
+        level.rickshawSound.play()
+        level.rickshawSound.volume = 1
+        showError('')
+        code = level.wrapCode(code) //wrap code in our wrapper
+        let compiled = CodeService.compileCode(code)
+        CodeService.runCode(compiled.code, (err, data) => {
+            //handle this later
+            if (err)
+                return
+
+            if (!data.answer)
+                return
+            let parsed = JSON.parse(data.answer)
+
+            if (!parsed.moves)
+                return
+
+            let that = level
+
+            async.forEachSeries(parsed.moves, function(move, callback) {
+
+                moveRickshawAux(move, callback, that)
+
+            }, function(err) {
+
+                if (err) {
+
+                    showError(err)
+
+                    that.grid.resetPosition(that.rickshaw,{'x':x,'y':y},that.rickshawXOffset,that.rickshawYOffset,orientation)
+                }
+
+                if (!err && checkGoal(that)) {
+                    that.gameOver()
+                } else {
+                        showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
+                        that.grid.resetPosition(that.rickshaw,{'x':x,'y':y},that.rickshawXOffset,that.rickshawYOffset,orientation)
+                
+                }
+                that.rickshawSound.fadeOut(1000)
+
+            });
+
+
+
+        })
+
+}
+
+function checkGoal (level) {
+
+
+        let goalTile = level.grid.getGoalTile()
+        return level.rickshaw.i == goalTile.i && level.rickshaw.j == goalTile.j
+
     }

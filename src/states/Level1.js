@@ -12,6 +12,7 @@ import async from '../../node_modules/async'
 import { toggleRunButton } from '../ui/main'
 import { moveRickshawAux, turnRickshawAux, makeButtons } from '../states/helper'
 
+
 export default class Level1 extends Phaser.State {
     init() {
         this.sizeX = 3
@@ -41,7 +42,10 @@ export default class Level1 extends Phaser.State {
         this.grid.render(gameBoard)
 
         //setup rickshaw
+
         this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+     this.rickshawSound = game.add.audio('rickshaw-sound');
+
 
         //setup passenger1
         this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
@@ -68,6 +72,7 @@ export default class Level1 extends Phaser.State {
 
 
     wrapCode = (code) => Level1Wrap + " " + code
+
     moveRickshaw = (move, callback) => {
         moveRickshawAux(move, callback, this)
     }
@@ -128,6 +133,7 @@ export default class Level1 extends Phaser.State {
 
 
         })
+
     }
 
     gameOver = () => {
@@ -143,13 +149,6 @@ export default class Level1 extends Phaser.State {
             }, 0, that.rickshawXOffset, that.rickshawYOffset, true)
 
         }, 0, this.passengerXOffset, this.passengerYOffset)
-
-    }
-    checkGoal = () => {
-
-
-        let goalTile = this.grid.getGoalTile()
-        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j
 
     }
 

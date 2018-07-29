@@ -3,9 +3,7 @@ import Phaser from 'phaser'
 import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
-import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
-import async from '../../node_modules/async'
 import {deleteUI} from '../ui/main'
 import {showError } from '../ui/main'
 import { toggleRunButton } from '../ui/main'
@@ -51,6 +49,9 @@ export default class Level3 extends Phaser.State {
         //setup rickshaw
         this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
 
+         this.rickshawSound = game.add.audio('rickshaw-sound');
+
+
         //setup passenger2
         this.passenger = this.grid.renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1, this)
         this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
@@ -78,6 +79,7 @@ export default class Level3 extends Phaser.State {
     }
 
     wrapCode = (code) => Level1Wrap + " " + code
+
     moveRickshaw = (move, callback) => {
 
         moveRickshawAux(move, callback, this)
@@ -142,6 +144,7 @@ export default class Level3 extends Phaser.State {
 
         })
     })
+
     }
 
     gameOver = () => {
@@ -156,13 +159,6 @@ export default class Level3 extends Phaser.State {
             }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
         }, 0,this.passengerXOffset,this.passengerYOffset)
-
-    }
-    checkGoal = () => {
-
-
-        let goalTile = this.grid.getGoalTile()
-        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j
 
     }
     
