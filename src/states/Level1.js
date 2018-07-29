@@ -10,7 +10,10 @@ import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
 import async from '../../node_modules/async'
 import { toggleRunButton } from '../ui/main'
-import { moveRickshawAux, turnRickshawAux, makeButtons } from '../states/helper'
+import { moveRickshawAux, turnRickshawAux, makeButtons,runCodeCbAux } from '../states/helper'
+
+
+
 
 export default class Level1 extends Phaser.State {
     init() {
@@ -41,7 +44,10 @@ export default class Level1 extends Phaser.State {
         this.grid.render(gameBoard)
 
         //setup rickshaw
+
         this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshawSound = game.add.audio('rickshaw-sound');
+
 
         //setup passenger1
         this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
@@ -52,22 +58,16 @@ export default class Level1 extends Phaser.State {
 
 
         connect('content', makeButtons(2), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
-
-
-
     }
 
 
     makeInstructions = () => {
 
         return "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
-
     }
 
-
-
-
     wrapCode = (code) => Level1Wrap + " " + code
+
     moveRickshaw = (move, callback) => {
         moveRickshawAux(move, callback, this)
     }
@@ -75,59 +75,10 @@ export default class Level1 extends Phaser.State {
 
         turnRickshawAux(move, callback, this)
     }
+
     runCodeCb = (code) => {
-        if (this.codeRunning == true) {
-            console.log('codes running');
-            return
-        }
-        this.codeRunning = true
-        toggleRunButton(false)
-        showError('')
-        code = this.wrapCode(code) //wrap code in our wrapper
-        let compiled = CodeService.compileCode(code)
-        CodeService.runCode(compiled.code, (err, data) => {
-            //handle this later
-            if (err)
-                return
+        runCodeCbAux(code, 2, 0, 'left', this)
 
-            if (!data.answer)
-                return
-            let parsed = JSON.parse(data.answer)
-
-            if (!parsed.moves)
-                return
-
-            let that = this
-
-            async.forEachSeries(parsed.moves, function(move, callback) {
-                if (move.type == "move")
-                    that.moveRickshaw(move, callback)
-                else if (move.type == "turn")
-                    that.turnRickshaw(move, callback)
-
-
-            }, function(err) {
-                if (err) {
-
-                    showError(err)
-
-                    that.grid.resetPosition(that.rickshaw, { 'x': 2, 'y': 0 }, that.rickshawXOffset, that.rickshawYOffset, 'left')
-                }
-
-                if (!err && that.checkGoal()) {
-                    that.gameOver()
-                } else {
-                    showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
-                    that.grid.resetPosition(that.rickshaw, { 'x': 2, 'y': 0 }, that.rickshawXOffset, that.rickshawYOffset, 'left')
-
-                }
-                 that.codeRunning = false;
-                toggleRunButton(true)
-            });
-
-
-
-        })
     }
 
     gameOver = () => {
@@ -143,14 +94,6 @@ export default class Level1 extends Phaser.State {
             }, 0, that.rickshawXOffset, that.rickshawYOffset, true)
 
         }, 0, this.passengerXOffset, this.passengerYOffset)
-
-    }
-    checkGoal = () => {
-
-
-        let goalTile = this.grid.getGoalTile()
-        return this.rickshaw.i == goalTile.i && this.rickshaw.j == goalTile.j
-
     }
 
 
