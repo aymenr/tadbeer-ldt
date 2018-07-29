@@ -126,7 +126,7 @@ export function makeButtons(nums) {
             type: 'func_call_button',
             name: 'daenMuro',
             numArgs: 0,
-        },
+        }, 
          {
             type: 'param_num',
             value: 1,

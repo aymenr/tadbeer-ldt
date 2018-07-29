@@ -17,6 +17,7 @@ export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
     //create all the elements that i need to append to parent, errors will be later shifted to popups components 
     const guiContainer = document.createElement('div')
     guiContainer.classList.add("gui");
+    guiContainer.style.marginTop = '10px';
     const bodyTextElem = document.createElement('div')
     bodyTextElem.classList.add('body-text')
     const errorsElem = document.createElement('div')

@@ -86,8 +86,10 @@ export default class Editor extends Component {
 
 const styles = {
   editor: {
+    padding:'10px',
     fontFamily:'apercu_monoregular',
-    color:'#7a46af'
+    color:'#7a46af',
+    marginBottom:'10px'
     
   }
 }

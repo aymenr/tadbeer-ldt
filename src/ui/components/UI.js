@@ -28,7 +28,7 @@ export default class UI extends Component {
     return (
       <div style={styles.container}>
         <Editor ref={inst => this.editor = inst } initialData={this.props.initialEditorData} />
-        <Keyboard data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
+        <Keyboard  data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
       </div>
     )
   }

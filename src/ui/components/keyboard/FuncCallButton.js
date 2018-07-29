@@ -20,9 +20,9 @@ class FuncCallButton extends Component {
       name
     } = this.props;
     return (
-      <div style={styles.container} >
+  
         <div style={styles.button} onClick={this.onClick}>{name}()</div>
-      </div>
+    
     )
   }
 }
@@ -33,18 +33,13 @@ const styles = {
     fontFamily:'apercu_monoregular',
     fontSize: '14px',
     color: 'black',
-    width: '70%',
-    display: 'inline-block',
-    margin: 'auto',
     boxShadow: '4px 0 2px 0 rgba(0, 0, 0, 0.5)',
     textAlign: 'center',
     padding: '5px',
-  },
-  container: {
-
-    display: 'inline-flex',
-    width: '35%'
+    marginBottom:'10px',
+    marginLeft:'10px'
   }
+
 }
 
 FuncCallButton.propTypes = {
