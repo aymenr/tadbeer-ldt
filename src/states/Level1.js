@@ -8,6 +8,7 @@ import { deleteUI } from '../ui/main'
 import { showError } from '../ui/main'
 import CodeService from '../services/Code'
 import Level1Wrap from '../wrappers/Level1'
+import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 import { toggleRunButton } from '../ui/main'
 import { moveRickshawAux, turnRickshawAux, makeButtons,runCodeCbAux } from '../states/helper'
@@ -45,16 +46,16 @@ export default class Level1 extends Phaser.State {
 
         //setup rickshaw
 
-        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
-        this.rickshawSound = game.add.audio('rickshaw-sound');
+        // this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'up', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        // this.rickshawSound = game.add.audio('rickshaw-sound');
 
 
-        //setup passenger1
-        this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
-        this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
-        this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
+        // //setup passenger1
+        // this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
+        // this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
+        // this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
 
-        this.passenger.animations.play('ride')
+        // this.passenger.animations.play('ride')
 
 
         connect('content', makeButtons(2), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
@@ -65,6 +66,7 @@ export default class Level1 extends Phaser.State {
 
         return "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
     }
+
 
     wrapCode = (code) => Level1Wrap + " " + code
 
@@ -99,19 +101,43 @@ export default class Level1 extends Phaser.State {
 
     makeEditorData = () => {
         return [{
-                type: 'func_call',
 
-                args: [{
-                    type: 'param_nums',
-                    value: 1,
-                    initFocused: true,
-                }],
-                name: 'agay'
-            },
-            {
-                type: 'blank',
-                initFocused: true
-            }
+            type: 'func_call_button',
+            name: 'agay',
+            numArgs: 1
+        }, {
+            type: 'func_call_button',
+            name: 'peechay',
+            numArgs: 1,
+        }, {
+            type: 'param_num',
+            value: 1,
+        }, {
+            type: 'param_num',
+            value: 2,
+        }, {
+            type: 'func_call_button',
+            name: 'daen',
+            numArgs: 1,
+        }, {
+            type: 'func_call_button',
+            name: 'baen',
+            numArgs: 1
+        }
+        ].concat(numButtons.slice(2))
+    }
+
+      makeEditorData = () => {
+        return [{
+            type: 'func_call',
+            
+            args: [{
+                type: 'param_nums',
+                value: 1,
+                initFocused: true,
+            }],
+            name: 'agay'
+        }
 
         ]
     }

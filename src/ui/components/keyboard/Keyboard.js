@@ -29,7 +29,7 @@ class Keyboard extends Component {
                   {
                     this.props.data.map((button, ind) => {
                       console.log(button)
-                    if (button.type=="func_call_button")
+                    if (button.type=="func_call_button" || button.type=="if_button")
                       return getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb })
                   })
             

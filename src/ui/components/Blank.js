@@ -15,23 +15,21 @@ export default class Blank extends Statement {
       focusCallback
     } = this.props;
 
-    this.state = {
-      focus: initFocused
-    }
+    this.state = {}
+  }
 
-    if (initFocused)
-      focusCallback(this)
+  componentDidMount = () => {
+    if (this.props.initFocused)
+      this.props.focusCallback(this)
   }
 
   onClick = (ev) => {
-
     this.props.focusCallback(this);
   }
 
   updateData = (data) => {
    
     if (this.props.updateDataCb){
-
       return this.props.updateDataCb(data, this.props.index)
     }
 

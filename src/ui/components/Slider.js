@@ -1,66 +1,47 @@
 import React from "react";
 import Slider from "react-slick";
-var image = require('~/assets/images/bench.png')
-var image2 = require('~/assets/images/khamba.png')
+var image1 = require('~/assets/images/1intro.png')
+var image2 = require('~/assets/images/2intro.png')
+var image3 = require('~/assets/images/3intro.png')
+var image4 = require('~/assets/images/4intro.png')
+var arrow = require('~/assets/images/arrow.png')
+import  '~/assets/fonts/stylesheet.css';
 import PropTypes from 'prop-types';
 
 export default class HomeSlider extends React.Component {
 
   render() {
     var settings = {
-      dots: true,
       infinite: false,
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
       afterChange: index => {
-        if (index == 3){
+        if (index == 4){
            console.log('start level 1');
           this.props.atLastSlide()
          
         }
-      },
-      nextArrow: <CustomNextArrow />,
-      prevArrow: <CustomPrevArrow />
-
+      }
 
     };
     return (
-      <div style={{height: "100vh"}} >
+      <div>
         <Slider {...settings}>
-          <div style={[style.item]}>
-            <div style={style.item1} >
-              <h3>Bushra aik rickshaw driver hay. </h3>
-              <h3>Us kay rickshaw ka naam Basheer hay. </h3>
-              <p>Bushra ko rus malai khane ka shauk hay.  </p>
-              <p> Lekan usay kaam say fursat nahi milti. </p>
-              <p> Wo coding seekh rahe hay </p>
-              <p>  Ta kay computer Basheer ko bata sakay kay kya karna hay</p>
-              <p> Aur Bushra araam se rus malai kha sake. </p>
-              <p>Bushra ko code likhte huay madad chayie</p>
-              <p> Warna us ke sawarian intezar karti reh jayen geen.</p>
+       
+            <div >
+              <img  style ={style.fittedImage} src={image1} />
             </div>
-          </div>
-     
-          <div style={style.item}>
-            <h3>Lekan ye code hay kya?</h3>
-            <p> Code computer ko batata hay kay kya karna hay.  </p>
-
-            <p> Phone pay button dabanay say code chalta hay.
-            Aur phone ko batata hay kay kya karna hay.
-            </p>
-
-
-
-          </div>
-          <div style={style.item}>
-             <p> Computer har line ko baari baari chalata hay</p>
-          </div>
-          <div style={style.item}>
-            <p>Jayse ap english aur urdu may baat kar sakte hayn.</p>
-            <p> Computer bhe mukhtalif zabanon may baat kar sakta hay.  </p>
-            <p> Ap Urduscript may computer say baat karen ge.  </p>
-          </div>
+            <div >
+              <img  style ={style.fittedImage} src={image2} />
+            </div>
+            <div >
+              <img  style ={style.fittedImage} src={image3} />
+            </div>
+            <div >
+              <img  style ={style.fittedImage} src={image4} />
+            </div>
+         
        
         </Slider>
       </div>
@@ -68,21 +49,7 @@ export default class HomeSlider extends React.Component {
   }
 }
 
-class CustomNextArrow extends React.Component {
-  render() {
-    return (
-      <button onClick={this.props.onClick}> Next</button> 
-    )
-  }
-}
 
-class CustomPrevArrow extends React.Component {
-  render() {
-    return (
-      <button onClick={this.props.onClick}> Previous</button> 
-    )
-  }
-}
 
 
 HomeSlider.propTypes = {
@@ -94,15 +61,19 @@ HomeSlider.propTypes = {
 const style = {
   item: {
     height: '100vh',
+  },
+  buttonNext: {
+    width:'35px',
+    fontFamily:'apercubold',
+    position:'absolute',
+    top:'92%',
+    left:'80%',
+    zIndex:'100'
+  },
+  fittedImage: {
+    width: '100%',
+    height:'100vh'
+   
+  
   }
-  // item1: {
-  //   backgroundImage: "url('" + image + "')",
-  //   height: "100vh",
-  //   backgroundSize: "cover"
-  // },
-  // item2: {
-  //   backgroundImage: "url('" + image2+"')",
-  //   height: "100vh",
-  //   backgroundSize: "cover"
-  // }
 }

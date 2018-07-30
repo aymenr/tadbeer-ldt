@@ -138,6 +138,9 @@ export function makeButtons(nums) {
             type: 'func_call_button',
             name: 'baenMuro',
             numArgs: 0
+        },
+        {
+             type: 'if_button'
         }
     ].concat(numButtons.slice(2))
 }

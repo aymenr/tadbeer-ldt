@@ -1,0 +1,2 @@
+const ret = () => returnVal
+ret()
