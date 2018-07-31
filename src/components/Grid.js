@@ -27,7 +27,7 @@ export default class Grid extends Phaser.Group {
         //Scale for different screen sizes
         this.scaleRatio = window.innerWidth / (cols * this.game.cache.getImage('grass').width)
 
-        this.tileHeight = this.game.cache.getImage('grass').height * 0.76 * this.scaleRatio
+        this.tileHeight = this.game.cache.getImage('grass').height * 0.76 * this.scaleRatio 
         this.tileWidth = this.game.cache.getImage('grass').width * this.scaleRatio
         this.offset = 0 //hackish solution for now
         this.offset = Math.abs(this.convert(0, this.cols - 1).y)
@@ -43,7 +43,7 @@ export default class Grid extends Phaser.Group {
     }
 
 
-    render(tArray) { // why is this storing strings, should be storing the sprites! fix
+    render(tArray,offsetHeight= 0) { // why is this storing strings, should be storing the sprites! fix
 
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
@@ -60,7 +60,7 @@ export default class Grid extends Phaser.Group {
                     y
                 } = this.convert(i, j)
 
-
+               y += offsetHeight
 
                 tile = this.game.add.sprite(x, y, this.tileArray[i][j])
                 tile.i = i
@@ -94,7 +94,7 @@ export default class Grid extends Phaser.Group {
     }
     //approximate method
     getHeight() {
-        return Math.abs(this.convert(0, this.cols).y - this.convert(this.rows + 1, 0).y)
+        return Math.abs(this.convert(0, this.cols).y - this.convert(this.rows + 1, 0).y) 
     }
 
     //approximate method
@@ -117,7 +117,7 @@ export default class Grid extends Phaser.Group {
         }
     }
 
-    renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level) {
+    renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level,offsetHeight = 0) {
         let object;
         if (atlas =='') //loading from sprite instead of atlas
               object = this.game.add.sprite(0, 0, sprite)
@@ -125,10 +125,11 @@ export default class Grid extends Phaser.Group {
             object = level.game.add.sprite(0, 0, atlas, sprite)
 
         object.alpha = 0
-        grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
-
-        object.alpha = 1
         this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
+        object.y +=offsetHeight
+        object.alpha = 1
+
+        //this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
         return object
     }
     placeObject(x, y, obj, offsetX, offsetY, scaleX, scaleY) {
@@ -136,7 +137,7 @@ export default class Grid extends Phaser.Group {
         //Calculate target coordinates
         let converted = this.convert(x + offsetX, y + offsetY)
         obj.x = converted.x;
-        obj.y = converted.y;
+        obj.y = converted.y ;
 
         obj.scale.setTo(this.scaleRatio * scaleX, this.scaleRatio * scaleY)
         obj.i = x;

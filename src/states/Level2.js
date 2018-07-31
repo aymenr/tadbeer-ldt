@@ -43,7 +43,7 @@ export default class Level2 extends Phaser.State {
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
         let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background2');
 
-        this.grid.render(gameBoard, 'tiles')
+        this.grid.render(gameBoard)
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
         connect('content', makeButtons(3), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
