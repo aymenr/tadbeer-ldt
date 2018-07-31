@@ -46,16 +46,16 @@ export default class Level1 extends Phaser.State {
 
         //setup rickshaw
 
-        // this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'up', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
-        // this.rickshawSound = game.add.audio('rickshaw-sound');
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.2, 1.2, this)
+        this.rickshawSound = game.add.audio('rickshaw-sound');
 
 
-        // //setup passenger1
-        // this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
-        // this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
-        // this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
+        //setup passenger1
+        this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1,1, this)
+        this.passenger.animations.add('ride', ['ride', 'walk01'], 4, 60, true, false);
+        this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
 
-        // this.passenger.animations.play('ride')
+        this.passenger.animations.play('ride')
 
 
         connect('content', makeButtons(2), this.runCodeCb, this.makeEditorData(), this.makeInstructions())

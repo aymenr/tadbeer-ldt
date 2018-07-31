@@ -2,43 +2,43 @@
 
 "down":
 {
-	"frame": {"x":1,"y":1,"w":637,"h":703},
+	"frame": {"x":108,"y":0,"w":108,"h":120},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
-	"sourceSize": {"w":637,"h":703}
-},
-"up":
-{
-	"frame": {"x":1,"y":706,"w":637,"h":703},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
-	"sourceSize": {"w":637,"h":703}
+	"spriteSourceSize": {"x":0,"y":0,"w":108,"h":120},
+	"sourceSize": {"w":108,"h":120}
 },
 "left":
 {
-	"frame": {"x":640,"y":1,"w":637,"h":703},
+	"frame": {"x":119,"y":120,"w":120,"h":130},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
-	"sourceSize": {"w":637,"h":703}
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130}
 },
 "right":
 {
-	"frame": {"x":640,"y":706,"w":637,"h":703},
+	"frame": {"x":0,"y":0,"w":108,"h":120},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":637,"h":703},
-	"sourceSize": {"w":637,"h":703}
+	"spriteSourceSize": {"x":0,"y":0,"w":108,"h":120},
+	"sourceSize": {"w":108,"h":120}
+},
+"up":
+{
+	"frame": {"x":0,"y":120,"w":119,"h":129},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":129},
+	"sourceSize": {"w":119,"h":129}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "rickshaw.png",
 	"format": "RGBA8888",
-	"size": {"w":1278,"h":1410},
+	"size": {"w":239,"h":250},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4846039e3406515a9e819e01b969ec04:fea4e5856b513678fe5affcc5f4cd2fe:cef3aab1d8be21ea641d06d71cedef8d$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1ca798ca98a3c2504a38bfbe517bbf35:0936aa6906cb477ee748ae93d3dc5c09:cef3aab1d8be21ea641d06d71cedef8d$"
 }
 }

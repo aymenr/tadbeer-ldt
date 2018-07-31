@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.State {
   init() {
-    this.game.stage.backgroundColor = '#9d9d9d';
+    this.game.stage.backgroundColor = '#ffffff';
   }
 
   preload() {
@@ -27,13 +27,15 @@ export default class extends Phaser.State {
     this.load.image('bench', 'assets/images/bench.png')
     this.load.image('lamppost-1', 'assets/images/lamppost1.png')
     this.load.image('lamppost-2', 'assets/images/lamppost2.png')
-    this.load.image('khamba', 'assets/images/khamba.png')
+    this.load.image('khamba1', 'assets/images/khamba1.png')
+    this.load.image('khamba2', 'assets/images/khamba2.png')
 
     this.load.image('khamba1half', 'assets/images/khamba1half.png')
     this.load.image('khamba2half', 'assets/images/khamba2half.png')
 
     game.load.image('background1', 'assets/images/blurlevel1.png');
     game.load.image('background2', 'assets/images/blurlevel2.png');
+    game.load.image('background3', 'assets/images/blurlevel3.png');
 
     this.load.audio('rickshaw-sound', 'assets/audio/rickshaw.mp3')
 
@@ -48,6 +50,6 @@ export default class extends Phaser.State {
 
   create() {
     FBInstant.startGameAsync()
-      .then(() => this.state.start('Level1'))
+      .then(() => this.state.start('Level3'))
   }
 }

@@ -23,8 +23,8 @@ export default class Level3 extends Phaser.State {
         this.passenger;
         this.rickshawXOffset = -0.2;
         this.rickshawYOffset = 0.6;
-        this.passengerXOffset = 0  
-        this.passengerYOffset = 0.5
+        this.passengerXOffset = -0.2 
+        this.passengerYOffset = 1
         this.codeRunning = false;
     }
 
@@ -41,7 +41,8 @@ export default class Level3 extends Phaser.State {
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight())
-
+        let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background3');
+        
         this.grid.render(gameBoard,'tiles')
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
@@ -52,25 +53,32 @@ export default class Level3 extends Phaser.State {
     renderObjects =()=> {
         //setup rickshaw
 
-        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'right', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.2, 1.2, this)
         this.rickshawSound = game.add.audio('rickshaw-sound');
 
 
         //setup passenger2
-        this.passenger = this.grid.renderAndPlaceObject('passenger1', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1, this)
-        this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
+        this.passenger = this.grid.renderAndPlaceObject('passenger2', 'ride', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1, 1, this)
+        this.passenger.animations.add('ride', ['ride', 'walk01'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
 
         
-        let naka= this.grid.renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.1, 0.3, 1, 1, this)
-        let lampPost1= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -0.3, 1.2, 1.5, 1.5, this)
-        let lampPost2= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -0.3, 1.2, 1.5, 1.5, this)
-        let khamba1h= this.grid.renderAndPlaceObject('', 'khamba1half', this.grid, 0, 0, -0.7, 1.22, 1.7, 1.7, this)
-        let khamba2h= this.grid.renderAndPlaceObject('', 'khamba2half', this.grid, 0, 1, -0.2, 0.74 , 1.7, 1.7,this)
+        let naka= this.grid.renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.4, 0.2, 1, 1, this)
+        let lampPost1= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -1.3,2.1, 1.5, 1.5, this)
+        let lampPost2= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -1.3, 2.1, 1.5, 1.5, this)
+        let khamba1= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 0, 0, -1.9, 2.1, 1.7, 1.7, this)
+        let khamba2= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 1, 0, -1.9, 2.1, 1.7, 1.7, this)
+        let khamba3= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 2, 0, -1.9, 2.1, 1.7, 1.7, this)
+        
+        let khamba4= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 3, 0, -1.9, 2.1, 1.7, 1.7, this)
+        
 
-        let khamba1bh= this.grid.renderAndPlaceObject('', 'khamba1half', this.grid, 2, 0, -0.7, 1.38, 1.7, 1.7, this)
-        let khamba2bh= this.grid.renderAndPlaceObject('', 'khamba2half', this.grid, 3, 0, -1.2, 1.9 , 1.7, 1.7,this)
+
+        //let khamba2h= this.grid.renderAndPlaceObject('', 'khamba2half', this.grid, 0, 1, -0.2, 0.74 , 1.7, 1.7,this)
+
+        // let khamba1bh= this.grid.renderAndPlaceObject('', 'khamba1half', this.grid, 2, 0, -0.7, 1.38, 1.7, 1.7, this)
+        // let khamba2bh= this.grid.renderAndPlaceObject('', 'khamba2half', this.grid, 3, 0, -1.2, 1.9 , 1.7, 1.7,this)
 
 
       

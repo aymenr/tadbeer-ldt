@@ -22,8 +22,8 @@ export default class Level2 extends Phaser.State {
         this.rickshaw;
         this.passenger;
         this.rickshawXOffset = -0.2;
-        this.rickshawYOffset = 0.6;
-        this.passengerXOffset = 0
+        this.rickshawYOffset = 0.6
+        this.passengerXOffset = -0.2
         this.passengerYOffset = 1
         this.codeRunning = false;
     }
@@ -53,16 +53,16 @@ export default class Level2 extends Phaser.State {
     renderObjects = () => {
         //setup rickshaw
 
-        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'up', this.grid, 0, 0, this.rickshawXOffset, this.rickshawYOffset, 1.3, 1.3, this)
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'up', this.grid, 0, 0, this.rickshawXOffset, this.rickshawYOffset, 1.2, 1.2, this)
 
         //setup passenger2
-        this.passenger = this.grid.renderAndPlaceObject('passenger2', 'ride', this.grid, 2, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
-        this.passenger.animations.add('ride', ['ride', 'walk03'], 4, 60, true, false);
+        this.passenger = this.grid.renderAndPlaceObject('passenger1', 'ride', this.grid, 2, 1, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
+        this.passenger.animations.add('ride', ['ride', 'walk01'], 4, 60, true, false);
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
 
 
-        this.tree = this.grid.renderAndPlaceObject('', 'tree', this.grid, 2, 2, -0.4, 1, 1.5, 1.5, this)
+        this.tree = this.grid.renderAndPlaceObject('', 'tree', this.grid, 2, 2, -0.4, 1, 1, 1, this)
         this.bench = this.grid.renderAndPlaceObject('', 'bench', this.grid, 2, 0, 0.1, 0.4, 1, 1, this)
         this.rickshawSound = game.add.audio('rickshaw-sound');
 
