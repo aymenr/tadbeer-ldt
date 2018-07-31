@@ -4,7 +4,7 @@ import 'modeJS'
 import Grid from '../components/Grid'
 import { connect } from '../ui/main'
 import Level1Wrap from '../wrappers/Level1'
-
+import React from 'react'
 import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 
@@ -26,6 +26,22 @@ export default class Level3 extends Phaser.State {
         this.passengerXOffset = -0.2 
         this.passengerYOffset = 1
         this.codeRunning = false;
+        this.style = {
+            container: {
+                padding:'10px',
+                fontFamily:'apercuregular'
+            },
+            h3: {
+                fontFamily:'apercubold',
+                color:'#7a46af'
+            },
+            color: {
+                color: '#7a46af',
+                fontWeight:'bold',
+                fontFamily:'apercu_monoregular'
+            }
+
+        }
     }
 
     create() {
@@ -86,8 +102,16 @@ export default class Level3 extends Phaser.State {
 
 
     makeInstructions = () => { 
-       
-       return  "<ul><li>Bushra ke sawari us ke samne hay </li><li>Lekan ye samne police ka naka hay.</li><li>Ab kya kare gee Bushra? </li></ul>"
+       let instructions = ( 
+
+        <div style = {this.style.container}>
+        <h3 style = {this.style.h3}> Kya karna hay? </h3> 
+        <p> Bushra kee sawari us kay samne hay. </p>
+        <p> Lekan ye samnay police ka naaka hay. Ab kya karay gee Bushra? </p>
+        </div>
+        )
+        
+    return instructions
     }
 
 

@@ -1,10 +1,12 @@
 import React from "react";
 import Slider from "react-slick";
-var image1 = require('~/assets/images/1intro.png')
-var image2 = require('~/assets/images/2intro.png')
-var image3 = require('~/assets/images/3intro.png')
-var image4 = require('~/assets/images/4intro.png')
-var arrow = require('~/assets/images/arrow.png')
+var image1 = require('~/assets/images/premise1.png')
+var image2 = require('~/assets/images/p2.png')
+var image3 = require('~/assets/images/intro1.png')
+var image4 = require('~/assets/images/intro2.png')
+var image5 = require('~/assets/images/intro3.png')
+var image6 = require('~/assets/images/intro4.png')
+var image7 = require('~/assets/images/functions1.png')
 import  '~/assets/fonts/stylesheet.css';
 import PropTypes from 'prop-types';
 
@@ -17,8 +19,8 @@ export default class HomeSlider extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       afterChange: index => {
-        if (index == 4){
-           console.log('start level 1');
+        if (index == 7){
+           console.log('start level 8');
           this.props.atLastSlide()
          
         }
@@ -40,6 +42,17 @@ export default class HomeSlider extends React.Component {
             </div>
             <div >
               <img  style ={style.fittedImage} src={image4} />
+            </div>
+             <div >
+              <img  style ={style.fittedImage} src={image5} />
+            </div>
+             <div >
+              <img  style ={style.fittedImage} src={image6} />
+            </div>
+             <div >
+              <img  style ={style.fittedImage} src={image7} />
+            </div>
+            <div>
             </div>
          
        

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import update from 'immutability-helper';
 import Editor from './Editor';
 import Keyboard from './keyboard/Keyboard'
+import Instructions from './Instructions'
 import { compile } from '@sweet-js/core/dist/browser-sweet'
 import Eval from '../../services/Eval'
 import Urdu from '../../services/Urdu.sjs'
@@ -25,10 +26,12 @@ export default class UI extends Component {
   }
 
   render = () => {
+   
     return (
       <div style={styles.container}>
         <Editor ref={inst => this.editor = inst } initialData={this.props.initialEditorData} />
         <Keyboard  data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
+        <Instructions instructions={this.props.instructions} />
       </div>
     )
   }
@@ -42,7 +45,8 @@ const styles = {
 UI.propTypes = {
   runCode: PropTypes.func.isRequired,
   initialEditorData: PropTypes.array.isRequired,
-  buttons: PropTypes.array.isRequired
+  buttons: PropTypes.array.isRequired,
+  instructions: PropTypes.array.isRequired
 }
 
 

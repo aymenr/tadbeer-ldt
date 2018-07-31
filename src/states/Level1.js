@@ -12,7 +12,7 @@ import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 import { toggleRunButton } from '../ui/main'
 import { moveRickshawAux, turnRickshawAux, makeButtons,runCodeCbAux } from '../states/helper'
-
+import  '~/assets/fonts/stylesheet.css';
 
 
 
@@ -28,6 +28,24 @@ export default class Level1 extends Phaser.State {
         this.passengerXOffset = 0
         this.passengerYOffset = 1
         this.codeRunning = false;
+
+        this.style = {
+            container: {
+                padding:'10px',
+                fontFamily:'apercuregular'
+            },
+            h3: {
+                fontFamily:'apercubold',
+                color:'#7a46af'
+            },
+            color: {
+                color: '#7a46af',
+                fontWeight:'bold',
+                fontFamily:'apercu_monoregular'
+            }
+
+        }
+
     }
 
     create() {
@@ -64,7 +82,23 @@ export default class Level1 extends Phaser.State {
 
     makeInstructions = () => {
 
-        return "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
+        let instructions = ( 
+
+        <div style = {this.style.container}>
+        <h3 style = {this.style.h3}> Kya karna hay? </h3> 
+        <span> Bushra ke sawari us ka intezar kar rahe hay </span>
+        <ul>
+            <li>  <span style = {this.style.color}> agay(2) </span>  Basheer ko do dabbay agay janay ko kehta hay </li>
+            <li> <span style ={this.style.color}> daenMuro() </span> Basheer ko siraf daen morta hay. Is kay brackets may kuch nahi jata </li>
+        </ul>
+            <span> Basheer ko safed dabbay tak pohnchay-en </span> 
+        
+        </div>
+        )
+
+        
+        return instructions
+
     }
 
 

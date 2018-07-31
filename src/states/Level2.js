@@ -10,6 +10,7 @@ import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 import { deleteUI } from '../ui/main'
 import { showError } from '../ui/main'
+import React from 'react'
 import { moveRickshawAux, turnRickshawAux, makeButtons,runCodeCbAux } from '../states/helper'
 
 
@@ -26,6 +27,22 @@ export default class Level2 extends Phaser.State {
         this.passengerXOffset = -0.2
         this.passengerYOffset = 1
         this.codeRunning = false;
+        this.style = {
+            container: {
+                padding:'10px',
+                fontFamily:'apercuregular'
+            },
+            h3: {
+                fontFamily:'apercubold',
+                color:'#7a46af'
+            },
+            color: {
+                color: '#7a46af',
+                fontWeight:'bold',
+                fontFamily:'apercu_monoregular'
+            }
+
+        }
     }
 
     create() {
@@ -70,8 +87,20 @@ export default class Level2 extends Phaser.State {
 
 
     makeInstructions = () => {
+        let instructions = ( 
 
-        return "<ul><li>Bushra ke sawari nehar kay doosri side pay hay. </li>  <li>Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </li> </ul>"
+        <div style = {this.style.container}>
+            <h3 style = {this.style.h3}> Kya karna hay? </h3> 
+            <p> Bushra kee sawari nehar kay doosri side pay hay. </p>
+            <ul>
+                <li> <span style = {this.style.color}> agay() </span>kay brackets kay andar number batata hay kay Basheer nay kitnay dabbay agay jana hay </li>
+                
+            </ul>
+            <p> Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </p>
+        </div>
+        )
+        
+        return instructions
     }
 
 
