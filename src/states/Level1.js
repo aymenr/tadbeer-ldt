@@ -32,8 +32,8 @@ export default class Level1 extends Phaser.State {
         this.style = {
             container: {
                 fontFamily:'apercuregular',
-                paddingLeft:'10px',
-                paddingRight:'20px'
+                paddingLeft:'15px',
+                paddingRight:'15px'
             },
             h3: {
                 fontFamily:'apercubold',
@@ -43,8 +43,17 @@ export default class Level1 extends Phaser.State {
                 color: '#7a46af',
                 fontWeight:'bold',
                 fontFamily:'apercu_monoregular'
+            },
+            div2: {
+                marginTop:'10px',
+                marginBottom:'10px'
+            },
+            li: {
+                marginBottom:'5px'
+            },
+            div1: {
+                marginBottom:'10px'
             }
-
         }
 
     }
@@ -87,12 +96,12 @@ export default class Level1 extends Phaser.State {
 
         <div style = {this.style.container}>
         <h3 style = {this.style.h3}> Kya karna hay? </h3> 
-        <span> Bushra ke sawari us ka intezar kar rahe hay </span>
-        <ul>
-            <li>  <span style = {this.style.color}> agay(2) </span>  Basheer ko do dabbay agay janay ko kehta hay </li>
-            <li> <span style ={this.style.color}> daenMuro() </span> Basheer ko siraf daen morta hay. Is kay brackets may kuch nahi jata </li>
-        </ul>
-            <span> Basheer ko safed dabbay tak pohnchay-en </span> 
+        <div style ={this.style.div1} > Bushra ke sawari us ka intezar kar rahe hay </div>
+       
+            <li style={this.style.li}>  <span style = {this.style.color}> agay(2) </span>  Basheer ko <span style ={this.style.color}> 2 dabbay agay </span>janay ko kehta hay </li>
+            <li style={this.style.li}> <span style ={this.style.color}> daenMuro() </span> Basheer ko siraf <span style ={this.style.color}>daen morta </span>hay. Is kay brackets may kuch nahi jata </li>
+       
+            <div style ={this.style.div2}> Basheer ko safed dabbay tak pohnchay-en </div> 
         
         </div>
         )

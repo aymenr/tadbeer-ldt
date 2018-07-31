@@ -30,8 +30,8 @@ export default class Level3 extends Phaser.State {
             container: {
             
                 fontFamily:'apercuregular',
-                paddingLeft:'10px',
-                paddingRight:'20px'
+                paddingLeft:'15px',
+                paddingRight:'15px'
             },
             h3: {
                 fontFamily:'apercubold',

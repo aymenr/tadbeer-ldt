@@ -30,8 +30,8 @@ export default class Level2 extends Phaser.State {
         this.style = {
             container: {
                 fontFamily:'apercuregular',
-                paddingLeft:'10px',
-                paddingRight:'20px'
+                paddingLeft:'15px',
+                paddingRight:'15px'
             },
             h3: {
                 fontFamily:'apercubold',
@@ -93,10 +93,10 @@ export default class Level2 extends Phaser.State {
         <div style = {this.style.container}>
             <h3 style = {this.style.h3}> Kya karna hay? </h3> 
             <p> Bushra kee sawari nehar kay doosri side pay hay. </p>
-            <ul>
+      
                 <li> <span style = {this.style.color}> agay() </span>kay brackets kay andar number batata hay kay Basheer nay kitnay dabbay agay jana hay </li>
                 
-            </ul>
+            
             <p> Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </p>
         </div>
         )
