@@ -31,8 +31,9 @@ export default class Level1 extends Phaser.State {
 
         this.style = {
             container: {
-                padding:'10px',
-                fontFamily:'apercuregular'
+                fontFamily:'apercuregular',
+                paddingLeft:'10px',
+                paddingRight:'20px'
             },
             h3: {
                 fontFamily:'apercubold',
