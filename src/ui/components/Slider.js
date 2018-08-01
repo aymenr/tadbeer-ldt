@@ -6,7 +6,14 @@ var image3 = require('~/assets/images/intro1.png')
 var image4 = require('~/assets/images/intro2.png')
 var image5 = require('~/assets/images/intro3.png')
 var image6 = require('~/assets/images/intro4.png')
+var path = require('path')
+console.log('image1',image1)
+console.log('image1',image2)
+console.log('a',path.resolve(__dirname))
+console.log('dir',__dirname)
 
+
+console.log('~/')
 import  '~/assets/fonts/stylesheet.css';
 import PropTypes from 'prop-types';
 
@@ -49,9 +56,7 @@ export default class HomeSlider extends React.Component {
              <div >
               <img  style ={style.fittedImage} src={image6} />
             </div>
-             <div >
-              <img  style ={style.fittedImage} src={image7} />
-            </div>
+      
             <div>
             </div>
          
