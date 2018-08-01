@@ -140,8 +140,8 @@ export default class Level3 extends Phaser.State {
 
         <div style = {this.style.container}>
         <h3 style = {this.style.h3}> Kya karna hay? </h3> 
-        <p> Bushra kee sawari us kay samnay hay. </p>
-        <p> Lekan samnay gutter khula para hay. Ab kya karay gee Bushra? </p>
+        <p> Bushra kee sawaari us kay samnay hay. </p>
+        <p> Lekan ud-har gutter khula para hay. Ab kya karay gee Bushra? </p>
         </div>
         )
         

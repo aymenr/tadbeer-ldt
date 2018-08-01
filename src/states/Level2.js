@@ -94,10 +94,10 @@ export default class Level2 extends Phaser.State {
             <h3 style = {this.style.h3}> Kya karna hay? </h3> 
             <p> Bushra kee sawari nehar kay doosri side pay hay. </p>
       
-                <li> <span style = {this.style.color}>agay()</span>kay brackets kay andar number batata hay kay Basheer nay kitnay dabbay agay jana hay </li>
+                <li> <span style ={this.style.color}>agayJao()</span>kay brackets kay andar number batata hay kay Basheer nay kitnay<span style ={this.style.color}>dabbay agay</span> jana hay </li>
                 
             
-            <p> Basheer ko nehar cross kar ke safed dabbay tak pohnchayen </p>
+            <p> Basheer ko nehar cross kar ke safed dabbay tak pohanch-ayen </p>
         </div>
         )
         

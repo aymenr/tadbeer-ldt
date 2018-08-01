@@ -96,12 +96,12 @@ export default class Level1 extends Phaser.State {
 
         <div style = {this.style.container}>
         <h3 style = {this.style.h3}> Kya karna hay? </h3> 
-        <div style ={this.style.div1} > Bushra ke sawari us ka intezar kar rahe hay </div>
+        <div style ={this.style.div1} > <span style={this.style.color}> agayJao(),daenMuro(),baenMuro()</span>ko <span style={this.style.color}>functions</span> kehte hayn. Sub ka apna apna kaam hay </div>
        
-            <li style={this.style.li}>  <span style = {this.style.color}> agay(2) </span>  Basheer ko <span style ={this.style.color}> 2 dabbay agay </span>janay ko kehta hay </li>
-            <li style={this.style.li}> <span style ={this.style.color}> daenMuro() </span> Basheer ko siraf <span style ={this.style.color}>daen morta </span>hay. Is kay brackets may kuch nahi jata </li>
+            <li style={this.style.li}><span style = {this.style.color}>agayJao(2)</span> Basheer ko <span style ={this.style.color}> 2 dabbay agay </span>janay ko kehta hay </li>
+            <li style={this.style.li}><span style ={this.style.color}>daenMuro() </span> Basheer ko siraf <span style ={this.style.color}>daen morta </span>hay. Is kay brackets may kuch nahi jata </li>
        
-            <div style ={this.style.div2}> Basheer ko safed dabbay tak pohnchay-en </div> 
+            <div style ={this.style.div2}> Bushra kee sawari inte-zaar kar rahee hay. Basheer ko safed dabbay tak pohnchay-en </div> 
         
         </div>
         )

@@ -149,7 +149,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
     toggleRunButton(false)
 
     level.rickshawSound.play()
-    level.rickshawSound.volume = 0
+    level.rickshawSound.volume = 1
     showError('')
     code = level.wrapCode(code) //wrap code in our wrapper
     let compiled = CodeService.compileCode(code)

@@ -6,7 +6,7 @@ var image3 = require('~/assets/images/intro1.png')
 var image4 = require('~/assets/images/intro2.png')
 var image5 = require('~/assets/images/intro3.png')
 var image6 = require('~/assets/images/intro4.png')
-var image7 = require('~/assets/images/functions1.png')
+
 import  '~/assets/fonts/stylesheet.css';
 import PropTypes from 'prop-types';
 
@@ -19,7 +19,7 @@ export default class HomeSlider extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       afterChange: index => {
-        if (index == 7){
+        if (index == 6){
            console.log('start level 8');
           this.props.atLastSlide()
          
