@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import 'modeJS'
 import React from 'react'
 import Grid from '../components/Grid'
-import { connect } from '../ui/main'
+import { connect, update } from '../ui/main'
 import { deleteUI } from '../ui/main'
 import { showError } from '../ui/main'
 import CodeService from '../services/Code'
@@ -86,11 +86,19 @@ export default class Level1 extends Phaser.State {
         this.passenger.animations.play('ride')
 
 
-        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
+
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+
+        
+		// setTimeout(() => {
+		// 	let buttons =  this.makeButtons()
+  //           buttons.open.popover.open = true
+		//   update('content', buttons, this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+		// }, 2000) 
     }
+	
+    makeInstructions = () => { 
 
-
-    makeInstructions = () => {
 
         let instructions = ( 
 
@@ -146,14 +154,26 @@ export default class Level1 extends Phaser.State {
     makeButtons = () => {
 
 
-    return [{
+
+      return {
+        buttons: [{
             type: 'func_call_button',
             name: 'agay',
-            numArgs: 1
-        },
-        {
+            numArgs: 1,
+			popover: {
+				title: 'test',
+				open: true 
+			}
+        }, {
+
             type: 'func_call_button',
             name: 'daenMuro',
+            numArgs: 0,
+        },
+         {
+
+            type: 'func_call_button',
+            name: 'baenMuro',
             numArgs: 0,
         },
         {
@@ -162,13 +182,21 @@ export default class Level1 extends Phaser.State {
         }, {
             type: 'param_num',
             value: 2,
-        }, {
-            type: 'func_call_button',
-            name: 'baenMuro',
-            numArgs: 0
+        }],
+        open: {
+          popover: {
+            title: 'test',
+            open: false
+          },
+        },
+        close: {
+          popover: {
+            title: 'close',
+            open: false 
+          }
         }
-    ]
-}
+      }
+    }
 
       makeEditorData = () => {
         return [{

@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import update from 'immutability-helper';
 import { getCorrespButton } from '../../helpers';
 import PropTypes from 'prop-types';
-//import  '~/assets/fonts/stylesheet.css';
+
+import  '~/assets/fonts/stylesheet.css';
+import {
+  Tooltip,
+} from 'react-tippy';
+
 
 class Keyboard extends Component {
     constructor(props, editor) {
@@ -16,45 +21,67 @@ class Keyboard extends Component {
         })
     }
 
-    render = () => {
+  render = () => {
+    let {
+      data
+    } = this.props;
+    let openPop = data.open && data.open.popover ? data.open.popover : {},
+        closePop = data.close && data.close.popover ? data.close.popover : {}
 
-        return ( 
-            <div style = { style.container } >
-              <header style = { style.header } >
-                <div className = "run-button" style = { style.headerButton } onClick = { this.props.runCodeCb } > chalao </div> 
-                <div style = { style.delButton } onClick = { this.del } > mitao </div>
-              </header> 
-              <div style ={style.codeButtons}>
-                <div style={style.functions}>
-                  {
-                    this.props.data.map((button, ind) => {
-                      console.log(button)
-                    if (button.type=="func_call_button" || button.type=="if_button")
-                      return getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb })
-                  })
-            
-                  } 
-                </div>
-                <div style={style.params}>
-                  {
-                    this.props.data.map((button, ind) => {
-                    if (button.type=="param_num")
-                      return getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb })
-                  })
-            
-                } 
-                </div>
-             
-              </div>
-              </div>
-   
-        )
-    }
+    return (
+      <div style={style.container}>
+        <header style={style.header}>
+
+          <Tooltip  trigger="manual" {...openPop}>
+            <div className ="run-button" style ={style.headerButton} onClick={this.props.runCodeCb} >chalao</div>
+          </Tooltip>
+          <Tooltip  {...closePop}>
+            <div style ={style.delButton} onClick={this.del}> mitao</div>
+          </Tooltip>
+        </header>
+
+        <div style ={style.codeButtons}>
+        <div style={style.functions}> 
+        {
+          this.props.data.buttons.map((button,ind) => {
+           if(button.type=="func_call_button" || button.type=="if_button"){
+              button.popover = button.popover || {}
+              return (
+                <Tooltip trigger="manual" {...button.popover}>
+                  { getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb }) }
+                </Tooltip>
+              )
+           } 
+         })
+        }
+      </div>
+      <div style={style.params}> 
+        {
+          this.props.data.buttons.map((button,ind) => {
+           if(button.type=="param_num" ){
+              button.popover = button.popover || {}
+              return (
+                <Tooltip trigger="manual" {...button.popover}>
+                  { getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb }) }
+                </Tooltip>
+              )
+           } 
+         })
+        }
+      </div>
+      </div>
+      </div>
+
+
+      )
+  }
 }
+
+
 
 Keyboard.propTypes = {
     buttonCb: PropTypes.func.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
     runCodeCb: PropTypes.func.isRequired
 }
 

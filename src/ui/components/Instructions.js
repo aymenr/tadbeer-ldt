@@ -19,7 +19,7 @@ class Instructions extends Component {
 }
 
 Instructions.propTypes = {
-    instructions: PropTypes.array.isRequired
+    instructions: PropTypes.object.isRequired
 }
 
 

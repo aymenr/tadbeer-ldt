@@ -45,8 +45,8 @@ const styles = {
 UI.propTypes = {
   runCode: PropTypes.func.isRequired,
   initialEditorData: PropTypes.array.isRequired,
-  buttons: PropTypes.array.isRequired,
-  instructions: PropTypes.array.isRequired
+  buttons: PropTypes.object.isRequired,
+  instructions: PropTypes.object.isRequired
 }
 
 
