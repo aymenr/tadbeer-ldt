@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import 'modeJS'
 import React from 'react'
 import Grid from '../components/Grid'
-import { connect } from '../ui/main'
+import { connect, update } from '../ui/main'
 import { deleteUI } from '../ui/main'
 import {showError } from '../ui/main'
 import CodeService from '../services/Code'
@@ -52,10 +52,13 @@ export default class Level1 extends Phaser.State {
         connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
 
         
-
+		setTimeout(() => {
+			let buttons =  this.makeButtons()
+            buttons.open.popover.open = true
+		  update('content', buttons, this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+		}, 2000) 
     }
-
-
+	
     makeInstructions = () => { 
        
        return  "<ul> <li>Bushra ke sawari us ka intezar kar rahe hay </li> <li>agay(), peechay(), daen(), baen() Basheer ko us ka rukh batate hay </li> <li>agay(3) batatay hayn kay Basheer 3 dabbay agay jaye</li> <li>Basheer ko safed dabbay tak pohnchayen</li> </ul>"
@@ -264,10 +267,15 @@ export default class Level1 extends Phaser.State {
 
     var numButtons = this.createNumButtons()
 
-        return [{
+      return {
+        buttons: [{
             type: 'func_call_button',
             name: 'agay',
-            numArgs: 1
+            numArgs: 1,
+			popover: {
+				title: 'test',
+				open: true 
+			}
         }, {
             type: 'func_call_button',
             name: 'peechay',
@@ -289,8 +297,20 @@ export default class Level1 extends Phaser.State {
         }, {
             type: 'binop_button',
             value: '&&'
+        }].concat(numButtons.slice(2)),
+        open: {
+          popover: {
+            title: 'test',
+            open: false
+          },
+        },
+        close: {
+          popover: {
+            title: 'close',
+            open: false 
+          }
         }
-        ].concat(numButtons.slice(2))
+      }
     }
 
       makeEditorData = () => {

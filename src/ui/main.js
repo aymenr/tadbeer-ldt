@@ -6,6 +6,14 @@ import Slider from './components/Slider';
 
 
 
+export function update(parentId, buttons, codeCb, editorDefault, instructions) {
+	const guiContainer = document.querySelector('.gui')
+	render(
+		<UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} />,
+		guiContainer
+	)
+}
+
 export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
 
     //HTML structure, is it better to use react to render this or attach it to the dom like this???

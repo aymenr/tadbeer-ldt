@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import update from 'immutability-helper';
 import { getCorrespButton } from '../../helpers';
 import PropTypes from 'prop-types';
+import {
+  Tooltip,
+} from 'react-tippy';
 
 class Keyboard extends Component {
   constructor(props, editor) {
@@ -15,17 +18,30 @@ class Keyboard extends Component {
   }
 
   render = () => {
-
+    let {
+      data
+    } = this.props;
+    let openPop = data.open && data.open.popover ? data.open.popover : {},
+        closePop = data.close && data.close.popover ? data.close.popover : {}
     return (
       <div style={style.container}>
         <header style={style.header}>
-          <div style={style.headerButton} onClick={this.props.runCodeCb} >chalao</div>
-          <div style={style.delButton} onClick={this.del}> mitao</div>
+          <Tooltip style={style.headerButton} trigger="manual" {...openPop}>
+          	<div onClick={this.props.runCodeCb} >chalao</div>
+          </Tooltip>
+          <Tooltip style={style.delButton} {...closePop}>
+          	<div onClick={this.del}> mitao</div>
+          </Tooltip>
         </header>
         {
-          this.props.data.map((button,ind) => {
-            return getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb })
-          })
+          this.props.data.buttons.map((button,ind) => {
+			button.popover = button.popover || {}
+          	return (
+				<Tooltip trigger="manual" {...button.popover}>
+				{ getCorrespButton({ ...button, key: ind, buttonCb: this.props.buttonCb }) }
+				</Tooltip>
+			)}
+          )
         }
       </div>
       )

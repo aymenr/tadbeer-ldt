@@ -18,6 +18,7 @@ import { connect } from './ui/main'
 import config from './config'
 import style from 'slick-carousel/slick/slick.css'
 import style1 from 'slick-carousel/slick/slick-theme.css'
+import 'react-tippy/dist/tippy.css'
 
 if (__LOCAL_DEV__) {
   //include mock API
