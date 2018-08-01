@@ -69,7 +69,7 @@ export default class If extends Statement {
     let block = this.addDefaults({}, -1)
     return (
       <div>
-        <span style= {this.state.focus? styles.focused: styles.none} onClick={this.onClick} >if</span>
+        <span style= {this.state.focus? styles.focused: styles.none} onClick={this.onClick} >agar</span>
         ( 
           {
             getCorrespEle({ ...this.state.expression, key: 0 })
