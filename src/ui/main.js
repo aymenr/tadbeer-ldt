@@ -9,12 +9,12 @@ import Slider from './components/Slider';
 export function update(parentId, buttons, codeCb, editorDefault, instructions) {
 	const guiContainer = document.querySelector('.gui')
 	render(
-		<UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} />,
+		<UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions ={instructions} />,
 		guiContainer
 	)
 }
 
-export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
+export function connect(parentId, buttons, codeCb, editorDefault,instructions,tutorial) {
     //HTML structure, is it better to use react to render this or attach it to the dom like this???
     //content -> gui -> editor + keyboard 
                         //body-text ->errors 
@@ -41,7 +41,7 @@ export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
 
     parentElem.appendChild(guiContainer)
     render(
-        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions={instructions} />,
+        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions={instructions} tutorial = {tutorial} />,
         guiContainer
     );
     guiContainer.appendChild(bodyTextElem)

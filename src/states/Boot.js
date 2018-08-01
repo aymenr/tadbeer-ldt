@@ -14,9 +14,8 @@ export default class extends Phaser.State {
     this.load.image('grass', 'assets/images/tiles/grass.png')
     this.load.image('goal-road', 'assets/images/tiles/road1-goal.png')
     this.load.image('goal-road2', 'assets/images/tiles/road2-goal.png')
-    this.load.image('wall1', 'assets/images/wall1.png')
     
-    this.load.image('policeNaka', 'assets/images/police.png')
+
     this.load.image('nehar-lower', 'assets/images/tiles/nehar-lower.png')
 
     this.load.image('road-up-left', 'assets/images/tiles/turn7.png')
@@ -49,6 +48,6 @@ export default class extends Phaser.State {
 
   create() {
     FBInstant.startGameAsync()
-      .then(() => this.state.start('Level1'))
+      .then(() => this.state.start('Level3'))
   }
 }

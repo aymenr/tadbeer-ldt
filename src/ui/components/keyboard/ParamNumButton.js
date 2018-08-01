@@ -32,10 +32,9 @@ const styles = {
         boxShadow: '4px 0 2px 0 rgba(0, 0, 0, 0.5)',
         textAlign: 'center',
         padding: '5px',
-        height:'20%',
-        width:'25%',
+   
         marginBottom: '10px',
-        marginLeft:'10px'
+        marginLeft:'20px'
     }
 }
 

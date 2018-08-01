@@ -30,7 +30,7 @@ export default class UI extends Component {
     return (
       <div style={styles.container}>
         <Editor ref={inst => this.editor = inst } initialData={this.props.initialEditorData} />
-        <Keyboard  data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode}/>
+        <Keyboard  data={this.props.buttons} buttonCb={this.buttonCb} runCodeCb={this.runCode} tutorial = {this.props.tutorial} />
         <Instructions instructions={this.props.instructions} />
       </div>
     )
@@ -46,7 +46,8 @@ UI.propTypes = {
   runCode: PropTypes.func.isRequired,
   initialEditorData: PropTypes.array.isRequired,
   buttons: PropTypes.object.isRequired,
-  instructions: PropTypes.object.isRequired
+  instructions: PropTypes.object.isRequired,
+  tutorial: PropTypes.object
 }
 
 

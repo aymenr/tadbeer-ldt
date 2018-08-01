@@ -46,7 +46,7 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-
+    console.log('state:',this.state)
     this.state.focused.updateData(data);
   }
 

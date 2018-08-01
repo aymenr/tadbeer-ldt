@@ -87,7 +87,7 @@ export default class Level1 extends Phaser.State {
 
 
 
-        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions(),this.tutorial())
 
         
 		// setTimeout(() => {
@@ -104,7 +104,8 @@ export default class Level1 extends Phaser.State {
 
         <div style = {this.style.container}>
         <h3 style = {this.style.h3}> Kya karna hay? </h3> 
-        <div style ={this.style.div1} > <span style={this.style.color}> agayJao(),daenMuro(),baenMuro()</span>ko <span style={this.style.color}>functions</span> kehte hayn. Sub ka apna apna kaam hay </div>
+        <div style ={this.style.div1} >
+         <span style={this.style.color}> agayJao(),daenMuro(),baenMuro()</span>ko <span style={this.style.color}>functions</span> kehte hayn. Sub ka apna apna kaam hay </div>
        
             <li style={this.style.li}><span style = {this.style.color}>agayJao(2)</span> Basheer ko <span style ={this.style.color}> 2 dabbay agay </span>janay ko kehta hay </li>
             <li style={this.style.li}><span style ={this.style.color}>daenMuro() </span> Basheer ko siraf <span style ={this.style.color}>daen morta </span>hay. Is kay brackets may kuch nahi jata </li>
@@ -119,6 +120,17 @@ export default class Level1 extends Phaser.State {
 
     }
 
+    tutorial = () => {
+        
+        return {'level':1,
+         'pointOrder': [
+         {type:'func_call_button',name:'agayJao'},
+         {type:'param_num',value:1},
+         {type:'header',name:'chalao'}
+         ]
+
+    }
+    }
 
     wrapCode = (code) => Level1Wrap + " " + code
 
@@ -131,6 +143,8 @@ export default class Level1 extends Phaser.State {
     }
 
     runCodeCb = (code) => {
+
+    
         runCodeCbAux(code, 2, 0, 'left', this)
 
     }
@@ -158,11 +172,15 @@ export default class Level1 extends Phaser.State {
       return {
         buttons: [{
             type: 'func_call_button',
-            name: 'agay',
+            name: 'agayJao',
             numArgs: 1,
 			popover: {
-				title: 'test',
-				open: true 
+				title: 'dabao',
+				open: true,
+                arrow:true,
+                theme:'light',
+                sticky:true,
+                hideOnClick: true
 			}
         }, {
 
@@ -179,20 +197,33 @@ export default class Level1 extends Phaser.State {
         {
             type: 'param_num',
             value: 1,
+            popover: {
+                title:'dabao',
+                open:false,
+                arrow:true,
+                theme:'light',
+                sticky:true
+            }
         }, {
             type: 'param_num',
             value: 2,
         }],
         open: {
           popover: {
-            title: 'test',
-            open: false
+            title:'dabao',
+            open:false,
+            arrow:true,
+            theme:'light',
+            sticky:true
           },
         },
         close: {
           popover: {
-            title: 'close',
-            open: false 
+            title:'dabao',
+            open:false,
+            arrow:true,
+            theme:'light',
+            sticky:true
           }
         }
       }
@@ -206,7 +237,7 @@ export default class Level1 extends Phaser.State {
                 type: 'param_nums',
                 value: 1
             }],
-            name: 'agay'
+            name: 'agayJao'
         },
         {
             type:'blank',
@@ -215,4 +246,5 @@ export default class Level1 extends Phaser.State {
 
         ]
     }
+    
 }

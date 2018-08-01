@@ -138,7 +138,8 @@ export default class Level2 extends Phaser.State {
         makeButtons = () => {
 
 
-    return [{
+    return {
+        buttons:[{
             type: 'func_call_button',
             name: 'agay',
             numArgs: 1
@@ -164,7 +165,26 @@ export default class Level2 extends Phaser.State {
             name: 'baenMuro',
             numArgs: 0
         }
-    ]
+    ],
+     open: {
+          popover: {
+            title:'dabao',
+            open:false,
+            arrow:true,
+            theme:'light',
+            sticky:true
+          },
+        },
+        close: {
+          popover: {
+            title:'dabao',
+            open:false,
+            arrow:true,
+            theme:'light',
+            sticky:true
+          }
+        }
+    }
 }
 
     makeEditorData = () => {
