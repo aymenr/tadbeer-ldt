@@ -112,11 +112,6 @@ export function turnRickshawAux(move, callback, level) {
 //Nums are number of numerical buttons
 export function makeButtons(nums) {
 
-    let numButtons = [];
-    for (var i = 1; i <= nums; i++) {
-        numButtons.push({ type: 'param_num', value: i })
-    }
-
 
     return [{
             type: 'func_call_button',
@@ -142,7 +137,7 @@ export function makeButtons(nums) {
         {
              type: 'if_button'
         }
-    ].concat(numButtons.slice(2))
+    ]
 }
 
 export function runCodeCbAux(code, x, y, orientation, level, running) {
@@ -154,7 +149,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
     toggleRunButton(false)
 
     level.rickshawSound.play()
-    level.rickshawSound.volume = 1
+    level.rickshawSound.volume = 0
     showError('')
     code = level.wrapCode(code) //wrap code in our wrapper
     let compiled = CodeService.compileCode(code)

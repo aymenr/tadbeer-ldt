@@ -21,10 +21,10 @@ export default class Level3 extends Phaser.State {
         this.grid = new Grid(4, 4, this.game)
         this.rickshaw;
         this.passenger;
-        this.rickshawXOffset = -0.2;
-        this.rickshawYOffset = 0.6;
-        this.passengerXOffset = -0.2 
-        this.passengerYOffset = 1
+        this.rickshawXOffset = 0.8;
+        this.rickshawYOffset = -0.4;
+        this.passengerXOffset = 0.8
+        this.passengerYOffset = 0.1
         this.codeRunning = false;
         this.style = {
             container: {
@@ -49,7 +49,7 @@ export default class Level3 extends Phaser.State {
     create() {
         var gameBoard = [
             ['grass', 'grass', 'goal-road2','grass'],
-            ['grass', 'road-left-up', 'road-up-left','road2'],
+            ['grass', 'road-left-up', 'road-up-left','grass'],
             ['grass', 'road2', 'grass','road2'],
             ['grass', 'road-down-left', 'road1','road-up-left']
 
@@ -61,17 +61,49 @@ export default class Level3 extends Phaser.State {
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight() + 40)
         let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background3');
         
-        this.grid.render(gameBoard,40)
+        this.grid.render(gameBoard,1,-1)
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
-        connect('content', makeButtons(3), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(),this.makeInstructions())
     }
 
+            makeButtons = () => {
+
+
+    return [{
+            type: 'func_call_button',
+            name: 'agay',
+            numArgs: 1
+        },
+        {
+            type: 'func_call_button',
+            name: 'daenMuro',
+            numArgs: 0,
+        },
+        {
+            type: 'param_num',
+            value: 1,
+        }, {
+            type: 'param_num',
+            value: 2,
+        },
+         {
+            type: 'param_num',
+            value: 3,
+        },
+         {
+            type: 'func_call_button',
+            name: 'baenMuro',
+            numArgs: 0
+        }
+    ]
+}
 
     renderObjects =()=> {
         //setup rickshaw
-
-        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'right', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.2, 1.2, this,40)
+        let gutter= this.grid.renderAndPlaceObject('', 'gutter', this.grid, 1, 3, 1.4, -0.9, 1.1,1.1, this,40)
+        
+        this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'right', this.grid, 2, 3, this.rickshawXOffset, this.rickshawYOffset, 1.2, 1.2, this)
         this.rickshawSound = game.add.audio('rickshaw-sound');
 
 
@@ -81,15 +113,15 @@ export default class Level3 extends Phaser.State {
         this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
         this.passenger.animations.play('ride');
 
+        // let naka= this.grid.renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.4, 0.2, 1, 1, this,40)
+        let lampPost1= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -0.3,1.1, 1.5, 1.5, this,40)
+        let lampPost2= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -0.3, 1.1, 1.5, 1.5, this,40)
+        let khamba1= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 0, 0, -1, 1.2, 1.8, 1.7, this,40)
+        let khamba2= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 1, 0, -1, 1.2, 1.7, 1.7, this,40)
+         let khamba3= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 2, 0, -1, 1.2, 1.7, 1.7, this,40)
         
-        let naka= this.grid.renderAndPlaceObject('', 'policeNaka', this.grid, 1, 3, 0.4, 0.2, 1, 1, this,40)
-        let lampPost1= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 2, 2, -1.3,2.1, 1.5, 1.5, this,40)
-        let lampPost2= this.grid.renderAndPlaceObject('', 'lamppost-1', this.grid, 0, 1, -1.3, 2.1, 1.5, 1.5, this,40)
-        let khamba1= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 0, 0, -1.9, 2.1, 1.7, 1.7, this,40)
-        let khamba2= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 1, 0, -1.9, 2.1, 1.7, 1.7, this,40)
-        let khamba3= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 2, 0, -1.9, 2.1, 1.7, 1.7, this,40)
         
-        let khamba4= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 3, 0, -1.9, 2.1, 1.7, 1.7, this,40)
+        let khamba4= this.grid.renderAndPlaceObject('', 'khamba1', this.grid, 3, 0, -1, 1.2, 1.7, 1.7, this,40)
         
 
 
@@ -108,8 +140,8 @@ export default class Level3 extends Phaser.State {
 
         <div style = {this.style.container}>
         <h3 style = {this.style.h3}> Kya karna hay? </h3> 
-        <p> Bushra kee sawari us kay samne hay. </p>
-        <p> Lekan ye samnay police ka naaka hay. Ab kya karay gee Bushra? </p>
+        <p> Bushra kee sawari us kay samnay hay. </p>
+        <p> Lekan samnay gutter khula para hay. Ab kya karay gee Bushra? </p>
         </div>
         )
         
@@ -133,7 +165,7 @@ export default class Level3 extends Phaser.State {
 
     runCodeCb = (code) => {
 
-        runCodeCbAux(code, 2, 3, 'left', this)
+        runCodeCbAux(code, 2, 3, 'right', this)
 
     }
 

@@ -43,7 +43,7 @@ export default class Grid extends Phaser.Group {
     }
 
 
-    render(tArray,offsetHeight= 0) { // why is this storing strings, should be storing the sprites! fix
+    render(tArray,offsetX = 0,offsetY = 0) { // why is this storing strings, should be storing the sprites! fix
 
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
@@ -54,13 +54,13 @@ export default class Grid extends Phaser.Group {
         var x, y, tile
         for (let i = 0; i < this.rows; i++) {
             for (let j = this.cols - 1; j >= 0; j--) {
-
+            
                 let {
                     x,
                     y
-                } = this.convert(i, j)
+                } = this.convert(i+offsetX, j+offsetY)
 
-               y += offsetHeight
+             
 
                 tile = this.game.add.sprite(x, y, this.tileArray[i][j])
                 tile.i = i
@@ -117,7 +117,7 @@ export default class Grid extends Phaser.Group {
         }
     }
 
-    renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level,offsetHeight = 0) {
+    renderAndPlaceObject(atlas, sprite, grid, x, y, xOffset, yOffset, scaleX, scaleY, level) {
         let object;
         if (atlas =='') //loading from sprite instead of atlas
               object = this.game.add.sprite(0, 0, sprite)
@@ -126,7 +126,7 @@ export default class Grid extends Phaser.Group {
 
         object.alpha = 0
         this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
-        object.y +=offsetHeight
+       
         object.alpha = 1
 
         //this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)

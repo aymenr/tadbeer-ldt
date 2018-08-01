@@ -86,7 +86,7 @@ export default class Level1 extends Phaser.State {
         this.passenger.animations.play('ride')
 
 
-        connect('content', makeButtons(2), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
     }
 
 
@@ -143,17 +143,20 @@ export default class Level1 extends Phaser.State {
     }
 
 
-    makeEditorData = () => {
-        return [{
+    makeButtons = () => {
 
+
+    return [{
             type: 'func_call_button',
             name: 'agay',
             numArgs: 1
-        }, {
+        },
+        {
             type: 'func_call_button',
-            name: 'peechay',
-            numArgs: 1,
-        }, {
+            name: 'daenMuro',
+            numArgs: 0,
+        },
+        {
             type: 'param_num',
             value: 1,
         }, {
@@ -161,15 +164,11 @@ export default class Level1 extends Phaser.State {
             value: 2,
         }, {
             type: 'func_call_button',
-            name: 'daen',
-            numArgs: 1,
-        }, {
-            type: 'func_call_button',
-            name: 'baen',
-            numArgs: 1
+            name: 'baenMuro',
+            numArgs: 0
         }
-        ].concat(numButtons.slice(2))
-    }
+    ]
+}
 
       makeEditorData = () => {
         return [{
@@ -177,10 +176,13 @@ export default class Level1 extends Phaser.State {
             
             args: [{
                 type: 'param_nums',
-                value: 1,
-                initFocused: true,
+                value: 1
             }],
             name: 'agay'
+        },
+        {
+            type:'blank',
+            initFocused:true
         }
 
         ]

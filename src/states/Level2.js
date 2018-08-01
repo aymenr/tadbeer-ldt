@@ -11,7 +11,7 @@ import async from '../../node_modules/async'
 import { deleteUI } from '../ui/main'
 import { showError } from '../ui/main'
 import React from 'react'
-import { moveRickshawAux, turnRickshawAux, makeButtons,runCodeCbAux } from '../states/helper'
+import { moveRickshawAux, turnRickshawAux,runCodeCbAux } from '../states/helper'
 
 
 
@@ -64,7 +64,7 @@ export default class Level2 extends Phaser.State {
         this.grid.render(gameBoard)
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
 
-        connect('content', makeButtons(3), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
+        connect('content', this.makeButtons(), this.runCodeCb, this.makeEditorData(), this.makeInstructions())
     }
 
 
@@ -117,7 +117,7 @@ export default class Level2 extends Phaser.State {
     }
 
     runCodeCb = (code) => {
-        runCodeCbAux(code, 0, 0, 'left', this)
+        runCodeCbAux(code, 0, 0, 'up', this)
     }
 
     gameOver = () => {
@@ -135,7 +135,37 @@ export default class Level2 extends Phaser.State {
 
     }
 
+        makeButtons = () => {
 
+
+    return [{
+            type: 'func_call_button',
+            name: 'agay',
+            numArgs: 1
+        },
+        {
+            type: 'func_call_button',
+            name: 'daenMuro',
+            numArgs: 0,
+        },
+        {
+            type: 'param_num',
+            value: 1,
+        }, {
+            type: 'param_num',
+            value: 2,
+        },
+         {
+            type: 'param_num',
+            value: 3,
+        },
+         {
+            type: 'func_call_button',
+            name: 'baenMuro',
+            numArgs: 0
+        }
+    ]
+}
 
     makeEditorData = () => {
         return [{
