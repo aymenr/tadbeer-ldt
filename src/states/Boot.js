@@ -36,6 +36,7 @@ export default class extends Phaser.State {
     game.load.image('background1', 'assets/images/blurlevel1.png');
     game.load.image('background2', 'assets/images/blurlevel2.png');
     game.load.image('background3', 'assets/images/blurlevel3.png');
+    game.load.image('background4', 'assets/images/blurlevel4.png');
 
     this.load.audio('rickshaw-sound', 'assets/audio/rickshaw.mp3')
     this.load.audio('rickshaw-horn', 'assets/audio/rickshaw-horn.mp3')

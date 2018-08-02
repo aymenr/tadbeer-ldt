@@ -60,7 +60,7 @@ export default class Level4 extends Phaser.State {
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.scale.setGameSize(this.grid.getWidth(), this.grid.getHeight() + 40)
-        let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background3');
+        let background = game.add.tileSprite(0, 0, this.grid.getWidth(), this.grid.getWidth(), 'background4');
         
         this.grid.render(gameBoard,1,-1)
         this.renderObjects() // i didnt put this in grid because need to offset each object and it isnt standardized
@@ -148,8 +148,8 @@ export default class Level4 extends Phaser.State {
 
         <div style = {this.style.container}>
         <h3 style = {this.style.h3}> Kya karna hay? </h3> 
-        <p> Bushra kee sawaari us kay samnay hay. </p>
-        <p> Lekan ud-har gutter khula para hay. Ab kya karay gee Bushra? </p>
+        <p> Konay pay brown ghar ke samne ja ke horn maren ta kay sawari ghar say niklay. </p>
+       
         </div>
         )
         
@@ -191,14 +191,18 @@ export default class Level4 extends Phaser.State {
     }
 
     gameOver = () => {
-        this.passenger.animations.play('walk', 6, true)
+        
+        this.passenger = this.grid.renderAndPlaceObject('passenger2', 'walk01', this.grid, 0, 3, this.passengerXOffset, this.passengerYOffset, 1.1, 1.1, this)
+        this.passenger.animations.add('walk', ['walk01', 'walk02', 'walk03'], 6, 60, false, false);
+        this.passenger.animations.play('walk');
+
         var that = this
         this.grid.moveObject(0, -1, this.passenger, function() {
 
 
             that.grid.moveObject(-2, 0, that.rickshaw, function() {
                 deleteUI('content')
-                that.state.start('Splash4')
+                that.state.start('Level1')
             }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
         }, 0,this.passengerXOffset,this.passengerYOffset)
