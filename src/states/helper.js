@@ -112,11 +112,6 @@ export function turnRickshawAux(move, callback, level) {
 //Nums are number of numerical buttons
 export function makeButtons(nums) {
 
-    let numButtons = [];
-    for (var i = 1; i <= nums; i++) {
-        numButtons.push({ type: 'param_num', value: i })
-    }
-
 
     return [{
             type: 'func_call_button',
@@ -138,8 +133,11 @@ export function makeButtons(nums) {
             type: 'func_call_button',
             name: 'baenMuro',
             numArgs: 0
+        },
+        {
+             type: 'if_button'
         }
-    ].concat(numButtons.slice(2))
+    ]
 }
 
 export function runCodeCbAux(code, x, y, orientation, level, running) {
@@ -184,7 +182,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
                 showError(err)
 
                 that.grid.resetPosition(that.rickshaw, { 'x': x, 'y': y }, that.rickshawXOffset, that.rickshawYOffset, orientation)
-            }
+            } else {
 
             if (!err && checkGoal(that)) {
                 that.gameOver()
@@ -192,6 +190,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
                 showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
                 that.grid.resetPosition(that.rickshaw, { 'x': x, 'y': y }, that.rickshawXOffset, that.rickshawYOffset, orientation)
 
+            }
             }
             that.rickshawSound.fadeOut(1000)
             that.codeRunning = false;

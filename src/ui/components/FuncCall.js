@@ -18,26 +18,41 @@ export default class FuncCall extends Statement {
       focus: false
     }
 
-    if (this.props.args) {
-      state.args = this.props.args.map((arg, index) => {
+    state.args = this.initializeArgs(this.props)
+    if (!state.args.length)
+      this.nextFocus()
+    this.state = state;
+  }
+
+  initializeArgs = (props) => {
+    let args = []
+    if (props.args) {
+      args = props.args.map((arg, index) => {
         let newArg = Object.assign({}, arg) //copy over
         this.addArgDefaults(newArg, index) 
         return newArg
       })
     } else {
         //for numArgs, push blanks
-      let temp = [...Array(this.props.numArgs).keys()].map((_,index) => {
-        state.args.push({
+      let temp = [...Array(props.numArgs).keys()].map((_,index) => {
+        args.push({
           type: 'blank',
           validCat: 'expression',
           updateDataCb: this.updateDataCb,
-          focusCallback: this.props.focusCallback,
+          focusCallback: props.focusCallback,
           index: index,
           initFocused: index == 0 ? true : false
         })
       })
     }
-    this.state = state;
+    return args
+  }
+  componentWillReceiveProps(next) {
+    super.componentWillReceiveProps(next)
+    if(next.name == this.props.name)
+      return
+    let args =  this.initializeArgs(next)
+    this.setState({args})
   }
 
   addArgDefaults = (data, key) => {
@@ -67,7 +82,10 @@ export default class FuncCall extends Statement {
     this.addArgDefaults(data, key)
     let newArgs = update(this.state.args, {[key]: {$set: data}}) 
     this.setState({ args: newArgs})
-  
+    
+    let argsLeft = newArgs.filter(n => n.type == 'blank')
+    if(!argsLeft.length)
+        this.nextFocus()
   }
   //testing this
    updateData = (data) => {

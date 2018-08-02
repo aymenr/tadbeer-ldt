@@ -4,22 +4,34 @@ export default class Statement extends Component {
 
   constructor(props) {
     super(props);
+    this.focus = false;
   }
 
   componentDidMount() {
-
     this._isMounted = true;
+    if(this.props.nextFocus)
+      this.props.focusCallback(this)
   }
 
   setFocus = (focus) => {
-    if (this._isMounted)
       return this.setState({ focus:focus })
-    else
+      this.focus = true  
       return new Promise(resolve => resolve())
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.nextFocus && !this.props.nextFocus)
+      this.props.focusCallback(this)
+  }
+
+  nextFocus() {
+    this.props.updateDataCb({
+        type: 'next_focus'
+    }, this.props.index)
   }
 
   delElem = () => {

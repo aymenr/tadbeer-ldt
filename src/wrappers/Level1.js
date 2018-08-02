@@ -36,7 +36,7 @@ const turn= (direction) => {
   return returnVal// return is necessary for eval, as it takes last return statemetn
 }
 
-const agay = (number) => generic(number, "up")
+const agayJao = (number) => generic(number, "up")
 const peechay = (number) => generic(number, "down")
 const daenMuro = () => turn("right")
 const baenMuro = () => turn("left")

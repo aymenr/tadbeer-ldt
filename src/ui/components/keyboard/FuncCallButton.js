@@ -12,7 +12,7 @@ class FuncCallButton extends Component {
       type: 'func_call'
     }
 
-    this.props.buttonCb(data);
+    this.props.buttonCb(data,this.props.name);
   }
 
   render = () => {
@@ -30,8 +30,8 @@ class FuncCallButton extends Component {
 const styles = {
   button: {
     backgroundColor: '#c597f3',
-    fontFamily:'apercu_monoregular',
-    fontSize: '14px',
+    fontFamily: 'apercu_monoregular',
+    fontSize: '12px',
     color: 'black',
     boxShadow: '4px 0 2px 0 rgba(0, 0, 0, 0.5)',
     textAlign: 'center',

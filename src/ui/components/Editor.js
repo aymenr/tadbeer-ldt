@@ -46,19 +46,34 @@ export default class Editor extends Component {
       this.state.focused.delElem()
       return
     }
-
+    console.log('state:',this.state)
     this.state.focused.updateData(data);
   }
 
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
-    if (data && data.type && data.type == 'delete')
-      return this.setState({
-        statements: this.state.statements.filter((_,i) => i != key)
-      })
+   
+    if (data && data.type){
+      if(data.type == 'delete') {
+        if (this.state.statements[key].type =="blank")
+          return
+
+        return this.setState({
+          statements: this.state.statements.filter((_,i) => i != key)
+        })
+      }else if (data.type =='next_focus') {
+        if (key + 1 < this.state.statements.length) {
+          let newS = update(this.state, {statements: {[key + 1]: {$merge: {nextFocus: true} } } })
+          this.setState(newS)
+          return
+        }
+      }
+   }
+
     let newState = update(this.state.statements, {[key]: { $set: data }})
-    if (key == newState.length - 1)
+    if (key == newState.length - 1) {
       newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too
+    }
 
     this.setState({statements: newState })
   }
@@ -67,7 +82,14 @@ export default class Editor extends Component {
   getCode = () => {
     let html = this.container.innerHTML
     html = html.replace(/<[^>]*>/g, "");
-    return html.replace("__", ""); //remove blanks
+    return this.htmlDecode(html.replace(/__/g, "")); //remove blanks
+  }
+
+  htmlDecode = (input) => {
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    // handle case of empty input
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
 
   render() {
@@ -86,6 +108,7 @@ export default class Editor extends Component {
 
 const styles = {
   editor: {
+
     padding:'10px',
     fontFamily:'apercu_monoregular',
     color:'#7a46af',

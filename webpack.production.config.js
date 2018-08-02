@@ -46,7 +46,7 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' /* chunkName= */ , filename: 'js/vendor.bundle.js' /* filename= */ }),
         new HtmlWebpackPlugin({
-             filename: 'index.html', // path.resolve(__dirname, 'build', 'index.html'),
+            filename: 'index.html', // path.resolve(__dirname, 'build', 'index.html'),
             template: './src/index.html',
             chunks: ['vendor', 'app'],
             chunksSortMode: 'manual',
@@ -63,11 +63,11 @@ module.exports = {
             hash: true
         }),
         new HtmlWebpackExternalsPlugin({
-             externals: [{
-                 module: 'fbinstant',
-                 entry: 'https://connect.facebook.net/en_US/fbinstant.6.2.js',
-                 global: 'FBInstant'
-             }]
+            externals: [{
+                module: 'fbinstant',
+                entry: 'https://connect.facebook.net/en_US/fbinstant.6.2.js',
+                global: 'FBInstant'
+            }]
         }),
         new CopyWebpackPlugin([
             { from: 'assets', to: 'assets' }
@@ -78,14 +78,6 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'raw-loader',
                 include: path.join(__dirname, './src/wrappers')
-            },
-            {
-                test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]',
-                    context: ''
-                }
             },
             {
                 test: /\.css$/,

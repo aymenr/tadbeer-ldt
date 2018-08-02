@@ -3,11 +3,22 @@ import {render} from 'react-dom';
 
 import UI from './components/UI';
 import Slider from './components/Slider';
+import Slider2 from './components/Slider2';
+import Slider3 from './components/Slider3';
+import Slider4 from './components/Slider4';
 
 
 
-export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
 
+export function update(parentId, buttons, codeCb, editorDefault, instructions) {
+	const guiContainer = document.querySelector('.gui')
+	render(
+		<UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions ={instructions} />,
+		guiContainer
+	)
+}
+
+export function connect(parentId, buttons, codeCb, editorDefault,instructions,tutorial) {
     //HTML structure, is it better to use react to render this or attach it to the dom like this???
     //content -> gui -> editor + keyboard 
                         //body-text ->errors 
@@ -25,18 +36,16 @@ export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
     errorsElem.style.color = 'red'
 
 
-    const instructionsElem = document.createElement('div')
-    instructionsElem.classList.add('instructions')
+    
 
 
-    instructionsElem.innerHTML = "<h3> Instructions</h3>" + instructions
     bodyTextElem.appendChild(errorsElem)
-    bodyTextElem.appendChild(instructionsElem)
+    
     
 
     parentElem.appendChild(guiContainer)
     render(
-        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} />,
+        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions={instructions} tutorial = {tutorial} />,
         guiContainer
     );
     guiContainer.appendChild(bodyTextElem)
@@ -44,16 +53,35 @@ export function connect(parentId, buttons, codeCb, editorDefault,instructions) {
 
 
 }
-export function connect_slider(parentId,sliderCb,context) {
- 
+export function connect_slider(parentId,sliderCb,number) {
+  console.log("CONNECTING SLIDER");
   const parentElem = document.getElementById(parentId)
   const sliderContainer = document.createElement('div')
   sliderContainer.classList.add("slider");
   parentElem.appendChild(sliderContainer)
-  render(
+  if (number ==1) {
+     render(
       <Slider atLastSlide={sliderCb}  />,
       sliderContainer
   );
+  } else if (number ==2) {
+     render(
+      <Slider2 atLastSlide={sliderCb}  />,
+      sliderContainer
+  );
+  } else if (number ==3) {
+     render(
+      <Slider3 atLastSlide={sliderCb}  />,
+      sliderContainer
+  );
+  } else if (number ==4) {
+     render(
+      <Slider4 atLastSlide={sliderCb}  />,
+      sliderContainer
+  );
+  }
+
+
 }
 
 export function toggleRunButton(enabled) {
@@ -80,10 +108,17 @@ export function showError(error) {
 export function deleteUI() {
 	let gui = document.getElementsByClassName("gui")[0];
 	gui.parentNode.removeChild(gui)
-
+  let content = document.getElementById('content')
+  content.firstChild.style.display = "none"
 }
 export function delete_slider() {
   let gui = document.getElementsByClassName("slider")[0];
   gui.parentNode.removeChild(gui)
+
+}
+
+export function display_canvas() {
+   let content = document.getElementById('content')
+  content.firstChild.style.display = "block"
 
 }

@@ -27,7 +27,7 @@ export default class Grid extends Phaser.Group {
         //Scale for different screen sizes
         this.scaleRatio = window.innerWidth / (cols * this.game.cache.getImage('grass').width)
 
-        this.tileHeight = this.game.cache.getImage('grass').height * 0.76 * this.scaleRatio
+        this.tileHeight = this.game.cache.getImage('grass').height * 0.76 * this.scaleRatio 
         this.tileWidth = this.game.cache.getImage('grass').width * this.scaleRatio
         this.offset = 0 //hackish solution for now
         this.offset = Math.abs(this.convert(0, this.cols - 1).y)
@@ -43,7 +43,7 @@ export default class Grid extends Phaser.Group {
     }
 
 
-    render(tArray) { // why is this storing strings, should be storing the sprites! fix
+    render(tArray,offsetX = 0,offsetY = 0) { // why is this storing strings, should be storing the sprites! fix
 
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
@@ -54,13 +54,13 @@ export default class Grid extends Phaser.Group {
         var x, y, tile
         for (let i = 0; i < this.rows; i++) {
             for (let j = this.cols - 1; j >= 0; j--) {
-
+            
                 let {
                     x,
                     y
-                } = this.convert(i, j)
+                } = this.convert(i+offsetX, j+offsetY)
 
-
+             
 
                 tile = this.game.add.sprite(x, y, this.tileArray[i][j])
                 tile.i = i
@@ -94,7 +94,7 @@ export default class Grid extends Phaser.Group {
     }
     //approximate method
     getHeight() {
-        return Math.abs(this.convert(0, this.cols).y - this.convert(this.rows + 1, 0).y)
+        return Math.abs(this.convert(0, this.cols).y - this.convert(this.rows + 1, 0).y) 
     }
 
     //approximate method
@@ -125,10 +125,11 @@ export default class Grid extends Phaser.Group {
             object = level.game.add.sprite(0, 0, atlas, sprite)
 
         object.alpha = 0
-        grid.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
-
-        object.alpha = 1
         this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
+       
+        object.alpha = 1
+
+        //this.placeObject(x, y, object, xOffset, yOffset, scaleX, scaleY)
         return object
     }
     placeObject(x, y, obj, offsetX, offsetY, scaleX, scaleY) {
@@ -136,7 +137,7 @@ export default class Grid extends Phaser.Group {
         //Calculate target coordinates
         let converted = this.convert(x + offsetX, y + offsetY)
         obj.x = converted.x;
-        obj.y = converted.y;
+        obj.y = converted.y ;
 
         obj.scale.setTo(this.scaleRatio * scaleX, this.scaleRatio * scaleY)
         obj.i = x;
@@ -177,28 +178,29 @@ export default class Grid extends Phaser.Group {
         let oldCoordinates = { 'x': obj.i, 'y': obj.j };
         //if theres an obstruction it will stop at obstruction, if there is no obstruction it will stop when outta bounds otherwise it will go to new coordinates
         if (obstruction != false) {
-            newCoordinates = this.convert(obstruction.x + offsetX, obstruction.y + offsetY)
+            //newCoordinates = this.convert(obstruction.x + offsetX, obstruction.y + offsetY)
 
-            obj.i = obstruction.x
-            obj.y = obstruction.y
+            // obj.i = obstruction.x
+            // obj.y = obstruction.y
 
             this.error = "obstruction_error"
         } else if (outOfBounds != false && override == false) {
-            newCoordinates = this.convert(outOfBounds.x + offsetX, outOfBounds.y + offsetY)
-            obj.i = outOfBounds.x
-            obj.y = outOfBounds.y
+            // newCoordinates = this.convert(outOfBounds.x + offsetX, outOfBounds.y + offsetY)
+            // obj.i = outOfBounds.x
+            // obj.y = outOfBounds.y
             this.error = "outofbounds_error"
-        } else { //no errors
+        } else {
+
             obj.i = obj.i + x
             obj.j = obj.j + y
-        }
+       }
 
-        if (!override)
+        if (!override && outOfBounds == false & obstruction ==false)
             this.objectArray[obj.i][obj.j] = obj
 
         this.callback = callbackToAsync
 
-        if (oldCoordinates.x == obj.i && oldCoordinates.y == obj.j) {
+        if (oldCoordinates.x == obj.i && oldCoordinates.y == obj.j && outOfBounds == false && obstruction ==false) {
             this.callbackWrapper()
         } else {
             //start tween
