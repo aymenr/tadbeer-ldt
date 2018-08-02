@@ -108,10 +108,17 @@ export function showError(error) {
 export function deleteUI() {
 	let gui = document.getElementsByClassName("gui")[0];
 	gui.parentNode.removeChild(gui)
-
+  let content = document.getElementById('content')
+  content.firstChild.style.display = "none"
 }
 export function delete_slider() {
   let gui = document.getElementsByClassName("slider")[0];
   gui.parentNode.removeChild(gui)
+
+}
+
+export function display_canvas() {
+   let content = document.getElementById('content')
+  content.firstChild.style.display = "block"
 
 }

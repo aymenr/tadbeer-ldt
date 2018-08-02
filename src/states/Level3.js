@@ -192,7 +192,7 @@ export default class Level3 extends Phaser.State {
     gameOver = () => {
         this.passenger.animations.play('walk', 6, true)
         var that = this
-        this.grid.moveObject(1, 0, this.passenger, function() {
+        this.grid.moveObject(0, -1, this.passenger, function() {
 
 
             that.grid.moveObject(-2, 0, that.rickshaw, function() {
