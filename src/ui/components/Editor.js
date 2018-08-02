@@ -53,18 +53,27 @@ export default class Editor extends Component {
   //default child update strategy is to replace it
   updateDataCb = (data, key) => {
    
-    if (data && data.type && data.type == 'delete'){
-      if (this.state.statements[key].type =="blank")
-        return
+    if (data && data.type){
+      if(data.type == 'delete') {
+        if (this.state.statements[key].type =="blank")
+          return
 
-      return this.setState({
-        statements: this.state.statements.filter((_,i) => i != key)
-      })
+        return this.setState({
+          statements: this.state.statements.filter((_,i) => i != key)
+        })
+      }else if (data.type =='next_focus') {
+        if (key + 1 < this.state.statements.length) {
+          let newS = update(this.state, {statements: {[key + 1]: {$merge: {nextFocus: true} } } })
+          this.setState(newS)
+          return
+        }
+      }
    }
 
     let newState = update(this.state.statements, {[key]: { $set: data }})
-    if (key == newState.length - 1)
+    if (key == newState.length - 1) {
       newState = update(newState, {$push: [this.initializeBlank()]}) //add blank too
+    }
 
     this.setState({statements: newState })
   }

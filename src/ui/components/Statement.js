@@ -9,6 +9,8 @@ export default class Statement extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    if(this.props.nextFocus)
+      this.props.focusCallback(this)
   }
 
   setFocus = (focus) => {
@@ -19,6 +21,17 @@ export default class Statement extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.nextFocus && !this.props.nextFocus)
+      this.props.focusCallback(this)
+  }
+
+  nextFocus() {
+    this.props.updateDataCb({
+        type: 'next_focus'
+    }, this.props.index)
   }
 
   delElem = () => {

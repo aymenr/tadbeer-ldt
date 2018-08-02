@@ -19,7 +19,8 @@ export default class FuncCall extends Statement {
     }
 
     state.args = this.initializeArgs(this.props)
-    
+    if (!state.args.length)
+      this.nextFocus()
     this.state = state;
   }
 
@@ -46,7 +47,8 @@ export default class FuncCall extends Statement {
     }
     return args
   }
-  componentWillReceiveProps = (next) => {
+  componentWillReceiveProps(next) {
+    super.componentWillReceiveProps(next)
     if(next.name == this.props.name)
       return
     let args =  this.initializeArgs(next)
@@ -80,7 +82,10 @@ export default class FuncCall extends Statement {
     this.addArgDefaults(data, key)
     let newArgs = update(this.state.args, {[key]: {$set: data}}) 
     this.setState({ args: newArgs})
-  
+    
+    let argsLeft = newArgs.filter(n => n.type == 'blank')
+    if(!argsLeft.length)
+        this.nextFocus()
   }
   //testing this
    updateData = (data) => {
