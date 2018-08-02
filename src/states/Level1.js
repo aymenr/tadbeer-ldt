@@ -158,7 +158,7 @@ export default class Level1 extends Phaser.State {
 
             that.grid.moveObject(-3, 0, that.rickshaw, function() {
                 deleteUI('content')
-                that.state.start('Level2')
+                that.state.start('Splash2')
             }, 0, that.rickshawXOffset, that.rickshawYOffset, true)
 
         }, 0, this.passengerXOffset, this.passengerYOffset)

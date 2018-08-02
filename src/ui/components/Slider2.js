@@ -1,22 +1,18 @@
 import React from "react";
 import Slider from "react-slick";
 
-var image1 = require('~/assets/images/intro0.png')
-var image2 = require('~/assets/images/intro02.png')
-var image3 = require('~/assets/images/intro1.png')
+var image1 = require('~/assets/images/intro2.png')
+
 
 var path = require('path')
-console.log('image1',image1)
-console.log('image1',image2)
-console.log('a',path.resolve(__dirname))
-console.log('dir',__dirname)
+
 
 
 console.log('~/')
 import  '~/assets/fonts/stylesheet.css';
 import PropTypes from 'prop-types';
 
-export default class HomeSlider extends React.Component {
+export default class Slider2 extends React.Component {
 
   render() {
     var settings = {
@@ -25,7 +21,7 @@ export default class HomeSlider extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       afterChange: index => {
-        if (index == 3){
+        if (index == 1){
            console.log('start level 8');
           this.props.atLastSlide()
          
@@ -40,13 +36,7 @@ export default class HomeSlider extends React.Component {
             <div >
               <img  style ={style.fittedImage} src={image1} />
             </div>
-            <div >
-              <img  style ={style.fittedImage} src={image2} />
-            </div>
-            <div >
-              <img  style ={style.fittedImage} src={image3} />
-            </div>
-      
+          
       
             <div>
             </div>
@@ -61,7 +51,7 @@ export default class HomeSlider extends React.Component {
 
 
 
-HomeSlider.propTypes = {
+Slider2.propTypes = {
   atLastSlide: PropTypes.func.isRequired
 
 }

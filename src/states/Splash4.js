@@ -9,7 +9,7 @@ export default class LevelSlider extends Phaser.State {
 
   create() {
   	console.log(this.game.state)
-    connect_slider('content',this.startGame,1)
+    connect_slider('content',this.startGame,4)
   }
 
   startGame = () => {

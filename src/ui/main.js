@@ -3,6 +3,10 @@ import {render} from 'react-dom';
 
 import UI from './components/UI';
 import Slider from './components/Slider';
+import Slider2 from './components/Slider2';
+import Slider3 from './components/Slider3';
+import Slider4 from './components/Slider4';
+
 
 
 
@@ -49,16 +53,35 @@ export function connect(parentId, buttons, codeCb, editorDefault,instructions,tu
 
 
 }
-export function connect_slider(parentId,sliderCb,context) {
- 
+export function connect_slider(parentId,sliderCb,number) {
+  console.log("CONNECTING SLIDER");
   const parentElem = document.getElementById(parentId)
   const sliderContainer = document.createElement('div')
   sliderContainer.classList.add("slider");
   parentElem.appendChild(sliderContainer)
-  render(
+  if (number ==1) {
+     render(
       <Slider atLastSlide={sliderCb}  />,
       sliderContainer
   );
+  } else if (number ==2) {
+     render(
+      <Slider2 atLastSlide={sliderCb}  />,
+      sliderContainer
+  );
+  } else if (number ==3) {
+     render(
+      <Slider3 atLastSlide={sliderCb}  />,
+      sliderContainer
+  );
+  } else if (number ==4) {
+     render(
+      <Slider4 atLastSlide={sliderCb}  />,
+      sliderContainer
+  );
+  }
+
+
 }
 
 export function toggleRunButton(enabled) {

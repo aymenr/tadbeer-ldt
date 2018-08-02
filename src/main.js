@@ -12,6 +12,9 @@ import Level3 from './states/Level3'
 import Level4 from './states/Level4'
 
 import Splash from './states/Splash'
+import Splash2 from './states/Splash2'
+import Splash3 from './states/Splash3'
+import Splash4 from './states/Splash4'
 
 
 import { connect } from './ui/main'
@@ -43,6 +46,9 @@ class Game extends Phaser.Game {
     this.state.add('Level4', Level4, false)
 
     this.state.add('Splash', Splash, false)
+    this.state.add('Splash2', Splash2, false)
+    this.state.add('Splash3', Splash3, false)
+    this.state.add('Splash4', Splash4, false)
 
 
     this.state.start('Boot')
