@@ -48,6 +48,6 @@ export default class extends Phaser.State {
 
   create() {
     FBInstant.startGameAsync()
-      .then(() => this.state.start('Level1'))
+      .then(() => this.state.start('Menu'))
   }
 }
