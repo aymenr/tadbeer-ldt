@@ -29,6 +29,8 @@ export default class extends Phaser.State {
     this.load.image('khamba1', 'assets/images/khamba1.png')
     this.load.image('khamba2', 'assets/images/khamba2.png')
     this.load.image('gutter', 'assets/images/sewage.png')
+    this.load.image('building1', 'assets/images/building1.png')
+    this.load.image('building2', 'assets/images/building2.png')
 
 
     game.load.image('background1', 'assets/images/blurlevel1.png');
@@ -36,6 +38,7 @@ export default class extends Phaser.State {
     game.load.image('background3', 'assets/images/blurlevel3.png');
 
     this.load.audio('rickshaw-sound', 'assets/audio/rickshaw.mp3')
+    this.load.audio('rickshaw-horn', 'assets/audio/rickshaw-horn.mp3')
 
     
     this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
@@ -48,6 +51,6 @@ export default class extends Phaser.State {
 
   create() {
     FBInstant.startGameAsync()
-      .then(() => this.state.start('Level3'))
+      .then(() => this.state.start('Level4'))
   }
 }

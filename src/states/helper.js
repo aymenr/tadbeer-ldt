@@ -140,16 +140,16 @@ export function makeButtons(nums) {
     ]
 }
 
-export function runCodeCbAux(code, x, y, orientation, level, running) {
+export function runCodeCbAux(code, x, y, orientation, level,goalCb = checkGoal) {
     if (level.codeRunning == true) {
         console.log('codes running');
         return
     }
+
     level.codeRunning = true
     toggleRunButton(false)
 
-    level.rickshawSound.play()
-    level.rickshawSound.volume = 1
+    
     showError('')
     code = level.wrapCode(code) //wrap code in our wrapper
     let compiled = CodeService.compileCode(code)
@@ -169,12 +169,23 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
         let that = level
 
         async.forEachSeries(parsed.moves, function(move, callback) {
-
-            if (move.type == "move")
+            that.hornPlayed = false
+            if (move.type == "move"){
+                level.rickshawSound.play()
+                level.rickshawSound.volume = 1
                 that.moveRickshaw(move, callback)
-            else if (move.type == "turn")
+            }
+            else if (move.type == "turn"){
+                level.rickshawSound.play()
+                level.rickshawSound.volume = 1
                 that.turnRickshaw(move, callback)
-
+            }
+            else if (move.type =="horn") {
+                that.hornPlayed = true
+                level.rickshawHornSound.play()
+                level.rickshawHornSound.volume = 1
+                callback()
+            }
         }, function(err) {
 
             if (err) {
@@ -184,7 +195,8 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
                 that.grid.resetPosition(that.rickshaw, { 'x': x, 'y': y }, that.rickshawXOffset, that.rickshawYOffset, orientation)
             } else {
 
-            if (!err && checkGoal(that)) {
+
+            if (!err && goalCb(that)) {
                 that.gameOver()
             } else {
                 showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
@@ -194,6 +206,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
             }
             that.rickshawSound.fadeOut(1000)
             that.codeRunning = false;
+            that.hornPlayed = false
             toggleRunButton(true)
 
         });
