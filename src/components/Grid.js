@@ -178,28 +178,29 @@ export default class Grid extends Phaser.Group {
         let oldCoordinates = { 'x': obj.i, 'y': obj.j };
         //if theres an obstruction it will stop at obstruction, if there is no obstruction it will stop when outta bounds otherwise it will go to new coordinates
         if (obstruction != false) {
-            newCoordinates = this.convert(obstruction.x + offsetX, obstruction.y + offsetY)
+            //newCoordinates = this.convert(obstruction.x + offsetX, obstruction.y + offsetY)
 
-            obj.i = obstruction.x
-            obj.y = obstruction.y
+            // obj.i = obstruction.x
+            // obj.y = obstruction.y
 
             this.error = "obstruction_error"
         } else if (outOfBounds != false && override == false) {
-            newCoordinates = this.convert(outOfBounds.x + offsetX, outOfBounds.y + offsetY)
-            obj.i = outOfBounds.x
-            obj.y = outOfBounds.y
+            // newCoordinates = this.convert(outOfBounds.x + offsetX, outOfBounds.y + offsetY)
+            // obj.i = outOfBounds.x
+            // obj.y = outOfBounds.y
             this.error = "outofbounds_error"
-        } else { //no errors
+        } else {
+
             obj.i = obj.i + x
             obj.j = obj.j + y
-        }
+       }
 
-        if (!override)
+        if (!override && outOfBounds == false & obstruction ==false)
             this.objectArray[obj.i][obj.j] = obj
 
         this.callback = callbackToAsync
 
-        if (oldCoordinates.x == obj.i && oldCoordinates.y == obj.j) {
+        if (oldCoordinates.x == obj.i && oldCoordinates.y == obj.j && outOfBounds == false && obstruction ==false) {
             this.callbackWrapper()
         } else {
             //start tween

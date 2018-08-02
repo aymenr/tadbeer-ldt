@@ -182,7 +182,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
                 showError(err)
 
                 that.grid.resetPosition(that.rickshaw, { 'x': x, 'y': y }, that.rickshawXOffset, that.rickshawYOffset, orientation)
-            }
+            } else {
 
             if (!err && checkGoal(that)) {
                 that.gameOver()
@@ -190,6 +190,7 @@ export function runCodeCbAux(code, x, y, orientation, level, running) {
                 showError('Basheer sawaree tak na pohanch saka. Dobara try karen')
                 that.grid.resetPosition(that.rickshaw, { 'x': x, 'y': y }, that.rickshawXOffset, that.rickshawYOffset, orientation)
 
+            }
             }
             that.rickshawSound.fadeOut(1000)
             that.codeRunning = false;

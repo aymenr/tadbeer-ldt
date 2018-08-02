@@ -26,7 +26,7 @@ class Keyboard extends Component {
   }
 
     del = () => {
-      processTutorial()
+      this.processTutorial()
         this.props.buttonCb({
             type: 'delete'
         })
@@ -42,8 +42,8 @@ class Keyboard extends Component {
           }
           return false
     }
-    processTutorial = () =>{
-      if (typeof this.state.tutorial ==='undefined'){
+    processTutorial = (name) =>{
+      if (typeof this.state.tutorial ==='undefined' || this.state.tutorial.pointOrder.length ==0){
         return this.state.data
       }
       let newData = this.state.data 
@@ -80,7 +80,7 @@ class Keyboard extends Component {
 
     buttonCb = (data,name) => {
       //changes tooltip depending on button pressed
-      let newData = this.processTutorial()
+      let newData = this.processTutorial(name)
 
       this.setState(data:newData)
       this.props.buttonCb(data)

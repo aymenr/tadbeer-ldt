@@ -141,7 +141,7 @@ export default class Level2 extends Phaser.State {
     return {
         buttons:[{
             type: 'func_call_button',
-            name: 'agay',
+            name: 'agayJao',
             numArgs: 1
         },
         {
