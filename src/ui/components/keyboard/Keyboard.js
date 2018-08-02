@@ -125,16 +125,21 @@ class Keyboard extends Component {
     let {
       data
     } = this.props;
+    let popperOptions = {
+        modifiers: {
+            preventOverflow: { enabled: false }
+        }
+    }
     // let openPop = data.open && data.open.popover ? data.open.popover : {},
     //     closePop = data.close && data.close.popover ? data.close.popover : {}
     //     console.log('state:',this.state)
     return (
       <div style={style.container}>
         <header style={style.header}>
-          <Tooltip style = {style.toolTip} trigger="manual" {...this.state.open.popover}>
+          <Tooltip style = {style.toolTip} popperOptions={popperOptions} trigger="manual" {...this.state.open.popover}>
             <div className ="run-button" style ={style.headerButton} onClick={this.runCodeCb} >chalao</div>
           </Tooltip>
-          <Tooltip  {...this.state.close.popover}>
+          <Tooltip popperOptions={popperOptions} {...this.state.close.popover}>
             <div style ={style.delButton} onClick={this.del}> mitao</div>
           </Tooltip>
         </header>
@@ -146,7 +151,7 @@ class Keyboard extends Component {
            if(button.type=="func_call_button" || button.type=="if_button"){
               button.popover = button.popover || {}
               return (
-                <Tooltip style = {style.toolTip} trigger="manual" {...button.popover}>
+                <Tooltip popperOptions={popperOptions} style = {style.toolTip} trigger="manual" {...button.popover}>
                   { getCorrespButton({ ...button, key: ind, buttonCb: this.buttonCb }) }
                 </Tooltip>
               )
@@ -160,7 +165,7 @@ class Keyboard extends Component {
            if(button.type=="param_num" ){
               button.popover = button.popover || {}
               return (
-                <Tooltip trigger="manual" {...button.popover}>
+                <Tooltip trigger="manual"  popperOptions={popperOptions} {...button.popover}>
                   { getCorrespButton({ ...button, key: ind, buttonCb: this.buttonCb }) }
                 </Tooltip>
               )
@@ -193,7 +198,8 @@ const style = {
     },
 
     toolTip: {
-        fontFamily:'apercubold'
+        fontFamily:'apercubold',
+        translate3d: '(0px, 0px, 0px) !important'
         // fontSize:'100px'
     },
    
