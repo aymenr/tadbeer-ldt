@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import update from 'immutability-helper';
 import { getCorrespButton } from '../../helpers';
 import PropTypes from 'prop-types';
-
 import  '~/assets/fonts/stylesheet.css';
 import {
   Tooltip,
@@ -91,6 +90,37 @@ class Keyboard extends Component {
       this.props.runCodeCb()
     }
 
+
+        /*
+  componentWillReceiveProps = (newProps) => {
+    if (this.props == newProps)
+      return;
+    
+    this.updateTooltips(newProps.data)
+  }
+
+  componentDidMount = () => {
+    this.updateTooltips(this.props.data)
+  }
+
+  showOrHide = (data) => {
+    if (!data || !data.ref)
+      return
+    ReactTooltip.show(findDOMNode(this.refs[data.ref]))
+  }
+
+  updateTooltips = (data) => {
+    data.buttons.map(d => {
+      this.showOrHide(d.popover)
+    })
+
+    let open = data.open ? data.open.popover : null,
+        close = data.close ? data.close.popover : null
+    this.showOrHide(open)
+    this.showOrHide(close)
+  }
+*/
+
   render = () => {
     let {
       data
@@ -101,7 +131,6 @@ class Keyboard extends Component {
     return (
       <div style={style.container}>
         <header style={style.header}>
-
           <Tooltip style = {style.toolTip} trigger="manual" {...this.state.open.popover}>
             <div className ="run-button" style ={style.headerButton} onClick={this.runCodeCb} >chalao</div>
           </Tooltip>
