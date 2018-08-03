@@ -18,7 +18,7 @@ export function update(parentId, buttons, codeCb, editorDefault, instructions) {
 	)
 }
 
-export function connect(parentId, buttons, codeCb, editorDefault,instructions,tutorial) {
+export function connect(parentId, buttons, codeCb, editorDefault,instructions,tutorial,error ={}) {
     //HTML structure, is it better to use react to render this or attach it to the dom like this???
     //content -> gui -> editor + keyboard 
                         //body-text ->errors 
@@ -45,7 +45,7 @@ export function connect(parentId, buttons, codeCb, editorDefault,instructions,tu
 
     parentElem.appendChild(guiContainer)
     render(
-        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions={instructions} tutorial = {tutorial} />,
+        <UI runCode={codeCb} buttons={buttons} initialEditorData={editorDefault} instructions={instructions} tutorial = {tutorial} error ={error} />,
         guiContainer
     );
     guiContainer.appendChild(bodyTextElem)

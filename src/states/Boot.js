@@ -41,6 +41,8 @@ export default class extends Phaser.State {
     this.load.audio('rickshaw-sound', 'assets/audio/rickshaw.mp3')
     this.load.audio('rickshaw-horn', 'assets/audio/rickshaw-horn.mp3')
 
+    this.load.audio('noor-jahan', 'assets/audio/noorjahanfull.mp3')
+
     
     this.load.atlasJSONHash('passenger1', 'assets/images/passenger1.png', 'assets/images/passenger1.json');
     this.load.atlasJSONHash('passenger2', 'assets/images/passenger2.png', 'assets/images/passenger2.json');
@@ -53,7 +55,7 @@ export default class extends Phaser.State {
   create() {
     FBInstant.startGameAsync()
 
-      .then(() => this.state.start('Menu'))
+      .then(() => this.state.start('Level1'))
 
   }
 }

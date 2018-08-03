@@ -77,6 +77,10 @@ export default class Level1 extends Phaser.State {
         this.rickshaw = this.grid.renderAndPlaceObject('rickshaw', 'left', this.grid, 2, 0, this.rickshawXOffset, this.rickshawYOffset, 1.2, 1.2, this)
         this.rickshawSound = game.add.audio('rickshaw-sound');
 
+        this.radioSound = game.add.audio('noor-jahan');
+        this.radioSound.play()
+        this.radioSound.volume = 1
+
 
         //setup passenger1
         this.passenger = this.grid.renderAndPlaceObject('passenger3', 'ride', this.grid, 0, 1, this.passengerXOffset, this.passengerYOffset, 1,1, this)

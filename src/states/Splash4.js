@@ -17,6 +17,6 @@ export default class LevelSlider extends Phaser.State {
   	console.log('starting game');
   	delete_slider()
     display_canvas()
-  	this.game.state.start('Level1')
+  	this.game.state.start('Level4')
   }
 }

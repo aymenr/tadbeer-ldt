@@ -8,7 +8,7 @@ import React from 'react'
 import ReturnWrap from '../wrappers/Return.js'
 import async from '../../node_modules/async'
 
-import {deleteUI} from '../ui/main'
+import {deleteUI,display_canvas} from '../ui/main'
 import {showError } from '../ui/main'
 import { toggleRunButton } from '../ui/main'
 import {moveRickshawAux, turnRickshawAux, makeButtons,runCodeCbAux} from '../states/helper'
@@ -202,6 +202,7 @@ export default class Level4 extends Phaser.State {
 
             that.grid.moveObject(-2, 0, that.rickshaw, function() {
                 deleteUI('content')
+                display_canvas()
                 that.state.start('Level1')
             }, 0, this.rickshawXOffset, this.rickshawYOffset,true)
 
